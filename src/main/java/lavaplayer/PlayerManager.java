@@ -7,10 +7,12 @@ import com.sedmelluq.discord.lavaplayer.source.AudioSourceManagers;
 import com.sedmelluq.discord.lavaplayer.tools.FriendlyException;
 import com.sedmelluq.discord.lavaplayer.track.AudioPlaylist;
 import com.sedmelluq.discord.lavaplayer.track.AudioTrack;
+import net.dv8tion.jda.api.EmbedBuilder;
 import net.dv8tion.jda.api.entities.Guild;
 import net.dv8tion.jda.api.entities.channel.concrete.TextChannel;
 import net.dv8tion.jda.api.interactions.InteractionHook;
 
+import java.awt.*;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -44,7 +46,12 @@ public class PlayerManager {
             @Override
             public void trackLoaded(AudioTrack audioTrack) {
                 musicManager.scheduler.queue(audioTrack);
-                hook.sendMessage("Добавлено в очередь: " + audioTrack.getInfo().uri).queue();
+                EmbedBuilder eb = new EmbedBuilder();
+                eb.setAuthor("Добавленно в очередь");
+                eb.setDescription("Объектов в очереди: " + (musicManager.scheduler.getQueue().size() + 1));
+                eb.setTitle(audioTrack.getInfo().title, audioTrack.getInfo().uri);
+                eb.setColor(new Color(141, 66, 179));
+                hook.sendMessageEmbeds(eb.build()).queue();
             }
 
             @Override
@@ -53,7 +60,11 @@ public class PlayerManager {
                 for (AudioTrack track : tracks) {
                     musicManager.scheduler.queue(track);
                 }
-                hook.sendMessage("Добавлено в очередь: " + tracks.size() + " чего-то там...").queue();
+                EmbedBuilder eb = new EmbedBuilder();
+                eb.setDescription("Объектов в очереди: " + (musicManager.scheduler.getQueue().size() + 1));
+                eb.setTitle("Добавлено в очередь: " + tracks.size() + " чего-то там...");
+                eb.setColor(new Color(141, 66, 179));
+                hook.sendMessageEmbeds(eb.build()).queue();
             }
 
             @Override
@@ -68,16 +79,20 @@ public class PlayerManager {
         });
     }
 
-    public void skip(TextChannel textChannel) {
+    public void pause(TextChannel textChannel) {
         final GuildMusicManager musicManager = this.getMusicManager(textChannel.getGuild());
 
-        musicManager.scheduler.nextTrack();
+        if (!musicManager.audioPlayer.isPaused()) {
+            musicManager.audioPlayer.setPaused(true);
+        }
     }
 
-    public void skipAll(TextChannel textChannel) {
+    public void resume(TextChannel textChannel) {
         final GuildMusicManager musicManager = this.getMusicManager(textChannel.getGuild());
-        musicManager.scheduler.clearQueue();
 
+        if (musicManager.audioPlayer.isPaused()) {
+            musicManager.audioPlayer.setPaused(false);
+        }
     }
 
     public static PlayerManager getINSTANCE() {

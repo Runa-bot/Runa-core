@@ -38,4 +38,8 @@ public class TrackScheduler extends AudioEventAdapter {
             this.queue.offer(track);
         }
     }
+
+    public BlockingQueue<AudioTrack> getQueue() {
+        return queue;
+    }
 }
