@@ -14,7 +14,7 @@ public class NekoBot {
     public final ShardManager shardManager;
 
     public NekoBot() throws LoginException {
-        String TOKEN = "NzMxMDMzODUyMjI2Njk5Mjk0.G8Xzvo.VWOQNRobPqBzj6Y6oazSSyAmFoEM8p8ndDZpK0";
+        String TOKEN = "TOKEN";
 
         // Build shard manager
         DefaultShardManagerBuilder builder = DefaultShardManagerBuilder.createDefault(TOKEN);
