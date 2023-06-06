@@ -29,7 +29,7 @@ public class CommandManager extends ListenerAdapter {
     public void onGuildReady(GuildReadyEvent event) {
         List<CommandData> commandDataList = new ArrayList<>();
 
-        commandDataList.add(Player.command());
+        commandDataList.add(Player.mainCommand());
 
         event.getGuild().updateCommands().addCommands().queue();
     }
