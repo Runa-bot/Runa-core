@@ -62,7 +62,7 @@ public class PlayerManager {
                 }
                 EmbedBuilder eb = new EmbedBuilder();
                 eb.setDescription("Объектов в очереди: " + (musicManager.scheduler.getQueue().size() + 1));
-                eb.setTitle("Добавлено в очередь: " + tracks.size() + " чего-то там...");
+                eb.setTitle("Добавлено в очередь: " + tracks.size() + " чего-то там...", trackURL);
                 eb.setColor(new Color(141, 66, 179));
                 hook.sendMessageEmbeds(eb.build()).queue();
             }
