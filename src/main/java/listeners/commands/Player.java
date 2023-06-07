@@ -19,42 +19,17 @@ import java.awt.*;
  * The main logic of the bot discord player is here
  */
 public class Player extends ListenerAdapter {
-
     /**
      * Primary command name
      */
     private static final String name = "player";
 
     /**
-     * Returns a description subcommand for discord
-     */
-    @NotNull
-    public static CommandData subCommands() {
-        return net.dv8tion.jda.api.interactions.commands.build.Commands.slash(name, "Audio player")
-                .addSubcommands(
-                        new SubcommandData("add", "Add track in queue")
-                                .addOptions(
-                                        new OptionData(OptionType.STRING, "url", "YouTube video URL", true),
-                                        new OptionData(OptionType.STRING, "ephemeral", "Should this message be ephemeral?", false)
-                                                .addChoice("No", "No")
-                                ),
-                        new SubcommandData("skip", "Skip track")
-                                .addOptions(
-                                        new OptionData(OptionType.STRING, "quantity", "Skip track", true)
-                                                .addChoice("One", "One")
-                                                .addChoice("All", "All")
-
-                                ),
-                        new SubcommandData("pause", "Pause track"),
-                        new SubcommandData("resume", "Resume track")
-                );
-    }
-
-    /**
      * Returns a description main command for discord
      */
     @NotNull
     public static CommandData mainCommand() {
+        // Player - player
         return net.dv8tion.jda.api.interactions.commands.build.Commands.slash(name, "Audio player")
                 .addOptions(
                         new OptionData(OptionType.STRING, "ephemeral", "Should this message be ephemeral?", false)
@@ -63,10 +38,49 @@ public class Player extends ListenerAdapter {
     }
 
     /**
+     * Returns a description subcommand for discord
+     */
+    @NotNull
+    public static CommandData subCommands() {
+        return net.dv8tion.jda.api.interactions.commands.build.Commands.slash(name, "Audio player")
+                .addSubcommands(
+                        // Add - player add
+                        new SubcommandData("add", "Add track in queue")
+                                .addOptions(
+                                        new OptionData(OptionType.STRING, "url", "YouTube video URL", true),
+                                        new OptionData(OptionType.STRING, "ephemeral", "Should this message be ephemeral?", false)
+                                                .addChoice("No", "No")
+                                ),
+                        // Skip - player skip
+                        new SubcommandData("skip", "Skip track")
+                                .addOptions(
+                                        new OptionData(OptionType.STRING, "quantity", "Skip track", true)
+                                                .addChoice("One", "One")
+                                                .addChoice("All", "All")
+
+                                ),
+                        // Pause - player pause
+                        new SubcommandData("pause", "Pause track"),
+                        // Resume - player resume
+                        new SubcommandData("resume", "Resume track"),
+                        // Volume - player volume
+                        new SubcommandData("volume", "Sound volume")
+                                .addOptions(
+                                        new OptionData(OptionType.INTEGER, "volume", "Sound volume", true)
+                                                .setMinValue(0)
+                                                .setMaxValue(100)
+                                )
+                );
+    }
+
+    /**
      * Contains static methods with functionality for commands
      */
     private static class Commands {
-        private static void player(SlashCommandInteractionEvent event) {
+        /**
+         * Player embed
+         */
+        private static void player(@NotNull SlashCommandInteractionEvent event) {
             TrackScheduler scheduler = PlayerManager.getINSTANCE().getMusicManager(event.getChannel().asTextChannel().getGuild()).scheduler;
             boolean ephemeral;
             try {
@@ -78,19 +92,27 @@ public class Player extends ListenerAdapter {
             event.deferReply().setEphemeral(ephemeral).queue();
 
             EmbedBuilder eb = new EmbedBuilder();
-            if (scheduler.getQueue().isEmpty()) {
+            if (!(scheduler.getQueue().isEmpty())) {
                 eb.setAuthor("Сейчас играет", "https://youtu.be/dQw4w9WgXcQ?t=43","https://cdn.discordapp.com/attachments/804354568128692285/1115581488688275486/5ed58522f979098ff382f83b42cda3f8.png");
                 eb.setTitle(scheduler.audioPlayer.getPlayingTrack().getInfo().title, scheduler.audioPlayer.getPlayingTrack().getInfo().uri);
                 eb.setDescription("Всего объектов в очереди: " + (scheduler.getQueue().size() + 1));
                 eb.setColor(new Color(141, 66, 179));
+
+                event.getHook().sendMessageEmbeds(eb.build()).queue();
+
             }
             else {
                 eb.setTitle("Кажется сейчас ничего не играет... :/", "https://youtu.be/dQw4w9WgXcQ?t=43");
                 eb.setColor(new Color(141, 66, 179));
+                event.getHook().sendMessageEmbeds(eb.build()).queue();
             }
 
-            event.getHook().sendMessageEmbeds(eb.build()).queue();
+
         }
+
+        /**
+         * Adds url to the queue
+         */
         private static void add(SlashCommandInteractionEvent event) {
             boolean ephemeral;
             try {
@@ -116,7 +138,10 @@ public class Player extends ListenerAdapter {
             }
         }
 
-        public static void skip(SlashCommandInteractionEvent event) {
+        /**
+         * Skips the current track
+         */
+        public static void skip(@NotNull SlashCommandInteractionEvent event) {
             TrackScheduler scheduler = PlayerManager.getINSTANCE().getMusicManager(event.getChannel().asTextChannel().getGuild()).scheduler;
             event.deferReply().setEphemeral(true).queue();
 
@@ -130,7 +155,10 @@ public class Player extends ListenerAdapter {
             embedResponse(event);
         }
 
-        public static void pause(SlashCommandInteractionEvent event) {
+        /**
+         * Pauses the player
+         */
+        public static void pause(@NotNull SlashCommandInteractionEvent event) {
             event.deferReply().setEphemeral(true).queue();
 
             PlayerManager.getINSTANCE().pause(event.getChannel().asTextChannel());
@@ -138,12 +166,39 @@ public class Player extends ListenerAdapter {
             embedResponse(event);
         }
 
-        public static void resume(SlashCommandInteractionEvent event) {
+        /**
+         * Resume the player
+         */
+        public static void resume(@NotNull SlashCommandInteractionEvent event) {
             event.deferReply().setEphemeral(true).queue();
 
             PlayerManager.getINSTANCE().resume(event.getChannel().asTextChannel());
 
             embedResponse(event);
+        }
+
+        /**
+         * Adjusts the sound of the player
+         */
+        public static void volume(@NotNull SlashCommandInteractionEvent event) {
+            TrackScheduler scheduler = PlayerManager.getINSTANCE().getMusicManager(event.getChannel().asTextChannel().getGuild()).scheduler;
+
+
+            event.deferReply().setEphemeral(true).queue();
+
+            scheduler.audioPlayer.setVolume(event.getOption("volume").getAsInt());
+
+            embedResponse(event);
+        }
+
+        /**
+         * Contains an embed to reply to the user
+         */
+        private static void embedResponse(@NotNull SlashCommandInteractionEvent event) {
+            EmbedBuilder eb = new EmbedBuilder();
+            eb.setTitle("Successfully!");
+            eb.setColor(new Color(141, 66, 179));
+            event.getHook().sendMessageEmbeds(eb.build()).queue();
         }
     }
 
@@ -157,16 +212,6 @@ public class Player extends ListenerAdapter {
         else if (event.getFullCommandName().equals(name + " skip")) { Commands.skip(event); }
         else if (event.getFullCommandName().equals(name + " pause")) { Commands.pause(event); }
         else if (event.getFullCommandName().equals(name + " resume")) { Commands.resume(event); }
-    }
-
-    /**
-     * Contains an embed to reply to the user
-     * @param event Discord user data
-     */
-    private static void embedResponse(@NotNull SlashCommandInteractionEvent event) {
-        EmbedBuilder eb = new EmbedBuilder();
-        eb.setTitle("Successfully!");
-        eb.setColor(new Color(141, 66, 179));
-        event.getHook().sendMessageEmbeds(eb.build()).queue();
+        else if (event.getFullCommandName().equals(name + " volume")) { Commands.volume(event); }
     }
 }
