@@ -1,6 +1,6 @@
+import data.Token;
 import listeners.CommandManager;
 import listeners.UserMessageEL;
-import listeners.commands.Player;
 import net.dv8tion.jda.api.OnlineStatus;
 import net.dv8tion.jda.api.entities.Activity;
 import net.dv8tion.jda.api.requests.GatewayIntent;
@@ -14,10 +14,8 @@ public class NekoBot {
     public final ShardManager shardManager;
 
     public NekoBot() throws LoginException {
-        String TOKEN = "TOKEN";
-
         // Build shard manager
-        DefaultShardManagerBuilder builder = DefaultShardManagerBuilder.createDefault(TOKEN);
+        DefaultShardManagerBuilder builder = DefaultShardManagerBuilder.createDefault(Token.TOKEN);
         builder.setStatus(OnlineStatus.ONLINE);
         builder.setActivity(Activity.streaming("Minecraft", "https://www.youtube.com/watch?v=HRbW75fYLvo"));
         builder.enableIntents(GatewayIntent.MESSAGE_CONTENT, GatewayIntent.GUILD_PRESENCES, GatewayIntent.GUILD_MEMBERS);
