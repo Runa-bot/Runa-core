@@ -48,9 +48,10 @@ public class PlayerManager {
                 musicManager.scheduler.queue(audioTrack);
                 EmbedBuilder eb = new EmbedBuilder();
                 eb.setAuthor("Добавленно в очередь");
-                eb.setDescription("Объектов в очереди: " + (musicManager.scheduler.getQueue().size() + 1));
                 eb.setTitle(audioTrack.getInfo().title, audioTrack.getInfo().uri);
-                eb.setColor(new Color(141, 66, 179));
+                eb.addField("Объектов в очереди", String.valueOf(musicManager.scheduler.getQueue().size() + 1), true);
+                eb.addField("Громкость", musicManager.scheduler.audioPlayer.getVolume() + "%", true);
+                eb.setColor(Color.GREEN);
                 hook.sendMessageEmbeds(eb.build()).queue();
             }
 
@@ -61,9 +62,10 @@ public class PlayerManager {
                     musicManager.scheduler.queue(track);
                 }
                 EmbedBuilder eb = new EmbedBuilder();
-                eb.setDescription("Объектов в очереди: " + (musicManager.scheduler.getQueue().size() + 1));
                 eb.setTitle("Добавлено в очередь: " + tracks.size() + " чего-то там...", trackURL);
-                eb.setColor(new Color(141, 66, 179));
+                eb.addField("Объектов в очереди", String.valueOf(musicManager.scheduler.getQueue().size() + 1), true);
+                eb.addField("Громкость", musicManager.scheduler.audioPlayer.getVolume() + "%", true);
+                eb.setColor(Color.GREEN);
                 hook.sendMessageEmbeds(eb.build()).queue();
             }
 
