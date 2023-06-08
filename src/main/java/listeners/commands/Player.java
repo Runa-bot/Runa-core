@@ -68,7 +68,7 @@ public class Player extends ListenerAdapter {
                                 .addOptions(
                                         new OptionData(OptionType.INTEGER, "volume", "Sound volume", true)
                                                 .setMinValue(0)
-                                                .setMaxValue(100)
+                                                .setMaxValue(1000)
                                 )
                 );
     }
@@ -92,10 +92,11 @@ public class Player extends ListenerAdapter {
             event.deferReply().setEphemeral(ephemeral).queue();
 
             EmbedBuilder eb = new EmbedBuilder();
-            if (!(scheduler.getQueue().isEmpty())) {
-                eb.setAuthor("Сейчас играет", "https://youtu.be/dQw4w9WgXcQ?t=43","https://cdn.discordapp.com/attachments/804354568128692285/1115581488688275486/5ed58522f979098ff382f83b42cda3f8.png");
+            if (scheduler.audioPlayer.getPlayingTrack() != null) {
+                eb.setAuthor("Сейчас играет", "https://youtu.be/dQw4w9WgXcQ?t=43");
                 eb.setTitle(scheduler.audioPlayer.getPlayingTrack().getInfo().title, scheduler.audioPlayer.getPlayingTrack().getInfo().uri);
-                eb.setDescription("Всего объектов в очереди: " + (scheduler.getQueue().size() + 1));
+                eb.addField("Объектов в очереди", String.valueOf(scheduler.getQueue().size() + 1), true);
+                eb.addField("Громкость", scheduler.audioPlayer.getVolume() + "%", true);
                 eb.setColor(new Color(141, 66, 179));
 
                 event.getHook().sendMessageEmbeds(eb.build()).queue();
@@ -103,7 +104,9 @@ public class Player extends ListenerAdapter {
             }
             else {
                 eb.setTitle("Кажется сейчас ничего не играет... :/", "https://youtu.be/dQw4w9WgXcQ?t=43");
-                eb.setColor(new Color(141, 66, 179));
+                eb.addField("Объектов в очереди", String.valueOf(scheduler.getQueue().size() + 1), true);
+                eb.addField("Громкость", scheduler.audioPlayer.getVolume() + "%", true);
+                eb.setColor(Color.RED);
                 event.getHook().sendMessageEmbeds(eb.build()).queue();
             }
 
@@ -182,13 +185,18 @@ public class Player extends ListenerAdapter {
          */
         public static void volume(@NotNull SlashCommandInteractionEvent event) {
             TrackScheduler scheduler = PlayerManager.getINSTANCE().getMusicManager(event.getChannel().asTextChannel().getGuild()).scheduler;
+            int volume = event.getOption("volume").getAsInt();
 
 
             event.deferReply().setEphemeral(true).queue();
 
-            scheduler.audioPlayer.setVolume(event.getOption("volume").getAsInt());
+            scheduler.audioPlayer.setVolume(volume);
 
-            embedResponse(event);
+            EmbedBuilder eb = new EmbedBuilder();
+            eb.setTitle("Volume set: " + volume + "%");
+            eb.setColor(Color.GREEN);
+
+            event.getHook().sendMessageEmbeds(eb.build()).setEphemeral(true).queue();
         }
 
         /**
@@ -197,7 +205,7 @@ public class Player extends ListenerAdapter {
         private static void embedResponse(@NotNull SlashCommandInteractionEvent event) {
             EmbedBuilder eb = new EmbedBuilder();
             eb.setTitle("Successfully!");
-            eb.setColor(new Color(141, 66, 179));
+            eb.setColor(Color.GREEN);
             event.getHook().sendMessageEmbeds(eb.build()).queue();
         }
     }
