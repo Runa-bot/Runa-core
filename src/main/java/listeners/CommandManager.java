@@ -31,6 +31,6 @@ public class CommandManager extends ListenerAdapter {
 
         commandDataList.add(Player.mainCommand());
 
-        event.getGuild().updateCommands().addCommands().queue();
+        event.getGuild().updateCommands().addCommands(commandDataList).queue();
     }
 }
