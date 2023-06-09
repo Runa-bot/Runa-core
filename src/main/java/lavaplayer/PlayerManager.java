@@ -34,7 +34,7 @@ public class PlayerManager {
     public GuildMusicManager getMusicManager(Guild guild) {
         return this.musicManagers.computeIfAbsent(guild.getIdLong(), (guildID) -> {
            final GuildMusicManager guildMusicManager = new GuildMusicManager(this.audioPlayerManager);
-           guild.getAudioManager().setSendingHandler(guildMusicManager.getSendHandler());
+           guild.getAudioManager().setSendingHandler(guildMusicManager.sendHandler);
            return guildMusicManager;
         });
     }
@@ -51,6 +51,12 @@ public class PlayerManager {
                 eb.setTitle(audioTrack.getInfo().title, audioTrack.getInfo().uri);
                 eb.addField("Объектов в очереди", String.valueOf(musicManager.scheduler.getQueue().size() + 1), true);
                 eb.addField("Громкость", musicManager.scheduler.audioPlayer.getVolume() + "%", true);
+                if (musicManager.scheduler.audioPlayer.isPaused()) {
+                    eb.addField("Статус", "Пуза", true);
+                }
+                else {
+                    eb.addField("Статус", "Играет", true);
+                }
                 eb.setColor(Color.GREEN);
                 hook.sendMessageEmbeds(eb.build()).queue();
             }
@@ -65,6 +71,12 @@ public class PlayerManager {
                 eb.setTitle("Добавлено в очередь: " + tracks.size() + " чего-то там...", trackURL);
                 eb.addField("Объектов в очереди", String.valueOf(musicManager.scheduler.getQueue().size() + 1), true);
                 eb.addField("Громкость", musicManager.scheduler.audioPlayer.getVolume() + "%", true);
+                if (musicManager.scheduler.audioPlayer.isPaused()) {
+                    eb.addField("Статус", "Пуза", true);
+                }
+                else {
+                    eb.addField("Статус", "Играет", true);
+                }
                 eb.setColor(Color.GREEN);
                 hook.sendMessageEmbeds(eb.build()).queue();
             }
