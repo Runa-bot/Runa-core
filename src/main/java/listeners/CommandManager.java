@@ -1,5 +1,6 @@
 package listeners;
 
+import listeners.commands.Command;
 import listeners.commands.Player;
 import net.dv8tion.jda.api.events.guild.GuildReadyEvent;
 import net.dv8tion.jda.api.events.interaction.command.SlashCommandInteractionEvent;
@@ -11,16 +12,23 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class CommandManager extends ListenerAdapter {
+    private static final Command[] commands = {
+            new Player()
+    };
     @Override
     public void onSlashCommandInteraction(SlashCommandInteractionEvent event) {
-        Player.interaction(event);
+        for (Command command : commands) {
+            command.interaction(event);
+        }
     }
 
     @Override
     public void onReady(ReadyEvent event) {
         List<CommandData> commandDataList = new ArrayList<>();
 
-        commandDataList.add(Player.subCommands());
+        for (Command command : commands) {
+            commandDataList.add(command.getSubCommandsData());
+        }
 
         event.getJDA().updateCommands().addCommands(commandDataList).queue();
     }
@@ -29,7 +37,9 @@ public class CommandManager extends ListenerAdapter {
     public void onGuildReady(GuildReadyEvent event) {
         List<CommandData> commandDataList = new ArrayList<>();
 
-        commandDataList.add(Player.mainCommand());
+        for (Command command : commands) {
+            commandDataList.add(command.getMainCommandData());
+        }
 
         event.getGuild().updateCommands().addCommands(commandDataList).queue();
     }
