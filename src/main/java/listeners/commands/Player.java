@@ -5,44 +5,30 @@ import lavaplayer.TrackScheduler;
 import net.dv8tion.jda.api.EmbedBuilder;
 import net.dv8tion.jda.api.entities.channel.concrete.VoiceChannel;
 import net.dv8tion.jda.api.events.interaction.command.SlashCommandInteractionEvent;
-import net.dv8tion.jda.api.hooks.ListenerAdapter;
 import net.dv8tion.jda.api.interactions.commands.OptionType;
 import net.dv8tion.jda.api.interactions.commands.build.CommandData;
+import net.dv8tion.jda.api.interactions.commands.build.Commands;
 import net.dv8tion.jda.api.interactions.commands.build.OptionData;
 import net.dv8tion.jda.api.interactions.commands.build.SubcommandData;
 import net.dv8tion.jda.api.managers.AudioManager;
-import org.jetbrains.annotations.NotNull;
 
 import java.awt.*;
 
-/**
- * The main logic of the bot discord player is here
- */
-public class Player extends ListenerAdapter {
-    /**
-     * Primary command name
-     */
-    private static final String name = "player";
+public class Player extends Command {
+    public Player() { super("player"); }
 
-    /**
-     * Returns a description main command for discord
-     */
-    @NotNull
-    public static CommandData mainCommand() {
-        // Player - player
-        return net.dv8tion.jda.api.interactions.commands.build.Commands.slash(name, "Audio player")
+    @Override
+    public CommandData getMainCommandData() {
+        return Commands.slash(getName(), "Audio player")
                 .addOptions(
                         new OptionData(OptionType.STRING, "ephemeral", "Should this message be ephemeral?", false)
                                 .addChoice("No", "No")
                 );
     }
 
-    /**
-     * Returns a description subcommand for discord
-     */
-    @NotNull
-    public static CommandData subCommands() {
-        return net.dv8tion.jda.api.interactions.commands.build.Commands.slash(name, "Audio player")
+    @Override
+    public CommandData getSubCommandsData() {
+        return Commands.slash(getName(), "Audio player")
                 .addSubcommands(
                         // Add - player add
                         new SubcommandData("add", "Add track in queue")
@@ -59,10 +45,12 @@ public class Player extends ListenerAdapter {
                                                 .addChoice("All", "All")
 
                                 ),
-                        // Pause - player pause
-                        new SubcommandData("pause", "Pause track"),
-                        // Resume - player resume
-                        new SubcommandData("resume", "Resume track"),
+                        new SubcommandData("status", "Set status")
+                                .addOptions(
+                                        new OptionData(OptionType.STRING, "status", "Status type", true)
+                                                .addChoice("Play", "Play")
+                                                .addChoice("Pause", "Pause")
+                                ),
                         // Volume - player volume
                         new SubcommandData("volume", "Sound volume")
                                 .addOptions(
@@ -73,14 +61,16 @@ public class Player extends ListenerAdapter {
                 );
     }
 
-    /**
-     * Contains static methods with functionality for commands
-     */
-    private static class Commands {
+    private class BotCommands {
+        private SlashCommandInteractionEvent event;
+
+        public BotCommands(SlashCommandInteractionEvent event) {
+            this.event = event;
+        }
         /**
          * Player embed
          */
-        private static void player(@NotNull SlashCommandInteractionEvent event) {
+        private void player() {
             TrackScheduler scheduler = PlayerManager.getINSTANCE().getMusicManager(event.getChannel().asTextChannel().getGuild()).scheduler;
             boolean ephemeral;
             try {
@@ -97,6 +87,12 @@ public class Player extends ListenerAdapter {
                 eb.setTitle(scheduler.audioPlayer.getPlayingTrack().getInfo().title, scheduler.audioPlayer.getPlayingTrack().getInfo().uri);
                 eb.addField("Объектов в очереди", String.valueOf(scheduler.getQueue().size() + 1), true);
                 eb.addField("Громкость", scheduler.audioPlayer.getVolume() + "%", true);
+                if (scheduler.audioPlayer.isPaused()) {
+                    eb.addField("Статус", "Пуза", true);
+                }
+                else {
+                    eb.addField("Статус", "Играет", true);
+                }
                 eb.setColor(new Color(141, 66, 179));
 
                 event.getHook().sendMessageEmbeds(eb.build()).queue();
@@ -104,8 +100,8 @@ public class Player extends ListenerAdapter {
             }
             else {
                 eb.setTitle("Кажется сейчас ничего не играет... :/", "https://youtu.be/dQw4w9WgXcQ?t=43");
-                eb.addField("Объектов в очереди", String.valueOf(scheduler.getQueue().size() + 1), true);
                 eb.addField("Громкость", scheduler.audioPlayer.getVolume() + "%", true);
+                eb.addField("Добавить трек", "/player add", true);
                 eb.setColor(Color.RED);
                 event.getHook().sendMessageEmbeds(eb.build()).queue();
             }
@@ -116,7 +112,7 @@ public class Player extends ListenerAdapter {
         /**
          * Adds url to the queue
          */
-        private static void add(SlashCommandInteractionEvent event) {
+        private void add() {
             boolean ephemeral;
             try {
                 ephemeral = event.getOption("ephemeral").equals("No");
@@ -144,7 +140,7 @@ public class Player extends ListenerAdapter {
         /**
          * Skips the current track
          */
-        public static void skip(@NotNull SlashCommandInteractionEvent event) {
+        public void skip() {
             TrackScheduler scheduler = PlayerManager.getINSTANCE().getMusicManager(event.getChannel().asTextChannel().getGuild()).scheduler;
             event.deferReply().setEphemeral(true).queue();
 
@@ -155,35 +151,31 @@ public class Player extends ListenerAdapter {
                 scheduler.clearQueue();
             }
 
-            embedResponse(event);
+            embedResponse();
         }
 
         /**
-         * Pauses the player
+         * Set player status
          */
-        public static void pause(@NotNull SlashCommandInteractionEvent event) {
+        public void status() {
+            String result = event.getOption("status").getAsString();
+
             event.deferReply().setEphemeral(true).queue();
 
-            PlayerManager.getINSTANCE().pause(event.getChannel().asTextChannel());
+            if (result.equals("Pause")) {
+                PlayerManager.getINSTANCE().pause(event.getChannel().asTextChannel());
+            }
+            else {
+                PlayerManager.getINSTANCE().resume(event.getChannel().asTextChannel());
+            }
 
-            embedResponse(event);
-        }
-
-        /**
-         * Resume the player
-         */
-        public static void resume(@NotNull SlashCommandInteractionEvent event) {
-            event.deferReply().setEphemeral(true).queue();
-
-            PlayerManager.getINSTANCE().resume(event.getChannel().asTextChannel());
-
-            embedResponse(event);
+            embedResponse();
         }
 
         /**
          * Adjusts the sound of the player
          */
-        public static void volume(@NotNull SlashCommandInteractionEvent event) {
+        public void volume() {
             TrackScheduler scheduler = PlayerManager.getINSTANCE().getMusicManager(event.getChannel().asTextChannel().getGuild()).scheduler;
             int volume = event.getOption("volume").getAsInt();
 
@@ -202,7 +194,7 @@ public class Player extends ListenerAdapter {
         /**
          * Contains an embed to reply to the user
          */
-        private static void embedResponse(@NotNull SlashCommandInteractionEvent event) {
+        private void embedResponse() {
             EmbedBuilder eb = new EmbedBuilder();
             eb.setTitle("Successfully!");
             eb.setColor(Color.GREEN);
@@ -210,16 +202,13 @@ public class Player extends ListenerAdapter {
         }
     }
 
-    /**
-     * Defines interaction for commands
-     * @param event Discord user data
-     */
-    public static void interaction(@NotNull SlashCommandInteractionEvent event) {
-        if (event.getFullCommandName().equals(name)) { Commands.player(event); }
-        else if (event.getFullCommandName().equals(name + " add")) { Commands.add(event); }
-        else if (event.getFullCommandName().equals(name + " skip")) { Commands.skip(event); }
-        else if (event.getFullCommandName().equals(name + " pause")) { Commands.pause(event); }
-        else if (event.getFullCommandName().equals(name + " resume")) { Commands.resume(event); }
-        else if (event.getFullCommandName().equals(name + " volume")) { Commands.volume(event); }
+    @Override
+    public void interaction(SlashCommandInteractionEvent event) {
+        BotCommands command = new BotCommands(event);
+        if (event.getFullCommandName().equals(getName())) { command.player(); }
+        else if (event.getFullCommandName().equals(getName() + " add")) { command.add(); }
+        else if (event.getFullCommandName().equals(getName() + " status")) { command.status(); }
+        else if (event.getFullCommandName().equals(getName() + " skip")) { command.skip(); }
+        else if (event.getFullCommandName().equals(getName() + " volume")) { command.volume(); }
     }
 }
