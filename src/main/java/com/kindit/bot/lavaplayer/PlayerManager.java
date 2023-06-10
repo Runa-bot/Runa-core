@@ -1,4 +1,4 @@
-package lavaplayer;
+package com.kindit.bot.lavaplayer;
 
 import com.sedmelluq.discord.lavaplayer.player.AudioLoadResultHandler;
 import com.sedmelluq.discord.lavaplayer.player.AudioPlayerManager;

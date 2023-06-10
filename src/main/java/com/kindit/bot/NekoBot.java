@@ -1,6 +1,8 @@
-import data.Token;
-import listeners.CommandManager;
-import listeners.UserMessageEL;
+package com.kindit.bot;
+
+import com.kindit.bot.data.Token;
+import com.kindit.bot.listeners.CommandManager;
+import com.kindit.bot.listeners.UserMessageEL;
 import net.dv8tion.jda.api.OnlineStatus;
 import net.dv8tion.jda.api.entities.Activity;
 import net.dv8tion.jda.api.requests.GatewayIntent;

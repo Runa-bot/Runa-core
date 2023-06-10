@@ -1,4 +1,4 @@
-package data;
+package com.kindit.bot.data;
 
 import java.io.File;
 import java.io.FileNotFoundException;

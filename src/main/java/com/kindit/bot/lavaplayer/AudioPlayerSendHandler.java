@@ -1,4 +1,4 @@
-package lavaplayer;
+package com.kindit.bot.lavaplayer;
 
 import com.sedmelluq.discord.lavaplayer.player.AudioPlayer;
 import com.sedmelluq.discord.lavaplayer.track.playback.MutableAudioFrame;
