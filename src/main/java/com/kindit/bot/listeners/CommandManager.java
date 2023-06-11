@@ -1,7 +1,7 @@
 package com.kindit.bot.listeners;
 
 import com.kindit.bot.listeners.commands.Command;
-import com.kindit.bot.listeners.commands.Player;
+import com.kindit.bot.listeners.commands.player.Player;
 import net.dv8tion.jda.api.events.guild.GuildReadyEvent;
 import net.dv8tion.jda.api.events.interaction.command.SlashCommandInteractionEvent;
 import net.dv8tion.jda.api.events.session.ReadyEvent;
@@ -14,7 +14,7 @@ import java.util.List;
 
 public class CommandManager extends ListenerAdapter {
     private static final Command[] commands = {
-            new Player()
+        new Player()
     };
 
     @Override
@@ -29,7 +29,7 @@ public class CommandManager extends ListenerAdapter {
         List<CommandData> commandDataList = new ArrayList<>();
 
         for (Command command : commands) {
-            commandDataList.add(command.getSubCommandsData());
+            commandDataList.add(command.getCommandData());
         }
 
         event.getJDA().updateCommands().addCommands(commandDataList).queue();
@@ -37,12 +37,6 @@ public class CommandManager extends ListenerAdapter {
 
     @Override
     public void onGuildReady(@NotNull GuildReadyEvent event) {
-        List<CommandData> commandDataList = new ArrayList<>();
-
-        for (Command command : commands) {
-            commandDataList.add(command.getCommandData());
-        }
-
-        event.getGuild().updateCommands().addCommands(commandDataList).queue();
+        event.getGuild().updateCommands().addCommands().queue();
     }
 }
