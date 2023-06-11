@@ -19,7 +19,8 @@ public class Player implements Command {
             new Skip(),
             new Pause(),
             new Resume(),
-            new Volume()
+            new Volume(),
+            new Track()
     };
     @Override
     public CommandData getCommandData() {
