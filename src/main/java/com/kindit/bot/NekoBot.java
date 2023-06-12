@@ -1,6 +1,6 @@
 package com.kindit.bot;
 
-import com.kindit.bot.data.Token;
+import com.kindit.bot.data.JSONConfig;
 import com.kindit.bot.listeners.CommandManager;
 import com.kindit.bot.listeners.UserMessageEL;
 import net.dv8tion.jda.api.OnlineStatus;
@@ -17,7 +17,7 @@ public class NekoBot {
 
     public NekoBot() throws LoginException {
         // Build shard manager
-        DefaultShardManagerBuilder builder = DefaultShardManagerBuilder.createDefault(Token.TOKEN);
+        DefaultShardManagerBuilder builder = DefaultShardManagerBuilder.createDefault(JSONConfig.TOKEN);
         builder.setStatus(OnlineStatus.ONLINE);
         builder.setActivity(Activity.streaming("Minecraft", "https://www.youtube.com/watch?v=HRbW75fYLvo"));
         builder.enableIntents(GatewayIntent.MESSAGE_CONTENT, GatewayIntent.GUILD_PRESENCES, GatewayIntent.GUILD_MEMBERS);
