@@ -13,15 +13,20 @@ import java.util.List;
 
 public class Player implements Command {
     public final String name = "player";
+    private final SubCommand[] subCommands = getSubCommands();
 
-    private final SubCommand[] subCommands = {
-            new Add(),
-            new Skip(),
-            new Pause(),
-            new Resume(),
-            new Volume(),
-            new Track()
-    };
+    @Override
+    public SubCommand[] getSubCommands() {
+        return new SubCommand[] {
+                new Add(),
+                new Skip(),
+                new Pause(),
+                new Resume(),
+                new Volume(),
+                new Track()
+        };
+    }
+
     @Override
     public CommandData getCommandData() {
         List<SubcommandData> subcommandDataList = new ArrayList<>();
