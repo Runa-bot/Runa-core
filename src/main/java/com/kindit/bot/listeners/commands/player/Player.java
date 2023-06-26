@@ -12,8 +12,10 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class Player implements Command {
-    public final String name = "player";
-    private final SubCommand[] subCommands = getSubCommands();
+    @Override
+    public String getName() {
+        return "player";
+    }
 
     @Override
     public SubCommand[] getSubCommands() {
@@ -23,7 +25,8 @@ public class Player implements Command {
                 new Pause(),
                 new Resume(),
                 new Volume(),
-                new Track()
+                new Track(),
+                new Loop()
         };
     }
 
@@ -31,7 +34,7 @@ public class Player implements Command {
     public CommandData getCommandData() {
         List<SubcommandData> subcommandDataList = new ArrayList<>();
 
-        for (SubCommand command : subCommands) {
+        for (SubCommand command : getSubCommands()) {
             subcommandDataList.add(command.getSubCommandData());
         }
 
@@ -39,10 +42,10 @@ public class Player implements Command {
     }
 
     @Override
-    public void interaction(SlashCommandInteractionEvent event) {
-        if (!event.getName().equals(name)) { return; }
-        for (SubCommand command : subCommands) {
-            if (event.getFullCommandName().equals(name + " " + command.getName())) { command.interaction(event); }
+    public void interaction(SlashCommandInteractionEvent event) throws Exception {
+        if (!event.getName().equals(getName())) { return; }
+        for (SubCommand command : getSubCommands()) {
+            if (event.getFullCommandName().equals(getName() + " " + command.getName())) { command.interaction(event); }
         }
     }
 }
