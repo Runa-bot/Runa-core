@@ -5,7 +5,8 @@ import net.dv8tion.jda.api.interactions.commands.build.SubcommandData;
 
 public interface SubCommand {
     String getName();
+
     SubcommandData getSubCommandData();
 
-    void interaction(SlashCommandInteractionEvent event);
+    void interaction(SlashCommandInteractionEvent event) throws Exception;
 }
