@@ -57,6 +57,12 @@ public class PlayerManager {
                 else {
                     eb.addField("Статус", "Играет", true);
                 }
+                if (musicManager.scheduler.isLoop) {
+                    eb.addField("Зациклено", "Да", true);
+                }
+                else {
+                    eb.addField("Зациклено", "Нет", true);
+                }
                 eb.setColor(Color.GREEN);
                 hook.sendMessageEmbeds(eb.build()).queue();
             }
@@ -76,6 +82,12 @@ public class PlayerManager {
                 }
                 else {
                     eb.addField("Статус", "Играет", true);
+                }
+                if (musicManager.scheduler.isLoop) {
+                    eb.addField("Зациклено", "Да", true);
+                }
+                else {
+                    eb.addField("Зациклено", "Нет", true);
                 }
                 eb.setColor(Color.GREEN);
                 hook.sendMessageEmbeds(eb.build()).queue();
@@ -107,6 +119,12 @@ public class PlayerManager {
         if (musicManager.audioPlayer.isPaused()) {
             musicManager.audioPlayer.setPaused(false);
         }
+    }
+
+    public void loop(TextChannel textChannel) {
+        final GuildMusicManager musicManager = this.getMusicManager(textChannel.getGuild());
+
+        musicManager.scheduler.isLoop = !musicManager.scheduler.isLoop;
     }
 
     public static PlayerManager getINSTANCE() {
