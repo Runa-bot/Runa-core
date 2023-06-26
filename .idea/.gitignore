@@ -3,4 +3,5 @@
 /workspace.xml
 /artifacts/
 ../out/
+../target/
 ../TOKEN.txt
