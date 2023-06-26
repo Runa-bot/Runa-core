@@ -1,7 +1,7 @@
 package com.kindit.bot.listeners;
 
 import com.kindit.bot.listeners.commands.Command;
-import com.kindit.bot.listeners.commands.chat.ChatGPT;
+import com.kindit.bot.listeners.commands.chatgpt.ChatGPT;
 import com.kindit.bot.listeners.commands.player.Player;
 import net.dv8tion.jda.api.events.guild.GuildReadyEvent;
 import net.dv8tion.jda.api.events.interaction.command.SlashCommandInteractionEvent;
