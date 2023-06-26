@@ -51,6 +51,12 @@ public class Track implements SubCommand {
             else {
                 eb.addField("Статус", "Играет", true);
             }
+            if (scheduler.isLoop) {
+                eb.addField("Зациклено", "Да", true);
+            }
+            else {
+                eb.addField("Зациклено", "Нет", true);
+            }
             eb.setColor(new Color(141, 66, 179));
 
             event.getHook().sendMessageEmbeds(eb.build()).queue();
