@@ -25,8 +25,6 @@ public class CommandManager extends ListenerAdapter {
         for (Command command : commands) {
             try {
                 command.interaction(event);
-            } catch (IOException e) {
-                throw new RuntimeException(e);
             } catch (Exception e) {
                 throw new RuntimeException(e);
             }
