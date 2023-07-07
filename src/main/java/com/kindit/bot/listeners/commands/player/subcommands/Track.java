@@ -67,7 +67,7 @@ public class Track implements SubCommand {
             eb.addField("Громкость", scheduler.audioPlayer.getVolume() + "%", true);
             eb.addField("Добавить трек", "/player add", true);
             eb.setColor(Color.RED);
-            event.getHook().sendMessageEmbeds(eb.build()).queue();
+            event.getHook().setEphemeral(ephemeral).sendMessageEmbeds(eb.build()).queue();
         }
 
     }
