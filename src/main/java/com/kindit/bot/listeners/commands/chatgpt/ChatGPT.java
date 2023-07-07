@@ -47,17 +47,24 @@ public class ChatGPT implements Command {
                 }
 
                 @Override
-                public void interaction(SlashCommandInteractionEvent event) throws Exception {
-                    event.deferReply().queue();
+                public void interaction(SlashCommandInteractionEvent event) {
+                    new Thread(() -> {
+                        event.deferReply().queue();
 
-                    EmbedBuilder eb = new EmbedBuilder();
-                    eb.setAuthor(event.getMember().getNickname(), null, event.getMember().getEffectiveAvatarUrl());
-                    eb.setTitle(event.getOption("text").getAsString());
-                    eb.setDescription(chatGPT(event.getOption("text").getAsString()));
-                    eb.setFooter("OpenAI", "https://img.uxwing.com/wp-content/themes/uxwing/download/brands-social-media/chatgpt-icon.png");
-                    eb.setColor(new Color(25, 195, 125));
+                        EmbedBuilder eb = new EmbedBuilder();
+                        eb.setAuthor(event.getMember().getNickname(), null, event.getMember().getEffectiveAvatarUrl());
+                        eb.setTitle(event.getOption("text").getAsString());
+                        try {
+                            eb.setDescription(chatGPT(event.getOption("text").getAsString()));
+                        } catch (Exception e) {
+                            throw new RuntimeException(e);
+                        }
+                        eb.setFooter("OpenAI", "https://img.uxwing.com/wp-content/themes/uxwing/download/brands-social-media/chatgpt-icon.png");
+                        eb.setColor(new Color(25, 195, 125));
 
-                    event.getHook().sendMessageEmbeds(eb.build()).queue();
+                        event.getHook().sendMessageEmbeds(eb.build()).queue();
+                    }).start();
+
                 }
 
                 public String chatGPT(String text) throws Exception {
