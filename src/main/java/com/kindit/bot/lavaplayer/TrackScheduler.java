@@ -12,6 +12,11 @@ import java.util.concurrent.LinkedBlockingQueue;
 public class TrackScheduler extends AudioEventAdapter {
     private final BlockingQueue<AudioTrack> queue;
     private AudioTrack audioTrack;
+
+    public AudioTrack getAudioTrack() {
+        return audioTrack;
+    }
+
     public boolean isLoop = false;
     public final AudioPlayer audioPlayer;
 
@@ -25,6 +30,7 @@ public class TrackScheduler extends AudioEventAdapter {
         if (endReason.mayStartNext && this.isLoop) {
             this.audioPlayer.startTrack(this.audioTrack, false);
         } else if (endReason.mayStartNext) {
+            this.audioTrack = null;
             nextTrack();
         }
 
@@ -36,11 +42,12 @@ public class TrackScheduler extends AudioEventAdapter {
     }
 
     public void nextTrack() {
-        this.audioPlayer.startTrack(this.queue.remove(), false);
+        this.audioPlayer.startTrack(this.queue.poll(), false);
     }
 
     public void clearQueue() {
         this.audioPlayer.stopTrack();
+        this.audioTrack = null;
         this.queue.clear();
     }
 
