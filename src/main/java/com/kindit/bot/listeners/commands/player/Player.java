@@ -9,6 +9,7 @@ import net.dv8tion.jda.api.interactions.commands.build.Commands;
 import net.dv8tion.jda.api.interactions.commands.build.SubcommandData;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 public class Player implements Command {
@@ -26,7 +27,9 @@ public class Player implements Command {
                 new Resume(),
                 new Volume(),
                 new Track(),
-                new Loop()
+                new Loop(),
+                new Shuffel(),
+                new Queue()
         };
     }
 
@@ -42,10 +45,16 @@ public class Player implements Command {
     }
 
     @Override
-    public void interaction(SlashCommandInteractionEvent event) throws Exception {
+    public void interaction(SlashCommandInteractionEvent event) {
         if (!event.getName().equals(getName())) { return; }
-        for (SubCommand command : getSubCommands()) {
-            if (event.getFullCommandName().equals(getName() + " " + command.getName())) { command.interaction(event); }
-        }
+        Arrays.stream(getSubCommands())
+                .filter((subCommand -> event.getFullCommandName().equals(getName() + " " + subCommand.getName())))
+                .forEach(subCommand -> {
+                    try {
+                        subCommand.interaction(event);
+                    } catch (Exception e) {
+                        throw new RuntimeException(e);
+                    }
+                });
     }
 }
