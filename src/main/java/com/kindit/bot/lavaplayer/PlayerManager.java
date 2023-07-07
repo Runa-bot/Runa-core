@@ -70,9 +70,7 @@ public class PlayerManager {
             @Override
             public void playlistLoaded(AudioPlaylist audioPlaylist) {
                 final List<AudioTrack> tracks = audioPlaylist.getTracks();
-                for (AudioTrack track : tracks) {
-                    musicManager.scheduler.queue(track);
-                }
+                tracks.stream().forEach(musicManager.scheduler::queue);
                 EmbedBuilder eb = new EmbedBuilder();
                 eb.setTitle("Добавлено в очередь: " + tracks.size() + " чего-то там...", trackURL);
                 eb.addField("Объектов в очереди", String.valueOf(musicManager.scheduler.getQueue().size() + 1), true);
