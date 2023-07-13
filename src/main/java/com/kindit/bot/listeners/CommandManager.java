@@ -15,7 +15,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class CommandManager extends ListenerAdapter {
-    private static final Command[] commands = {
+    private final Command[] commands = {
         new Player(),
         new ChatGPT()
     };
