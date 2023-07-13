@@ -10,16 +10,14 @@ import net.dv8tion.jda.api.interactions.commands.build.SubcommandData;
 import net.dv8tion.jda.api.managers.AudioManager;
 
 public class Add implements SubCommand {
-    private final String name = "add";
-
     @Override
     public String getName() {
-        return name;
+        return "add";
     }
 
     @Override
     public SubcommandData getSubCommandData() {
-        return new SubcommandData(name, "Add track in queue")
+        return new SubcommandData(getName(), "Add track in queue")
                 .addOptions(
                         new OptionData(OptionType.STRING, "url", "YouTube video URL", true),
                         new OptionData(OptionType.STRING, "ephemeral", "Should this message be ephemeral?", false)
