@@ -5,7 +5,7 @@ import com.kindit.bot.listeners.commands.SubCommand;
 import com.kindit.bot.listeners.commands.player.subcommands.*;
 
 public class Player implements Command {
-    private final SubCommand[] subCommands = new SubCommand[] {
+    private final SubCommand[] subCommands = {
             new Add(),
             new Skip(),
             new Pause(),
@@ -19,7 +19,7 @@ public class Player implements Command {
 
     @Override
     public String getName() {
-        return "player";
+        return "p";
     }
 
     @Override
