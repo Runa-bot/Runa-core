@@ -29,6 +29,8 @@ public class Queue implements SubCommand {
     public SubcommandData getSubCommandData() {
         return new SubcommandData(getName(), "Get the whole queue")
                 .addOptions(
+                        new OptionData(OptionType.STRING, "file", "Send txt file", false)
+                                .addChoice("Yes", "Yes"),
                         new OptionData(OptionType.STRING, "ephemeral", "Should this message be ephemeral?", false)
                                 .addChoice("No", "No")
                 );
@@ -37,24 +39,32 @@ public class Queue implements SubCommand {
     @Override
     public void interaction(SlashCommandInteractionEvent event) throws Exception {
         new Thread(() -> {
-            boolean ephemeral;
+            boolean ephemeralChoice;
             try {
-                ephemeral = event.getOption("ephemeral").equals("No");
+                ephemeralChoice = event.getOption("ephemeral").equals("No");
             } catch (NullPointerException e) {
-                ephemeral = true;
+                ephemeralChoice = true;
             }
+
+            boolean fileChoice;
+            try {
+                fileChoice = event.getOption("file").getAsString().equals("Yes");
+            } catch (NullPointerException e) {
+                fileChoice = false;
+            }
+
+            event.deferReply().setEphemeral(ephemeralChoice).queue();
 
             TrackScheduler scheduler = PlayerManager.getINSTANCE().getMusicManager(event.getChannel().asTextChannel().getGuild()).scheduler;
             List<AudioTrack> queue = new ArrayList<>(scheduler.getQueue());
 
-            event.deferReply().setEphemeral(ephemeral).queue();
             if (scheduler.getAudioTrack() == null) {
                 EmbedBuilder eb = new EmbedBuilder();
                 eb.setTitle("Кажется сейчас ничего не играет... :/", "https://youtu.be/dQw4w9WgXcQ?t=43");
                 eb.addField("Добавить трек", "/player add", true);
                 eb.setColor(Color.RED);
 
-                event.getHook().setEphemeral(ephemeral).sendMessageEmbeds(eb.build()).queue();
+                event.getHook().setEphemeral(ephemeralChoice).sendMessageEmbeds(eb.build()).queue();
                 return;
             }
 
@@ -62,6 +72,16 @@ public class Queue implements SubCommand {
             tracksInfo.add(1 + ". TITLE: " + scheduler.getAudioTrack().getInfo().title + " URL: " + scheduler.getAudioTrack().getInfo().uri + "\n");
             for (int i = 0; i < queue.size(); i++) {
                 tracksInfo.add(i + 2 + ". TITLE: " + queue.get(i).getInfo().title + " URL: " + queue.get(i).getInfo().uri + "\n");
+            }
+
+            if (!fileChoice && tracksInfo.toString().length() < 4096) {
+                EmbedBuilder eb = new EmbedBuilder();
+                eb.setTitle("Список очерди");
+                eb.setDescription(tracksInfo.toString());
+                eb.setColor(new Color(141, 66, 179));
+
+                event.getHook().setEphemeral(ephemeralChoice).sendMessageEmbeds(eb.build()).queue();
+                return;
             }
 
             SimpleDateFormat formatter = new SimpleDateFormat("dd-MM-yyyy HH-mm-ss");
@@ -92,7 +112,7 @@ public class Queue implements SubCommand {
                 file.delete();
             }).start();
 
-            event.getHook().setEphemeral(ephemeral).sendFiles(FileUpload.fromData(file)).queue();
+            event.getHook().setEphemeral(ephemeralChoice).sendFiles(FileUpload.fromData(file)).queue();
         }).start();
     }
 }
