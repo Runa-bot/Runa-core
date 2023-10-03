@@ -14,8 +14,7 @@ import java.util.List;
 
 public class CommandManager extends ListenerAdapter {
     private final Command[] commands = {
-        new Player(),
-        //new ChatGPT()
+        new Player()
     };
 
     @Override
