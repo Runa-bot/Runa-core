@@ -1,6 +1,8 @@
 package com.kindit.bot;
 
 import com.kindit.bot.data.JSONConfig;
+import com.kindit.bot.data.StreamParser;
+import com.kindit.bot.data.TwitchCategory;
 import com.kindit.bot.listeners.CommandManager;
 import com.kindit.bot.listeners.UserMessageEL;
 import net.dv8tion.jda.api.OnlineStatus;
@@ -13,13 +15,12 @@ import net.dv8tion.jda.api.utils.cache.CacheFlag;
 import javax.security.auth.login.LoginException;
 
 public class NekoBot {
-    public final ShardManager shardManager;
+    private final ShardManager shardManager;
 
     public NekoBot() throws LoginException {
         // Build shard manager
         DefaultShardManagerBuilder builder = DefaultShardManagerBuilder.createDefault(JSONConfig.TOKEN);
         builder.setStatus(OnlineStatus.ONLINE);
-        builder.setActivity(Activity.streaming("Minecraft", "https://www.youtube.com/watch?v=HRbW75fYLvo"));
         builder.enableIntents(GatewayIntent.MESSAGE_CONTENT, GatewayIntent.GUILD_PRESENCES, GatewayIntent.GUILD_MEMBERS);
         builder.enableCache(CacheFlag.VOICE_STATE);
         shardManager = builder.build();
@@ -29,6 +30,17 @@ public class NekoBot {
                 new UserMessageEL(),
                 new CommandManager()
         );
+
+        new Thread(() -> {
+            while (true) {
+                shardManager.setActivity(Activity.streaming("Minecraft", new StreamParser(TwitchCategory.MINECRAFT).getStreamUrl()));
+                try {
+                    Thread.sleep(1800000);
+                } catch (InterruptedException e) {
+                    throw new RuntimeException(e);
+                }
+            }
+        }).start();
     }
 
     public ShardManager getShardManager() {
