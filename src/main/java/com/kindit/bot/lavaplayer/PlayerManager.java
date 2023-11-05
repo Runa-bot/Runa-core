@@ -9,8 +9,10 @@ import com.sedmelluq.discord.lavaplayer.track.AudioPlaylist;
 import com.sedmelluq.discord.lavaplayer.track.AudioTrack;
 import net.dv8tion.jda.api.EmbedBuilder;
 import net.dv8tion.jda.api.entities.Guild;
+import net.dv8tion.jda.api.entities.MessageEmbed;
 import net.dv8tion.jda.api.entities.channel.concrete.TextChannel;
 import net.dv8tion.jda.api.interactions.InteractionHook;
+import org.jetbrains.annotations.NotNull;
 
 import java.awt.*;
 import java.util.HashMap;
@@ -18,7 +20,6 @@ import java.util.List;
 import java.util.Map;
 
 public class PlayerManager {
-
     private static PlayerManager INSTANCE;
     private final Map<Long, GuildMusicManager> musicManagers;
     private final AudioPlayerManager audioPlayerManager;
@@ -46,49 +47,15 @@ public class PlayerManager {
             @Override
             public void trackLoaded(AudioTrack audioTrack) {
                 musicManager.scheduler.queue(audioTrack);
-                EmbedBuilder eb = new EmbedBuilder();
-                eb.setAuthor("Добавленно в очередь");
-                eb.setTitle(audioTrack.getInfo().title, audioTrack.getInfo().uri);
-                eb.addField("Объектов в очереди", String.valueOf(musicManager.scheduler.getQueue().size() + 1), true);
-                eb.addField("Громкость", musicManager.scheduler.audioPlayer.getVolume() + "%", true);
-                if (musicManager.scheduler.audioPlayer.isPaused()) {
-                    eb.addField("Статус", "Пуза", true);
-                }
-                else {
-                    eb.addField("Статус", "Играет", true);
-                }
-                if (musicManager.scheduler.isLoop) {
-                    eb.addField("Зациклено", "Да", true);
-                }
-                else {
-                    eb.addField("Зациклено", "Нет", true);
-                }
-                eb.setColor(Color.GREEN);
-                hook.sendMessageEmbeds(eb.build()).queue();
+
+                hook.sendMessageEmbeds(getEmbedBuilderForTrack(audioTrack, musicManager)).queue();
             }
 
             @Override
             public void playlistLoaded(AudioPlaylist audioPlaylist) {
                 final List<AudioTrack> tracks = audioPlaylist.getTracks();
-                tracks.stream().forEach(musicManager.scheduler::queue);
-                EmbedBuilder eb = new EmbedBuilder();
-                eb.setTitle("Добавлено в очередь: " + tracks.size() + " чего-то там...", trackURL);
-                eb.addField("Объектов в очереди", String.valueOf(musicManager.scheduler.getQueue().size() + 1), true);
-                eb.addField("Громкость", musicManager.scheduler.audioPlayer.getVolume() + "%", true);
-                if (musicManager.scheduler.audioPlayer.isPaused()) {
-                    eb.addField("Статус", "Пуза", true);
-                }
-                else {
-                    eb.addField("Статус", "Играет", true);
-                }
-                if (musicManager.scheduler.isLoop) {
-                    eb.addField("Зациклено", "Да", true);
-                }
-                else {
-                    eb.addField("Зациклено", "Нет", true);
-                }
-                eb.setColor(Color.GREEN);
-                hook.sendMessageEmbeds(eb.build()).queue();
+
+                hook.sendMessageEmbeds(getEmbedBuilderForPlayList(tracks, musicManager, trackURL)).queue();
             }
 
             @Override
@@ -101,6 +68,39 @@ public class PlayerManager {
 
             }
         });
+    }
+
+    private MessageEmbed getEmbedBuilderForPlayList(List<AudioTrack> tracks, GuildMusicManager musicManager, String trackURL) {
+        int tracksSize = tracks.size();
+        if (tracks.size() > 47) {
+            tracksSize = 47;
+        }
+        tracks.forEach(musicManager.scheduler::queue);
+        StringBuilder tracksInfo = new StringBuilder();
+        for (int i = 0; i < tracksSize; i++) {
+            tracksInfo
+                    .append(i + 1)
+                    .append(". ")
+                    .append(tracks.get(i).getInfo().title)
+                    .append("\n")
+                    .append(tracks.get(i).getInfo().uri)
+                    .append("\n");
+        }
+
+        EmbedBuilder eb = new EmbedBuilder();
+        eb.setTitle("Добавлено в очередь: " + tracks.size() + " чего-то там...", trackURL);
+        eb.setColor(Color.GREEN);
+        eb.setDescription(tracksInfo);
+
+        return eb.build();
+    }
+
+    @NotNull
+    private MessageEmbed getEmbedBuilderForTrack(AudioTrack audioTrack, GuildMusicManager musicManager) {
+        EmbedBuilder eb = new EmbedBuilder();
+        eb.setAuthor("Добавленно в очередь");
+        eb.setTitle(audioTrack.getInfo().title, audioTrack.getInfo().uri);
+        return eb.build();
     }
 
     public void pause(TextChannel textChannel) {
