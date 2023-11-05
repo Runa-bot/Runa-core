@@ -1,8 +1,8 @@
-package com.kindit.bot.listeners.commands.player.subcommands;
+package com.kindit.bot.commands.player.subcommands;
 
 import com.kindit.bot.lavaplayer.PlayerManager;
 import com.kindit.bot.lavaplayer.TrackScheduler;
-import com.kindit.bot.listeners.commands.SubCommand;
+import com.kindit.bot.commands.SubCommand;
 import net.dv8tion.jda.api.EmbedBuilder;
 import net.dv8tion.jda.api.events.interaction.command.SlashCommandInteractionEvent;
 import net.dv8tion.jda.api.interactions.commands.OptionType;
@@ -10,42 +10,37 @@ import net.dv8tion.jda.api.interactions.commands.build.OptionData;
 import net.dv8tion.jda.api.interactions.commands.build.SubcommandData;
 
 import java.awt.*;
+import java.util.Objects;
 
-public class Skip implements SubCommand {
-    private final String name = "skip";
+public class Volume extends SubCommand {
 
-    @Override
-    public String getName() {
-        return name;
+    public Volume() {
+        super("volume", "Sound volume");
     }
 
     @Override
     public SubcommandData getSubCommandData() {
-        return new SubcommandData(name, "Skip track")
+        return new SubcommandData(name, description)
                 .addOptions(
-                        new OptionData(OptionType.STRING, "quantity", "Skip track", true)
-                                .addChoice("One", "One")
-                                .addChoice("All", "All")
-
+                        new OptionData(OptionType.INTEGER, "volume", "Sound volume", true)
+                                .setMinValue(0)
+                                .setMaxValue(1000)
                 );
     }
 
     @Override
     public void interaction(SlashCommandInteractionEvent event) {
         TrackScheduler scheduler = PlayerManager.getINSTANCE().getMusicManager(event.getChannel().asTextChannel().getGuild()).scheduler;
+        int volume = Objects.requireNonNull(event.getOption("volume")).getAsInt();
+
         event.deferReply().setEphemeral(true).queue();
 
-        if (event.getOption("quantity").getAsString().equals("One")) {
-            scheduler.nextTrack();
-        }
-        else {
-            scheduler.clearQueue();
-        }
+        scheduler.audioPlayer.setVolume(volume);
 
         EmbedBuilder eb = new EmbedBuilder();
-        eb.setTitle("Successfully!");
+        eb.setTitle("Volume set: " + volume + "%");
         eb.setColor(Color.GREEN);
 
-        event.getHook().sendMessageEmbeds(eb.build()).queue();
+        event.getHook().sendMessageEmbeds(eb.build()).setEphemeral(true).queue();
     }
 }

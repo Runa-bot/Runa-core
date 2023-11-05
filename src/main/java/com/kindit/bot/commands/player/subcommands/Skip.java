@@ -1,8 +1,8 @@
-package com.kindit.bot.listeners.commands.player.subcommands;
+package com.kindit.bot.commands.player.subcommands;
 
 import com.kindit.bot.lavaplayer.PlayerManager;
 import com.kindit.bot.lavaplayer.TrackScheduler;
-import com.kindit.bot.listeners.commands.SubCommand;
+import com.kindit.bot.commands.SubCommand;
 import net.dv8tion.jda.api.EmbedBuilder;
 import net.dv8tion.jda.api.events.interaction.command.SlashCommandInteractionEvent;
 import net.dv8tion.jda.api.interactions.commands.OptionType;
@@ -10,39 +10,45 @@ import net.dv8tion.jda.api.interactions.commands.build.OptionData;
 import net.dv8tion.jda.api.interactions.commands.build.SubcommandData;
 
 import java.awt.*;
+import java.util.Objects;
 
-public class Volume implements SubCommand {
-    private final String name = "volume";
+public class Skip extends SubCommand {
 
-    @Override
-    public String getName() {
-        return name;
+    public Skip() {
+        super("skip", "Skip track");
     }
 
     @Override
     public SubcommandData getSubCommandData() {
-        return new SubcommandData("volume", "Sound volume")
+        return new SubcommandData(name, description)
                 .addOptions(
-                        new OptionData(OptionType.INTEGER, "volume", "Sound volume", true)
-                                .setMinValue(0)
-                                .setMaxValue(1000)
+                        new OptionData(OptionType.INTEGER, "quantity", "Skip track", true)
+                                .setMinValue(1)
+                                .setMaxValue(Integer.MAX_VALUE)
+
                 );
     }
 
     @Override
     public void interaction(SlashCommandInteractionEvent event) {
         TrackScheduler scheduler = PlayerManager.getINSTANCE().getMusicManager(event.getChannel().asTextChannel().getGuild()).scheduler;
-        int volume = event.getOption("volume").getAsInt();
-
-
         event.deferReply().setEphemeral(true).queue();
 
-        scheduler.audioPlayer.setVolume(volume);
+        int skipOption = Objects.requireNonNull(event.getOption("quantity")).getAsInt();
 
         EmbedBuilder eb = new EmbedBuilder();
-        eb.setTitle("Volume set: " + volume + "%");
+        eb.setTitle("Successfully!");
         eb.setColor(Color.GREEN);
 
-        event.getHook().sendMessageEmbeds(eb.build()).setEphemeral(true).queue();
+        if (scheduler.getQueue().size() <= skipOption) {
+            scheduler.clearQueue();
+        }
+        else {
+            for (int i = 0; i < skipOption; i++) {
+                scheduler.nextTrack();
+            }
+        }
+
+        event.getHook().sendMessageEmbeds(eb.build()).queue();
     }
 }

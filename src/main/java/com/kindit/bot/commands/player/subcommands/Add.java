@@ -1,7 +1,7 @@
-package com.kindit.bot.listeners.commands.player.subcommands;
+package com.kindit.bot.commands.player.subcommands;
 
 import com.kindit.bot.lavaplayer.PlayerManager;
-import com.kindit.bot.listeners.commands.SubCommand;
+import com.kindit.bot.commands.SubCommand;
 import net.dv8tion.jda.api.entities.channel.concrete.VoiceChannel;
 import net.dv8tion.jda.api.events.interaction.command.SlashCommandInteractionEvent;
 import net.dv8tion.jda.api.interactions.commands.OptionType;
@@ -9,15 +9,14 @@ import net.dv8tion.jda.api.interactions.commands.build.OptionData;
 import net.dv8tion.jda.api.interactions.commands.build.SubcommandData;
 import net.dv8tion.jda.api.managers.AudioManager;
 
-public class Add implements SubCommand {
-    @Override
-    public String getName() {
-        return "add";
+public class Add extends SubCommand {
+    public Add() {
+        super("add", "Add track in queue");
     }
 
     @Override
     public SubcommandData getSubCommandData() {
-        return new SubcommandData(getName(), "Add track in queue")
+        return new SubcommandData(name, description)
                 .addOptions(
                         new OptionData(OptionType.STRING, "url", "YouTube video URL", true),
                         new OptionData(OptionType.STRING, "ephemeral", "Should this message be ephemeral?", false)

@@ -1,8 +1,7 @@
-package com.kindit.bot.listeners.commands.chatgpt;
+package com.kindit.bot.commands.chatgpt;
 
 import com.kindit.bot.data.JSONConfig;
-import com.kindit.bot.listeners.commands.Command;
-import com.kindit.bot.listeners.commands.SubCommand;
+import com.kindit.bot.commands.Command;
 import net.dv8tion.jda.api.EmbedBuilder;
 import net.dv8tion.jda.api.events.interaction.command.SlashCommandInteractionEvent;
 import net.dv8tion.jda.api.interactions.commands.OptionType;
@@ -18,25 +17,14 @@ import java.net.HttpURLConnection;
 import java.net.URL;
 import java.util.Objects;
 
-public class ChatGPT implements Command {
-    @Override
-    public String getName() {
-        return "chat-gpt";
-    }
-
-    @Override
-    public String getDescription() {
-        return "ChatGPT 3.0";
-    }
-
-    @Override
-    public SubCommand[] getSubCommands() {
-        return null;
+public class ChatGPT extends Command {
+    public ChatGPT() {
+        super("chat-gpt", "ChatGPT 3.0");
     }
 
     @Override
     public CommandData getCommandData() {
-        return Commands.slash(getName(), getDescription())
+        return Commands.slash(name, description)
                 .addOptions(
                         new OptionData(OptionType.STRING, "text", "Your text for chat-gpt", true)
                                 .setMaxLength(256)
@@ -45,7 +33,7 @@ public class ChatGPT implements Command {
 
     @Override
     public void interaction(SlashCommandInteractionEvent event) throws Exception {
-        if (!event.getName().equals(getName())) { return; }
+        if (!event.getName().equals(name)) { return; }
         new Thread(() -> {
             event.deferReply().queue();
 

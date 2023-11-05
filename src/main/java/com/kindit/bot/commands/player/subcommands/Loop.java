@@ -1,23 +1,22 @@
-package com.kindit.bot.listeners.commands.player.subcommands;
+package com.kindit.bot.commands.player.subcommands;
 
 import com.kindit.bot.lavaplayer.PlayerManager;
 import com.kindit.bot.lavaplayer.TrackScheduler;
-import com.kindit.bot.listeners.commands.SubCommand;
+import com.kindit.bot.commands.SubCommand;
 import net.dv8tion.jda.api.EmbedBuilder;
 import net.dv8tion.jda.api.events.interaction.command.SlashCommandInteractionEvent;
 import net.dv8tion.jda.api.interactions.commands.build.SubcommandData;
 
 import java.awt.*;
 
-public class Shuffel implements SubCommand {
-    @Override
-    public String getName() {
-        return "shuffel";
+public class Loop extends SubCommand {
+    public Loop() {
+        super("loop", "loop track");
     }
 
     @Override
     public SubcommandData getSubCommandData() {
-        return new SubcommandData(getName(), "Shuffles the queue");
+        return new SubcommandData(name, description);
     }
 
     @Override
@@ -25,12 +24,12 @@ public class Shuffel implements SubCommand {
         TrackScheduler scheduler = PlayerManager.getINSTANCE().getMusicManager(event.getChannel().asTextChannel().getGuild()).scheduler;
         event.deferReply().setEphemeral(true).queue();
 
-        scheduler.shuffelQueue();
+        PlayerManager.getINSTANCE().loop(event.getChannel().asTextChannel());
 
         EmbedBuilder eb = new EmbedBuilder();
-        eb.setTitle("Successfully!");
+        eb.setTitle("Зациклено: " + scheduler.isLoop);
         eb.setColor(Color.GREEN);
 
-        event.getHook().sendMessageEmbeds(eb.build()).queue();
+        event.getHook().sendMessageEmbeds(eb.build()).setEphemeral(true).queue();
     }
 }
