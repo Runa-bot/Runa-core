@@ -8,7 +8,7 @@ public class UserMessageEL extends ListenerAdapter {
     public void onMessageReceived(MessageReceivedEvent event) {
         long guildId = event.getGuild().getIdLong();
 
-        if (guildId == 688479404862472263L || guildId == 907572465998381076L) {
+        if (guildId == 688479404862472263L || guildId == 907572465998381076L || guildId == 738134731560058922L) {
             String message = event.getMessage().getContentRaw();
             String[] cummands = { "cum", "cam", "кам", "кум" };
             for (String command : cummands) {
