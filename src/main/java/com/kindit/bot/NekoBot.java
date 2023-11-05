@@ -31,6 +31,10 @@ public class NekoBot {
                 new CommandManager()
         );
 
+        setStream(shardManager);
+    }
+
+    private void setStream(ShardManager shardManager) {
         new Thread(() -> {
             while (true) {
                 shardManager.setActivity(Activity.streaming("Minecraft", new StreamParser(TwitchCategory.MINECRAFT).getStreamUrl()));
