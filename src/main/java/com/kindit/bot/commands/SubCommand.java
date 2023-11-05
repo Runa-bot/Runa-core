@@ -21,5 +21,13 @@ public abstract class SubCommand {
 
     public abstract void interaction(SlashCommandInteractionEvent var1) throws Exception;
 
-    void interaction(SlashCommandInteractionEvent event) throws Exception;
+    public void buttonInteraction(ButtonInteractionEvent event) {
+    }
+
+    protected static MessageEmbed replyEmbed(String title, Color color) {
+        EmbedBuilder eb = new EmbedBuilder();
+        eb.setTitle(title);
+        eb.setColor(color);
+        return eb.build();
+    }
 }

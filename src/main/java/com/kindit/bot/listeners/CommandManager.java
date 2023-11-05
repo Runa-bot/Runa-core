@@ -1,9 +1,10 @@
 package com.kindit.bot.listeners;
 
-import com.kindit.bot.listeners.commands.Command;
-import com.kindit.bot.listeners.commands.player.Player;
+import com.kindit.bot.commands.Command;
+import com.kindit.bot.commands.player.Player;
 import net.dv8tion.jda.api.events.guild.GuildReadyEvent;
 import net.dv8tion.jda.api.events.interaction.command.SlashCommandInteractionEvent;
+import net.dv8tion.jda.api.events.interaction.component.ButtonInteractionEvent;
 import net.dv8tion.jda.api.events.session.ReadyEvent;
 import net.dv8tion.jda.api.hooks.ListenerAdapter;
 import net.dv8tion.jda.api.interactions.commands.build.CommandData;
@@ -22,6 +23,17 @@ public class CommandManager extends ListenerAdapter {
         for (Command command : commands) {
             try {
                 command.interaction(event);
+            } catch (Exception e) {
+                throw new RuntimeException(e);
+            }
+        }
+    }
+
+    @Override
+    public void onButtonInteraction(@NotNull ButtonInteractionEvent event) {
+        for (Command command : commands) {
+            try {
+                command.buttonInteraction(event);
             } catch (Exception e) {
                 throw new RuntimeException(e);
             }

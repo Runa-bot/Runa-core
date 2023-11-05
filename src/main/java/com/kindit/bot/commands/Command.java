@@ -44,4 +44,10 @@ public abstract class Command {
             }
         }
     }
+
+    public void buttonInteraction(ButtonInteractionEvent event) {
+        for (SubCommand command : subCommands) {
+            command.buttonInteraction(event);
+        }
+    }
 }
