@@ -11,8 +11,10 @@ public class UserMessageEL extends ListenerAdapter {
         if (guildId == 688479404862472263L || guildId == 907572465998381076L || guildId == 738134731560058922L) {
             String message = event.getMessage().getContentRaw();
             String[] cummands = { "cum", "cam", "кам", "кум" };
-            for (String command : cummands) {
-                if (message.contains(command)) {
+
+            for (String word : cummands) {
+                while (message.contains(word)) {
+                    message = message.replaceFirst(word, "");
                     event.getChannel().sendMessage(":sweat_drops:").queue();
                 }
             }
