@@ -1,6 +1,6 @@
 package com.kindit.bot;
 
-import com.kindit.bot.data.JSONConfig;
+import com.kindit.bot.data.JsonConfig;
 import com.kindit.bot.data.StreamParser;
 import com.kindit.bot.data.TwitchCategory;
 import com.kindit.bot.listeners.CommandManager;
@@ -19,7 +19,7 @@ public class NekoBot {
 
     public NekoBot() throws LoginException {
         // Build shard manager
-        DefaultShardManagerBuilder builder = DefaultShardManagerBuilder.createDefault(JSONConfig.TOKEN);
+        DefaultShardManagerBuilder builder = DefaultShardManagerBuilder.createDefault(JsonConfig.TOKEN);
         builder.setStatus(OnlineStatus.ONLINE);
         builder.enableIntents(GatewayIntent.MESSAGE_CONTENT, GatewayIntent.GUILD_PRESENCES, GatewayIntent.GUILD_MEMBERS);
         builder.enableCache(CacheFlag.VOICE_STATE);

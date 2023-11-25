@@ -8,7 +8,7 @@ import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
 
-public class JSONConfig {
+public class JsonConfig {
     public final static String TOKEN;
     public final static String GPTKeyAPI;
 

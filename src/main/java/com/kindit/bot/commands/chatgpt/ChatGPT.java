@@ -1,6 +1,6 @@
 package com.kindit.bot.commands.chatgpt;
 
-import com.kindit.bot.data.JSONConfig;
+import com.kindit.bot.data.JsonConfig;
 import com.kindit.bot.commands.Command;
 import net.dv8tion.jda.api.EmbedBuilder;
 import net.dv8tion.jda.api.events.interaction.command.SlashCommandInteractionEvent;
@@ -58,7 +58,7 @@ public class ChatGPT extends Command {
 
         con.setRequestMethod("POST");
         con.setRequestProperty("Content-Type", "application/json");
-        con.setRequestProperty("Authorization", JSONConfig.GPTKeyAPI);
+        con.setRequestProperty("Authorization", JsonConfig.GPTKeyAPI);
 
         JSONObject data = new JSONObject();
         data.put("model", "text-davinci-003");
