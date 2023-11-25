@@ -101,7 +101,7 @@ public class TrackInfo extends SubCommand {
         else {
             eb.setTitle("Кажется сейчас ничего не играет... :/", "https://youtu.be/dQw4w9WgXcQ?t=43");
             eb.addField("Громкость", scheduler.audioPlayer.getVolume() + "%", true);
-            eb.addField("Добавить трек", "/p add", true);
+            eb.addField("Добавить трек", "/player add", true);
             eb.setColor(Color.RED);
         }
         return eb.build();
