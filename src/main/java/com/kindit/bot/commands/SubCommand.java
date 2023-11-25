@@ -33,4 +33,25 @@ public abstract class SubCommand {
         eb.setColor(color);
         return eb.build();
     }
+
+    protected static MessageEmbed replyEmbed(String title, String description, Color color) {
+        EmbedBuilder eb = new EmbedBuilder();
+        eb.setTitle(title);
+        eb.setColor(color);
+        eb.setDescription(description);
+        return eb.build();
+    }
+    protected static MessageEmbed successfullyReplyEmbed() {
+        EmbedBuilder eb = new EmbedBuilder();
+        eb.setTitle("Successfully");
+        eb.setColor(GOOD_COLOR);
+        return eb.build();
+    }
+
+    protected static MessageEmbed notSuccessfullyReplyEmbed() {
+        EmbedBuilder eb = new EmbedBuilder();
+        eb.setTitle("Not successfully :/");
+        eb.setColor(BAD_COLOR);
+        return eb.build();
+    }
 }
