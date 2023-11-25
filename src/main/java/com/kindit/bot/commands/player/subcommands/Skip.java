@@ -36,11 +36,7 @@ public class Skip extends SubCommand {
 
         int skipOption = Objects.requireNonNull(event.getOption("quantity")).getAsInt();
 
-        EmbedBuilder eb = new EmbedBuilder();
-        eb.setTitle("Successfully!");
-        eb.setColor(Color.GREEN);
-
-        if (scheduler.getQueue().size() <= skipOption) {
+        if (scheduler.getQueue().size() <= skipOption - 1) {
             scheduler.clearQueue();
         }
         else {
@@ -49,6 +45,6 @@ public class Skip extends SubCommand {
             }
         }
 
-        event.getHook().sendMessageEmbeds(eb.build()).queue();
+        event.getHook().sendMessageEmbeds(successfullyReplyEmbed()).queue();
     }
 }

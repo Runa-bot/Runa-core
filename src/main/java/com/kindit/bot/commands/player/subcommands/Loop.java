@@ -3,11 +3,9 @@ package com.kindit.bot.commands.player.subcommands;
 import com.kindit.bot.lavaplayer.PlayerManager;
 import com.kindit.bot.lavaplayer.TrackScheduler;
 import com.kindit.bot.commands.SubCommand;
-import net.dv8tion.jda.api.EmbedBuilder;
 import net.dv8tion.jda.api.events.interaction.command.SlashCommandInteractionEvent;
 import net.dv8tion.jda.api.interactions.commands.build.SubcommandData;
 
-import java.awt.*;
 
 public class Loop extends SubCommand {
     public Loop() {
@@ -26,10 +24,6 @@ public class Loop extends SubCommand {
 
         PlayerManager.getINSTANCE().loop(event.getChannel().asTextChannel());
 
-        EmbedBuilder eb = new EmbedBuilder();
-        eb.setTitle("Зациклено: " + scheduler.isLoop);
-        eb.setColor(Color.GREEN);
-
-        event.getHook().sendMessageEmbeds(eb.build()).setEphemeral(true).queue();
+        event.getHook().sendMessageEmbeds(successfullyReplyEmbed()).setEphemeral(true).queue();
     }
 }

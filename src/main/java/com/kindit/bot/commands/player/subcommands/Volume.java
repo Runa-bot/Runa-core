@@ -3,13 +3,11 @@ package com.kindit.bot.commands.player.subcommands;
 import com.kindit.bot.lavaplayer.PlayerManager;
 import com.kindit.bot.lavaplayer.TrackScheduler;
 import com.kindit.bot.commands.SubCommand;
-import net.dv8tion.jda.api.EmbedBuilder;
 import net.dv8tion.jda.api.events.interaction.command.SlashCommandInteractionEvent;
 import net.dv8tion.jda.api.interactions.commands.OptionType;
 import net.dv8tion.jda.api.interactions.commands.build.OptionData;
 import net.dv8tion.jda.api.interactions.commands.build.SubcommandData;
 
-import java.awt.*;
 import java.util.Objects;
 
 public class Volume extends SubCommand {
@@ -37,10 +35,6 @@ public class Volume extends SubCommand {
 
         scheduler.audioPlayer.setVolume(volume);
 
-        EmbedBuilder eb = new EmbedBuilder();
-        eb.setTitle("Volume set: " + volume + "%");
-        eb.setColor(Color.GREEN);
-
-        event.getHook().sendMessageEmbeds(eb.build()).setEphemeral(true).queue();
+        event.getHook().sendMessageEmbeds(successfullyReplyEmbed()).setEphemeral(true).queue();
     }
 }
