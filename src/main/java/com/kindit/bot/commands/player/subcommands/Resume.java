@@ -25,10 +25,6 @@ public class Resume extends SubCommand {
 
         PlayerManager.getINSTANCE().resume(event.getChannel().asTextChannel());
 
-        EmbedBuilder eb = new EmbedBuilder();
-        eb.setTitle("Successfully!");
-        eb.setColor(Color.GREEN);
-
-        event.getHook().sendMessageEmbeds(eb.build()).queue();
+        event.getHook().sendMessageEmbeds(successfullyReplyEmbed()).queue();
     }
 }
