@@ -6,7 +6,7 @@ import com.kindit.bot.commands.SubCommand;
 
 public class Player extends Command {
     public Player() {
-        super("p", "Audio player", new SubCommand[] {
+        super("player", "Audio player", new SubCommand[] {
                 new Add(),
                 new Skip(),
                 new Pause(),
