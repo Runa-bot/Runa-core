@@ -1,5 +1,6 @@
 package com.kindit.bot.commands.player.subcommands;
 
+import com.kindit.bot.data.JsonUserPlaylistData;
 import com.kindit.bot.lavaplayer.PlayerManager;
 import com.kindit.bot.commands.SubCommand;
 import net.dv8tion.jda.api.entities.channel.concrete.VoiceChannel;
@@ -34,11 +35,15 @@ public class Add extends SubCommand {
         }
 
         event.deferReply().setEphemeral(ephemeral).queue();
+        JsonUserPlaylistData playlistData = new JsonUserPlaylistData(event.getMember().getIdLong());
 
         String url = event.getOption("url").getAsString();
+        if (playlistData.getUserTracks().get(url) != null) {
+            url = playlistData.getUserTracks().get(url);
+        }
 
         if (!event.getMember().getVoiceState().inAudioChannel()) {
-            event.getHook().sendMessage("You need to be in a voice channel for this command work.").queue();
+            event.getHook().sendMessageEmbeds(replyEmbed("You need to be in a voice channel for this command work.", BAD_COLOR)).setEphemeral(true).queue();
         } else {
             final AudioManager audioManager = event.getGuild().getAudioManager();
             final VoiceChannel memberchannel = (VoiceChannel) event.getMember().getVoiceState().getChannel();

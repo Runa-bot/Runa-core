@@ -2,6 +2,7 @@ package com.kindit.bot.listeners;
 
 import com.kindit.bot.commands.Command;
 import com.kindit.bot.commands.player.Player;
+import com.kindit.bot.commands.playlist.Playlist;
 import net.dv8tion.jda.api.events.guild.GuildReadyEvent;
 import net.dv8tion.jda.api.events.interaction.command.SlashCommandInteractionEvent;
 import net.dv8tion.jda.api.events.interaction.component.ButtonInteractionEvent;
@@ -15,7 +16,8 @@ import java.util.List;
 
 public class CommandManager extends ListenerAdapter {
     private final Command[] commands = {
-        new Player()
+        new Player(),
+        new Playlist()
     };
 
     @Override
