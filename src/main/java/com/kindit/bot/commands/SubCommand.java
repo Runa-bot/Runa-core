@@ -9,17 +9,20 @@ import net.dv8tion.jda.api.interactions.commands.build.SubcommandData;
 import java.awt.*;
 
 public abstract class SubCommand {
+    public static final Color GOOD_COLOR = new Color(0, 102, 0);
+    public static final Color BAD_COLOR = new Color(102, 0, 0);
+    public static final Color BOT_COLOR = new Color(100, 0, 141, 128);
     public final String name;
     public final String description;
 
-    protected SubCommand(String name, String description) {
+    public SubCommand(String name, String description) {
         this.name = name;
         this.description = description;
     }
 
     public abstract SubcommandData getSubCommandData();
 
-    public abstract void interaction(SlashCommandInteractionEvent var1) throws Exception;
+    public abstract void interaction(SlashCommandInteractionEvent event) throws Exception;
 
     public void buttonInteraction(ButtonInteractionEvent event) {
     }

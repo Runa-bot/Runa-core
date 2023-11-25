@@ -83,7 +83,7 @@ public class Queue extends SubCommand {
             EmbedBuilder eb = new EmbedBuilder();
             eb.setTitle("Список очерди");
             eb.setDescription(tracksInfo);
-            eb.setColor(new Color(141, 66, 179));
+            eb.setColor(BOT_COLOR);
             event.getHook().setEphemeral(ephemeral).sendMessageEmbeds(eb.build()).queue();
             return true;
         }
