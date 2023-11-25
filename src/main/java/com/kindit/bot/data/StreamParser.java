@@ -12,12 +12,6 @@ public class StreamParser {
     private String streamUrl;
 
     public String getStreamUrl() {
-        return streamUrl;
-    }
-
-    public StreamParser(TwitchCategory category) {
-        this.category = category;
-
         WebDriver driver = new FirefoxDriver();
         driver.manage().timeouts().implicitlyWait(10, TimeUnit.SECONDS);
 
@@ -28,8 +22,14 @@ public class StreamParser {
         }
 
         WebElement element = driver.findElement(By.xpath("//div[@data-target=\"directory-first-item\"]/div/div/article/div[2]/div[5]/a"));
-        this.streamUrl = element.getAttribute("href");
+        streamUrl = element.getAttribute("href");
         driver.close();
+
+        return streamUrl;
+    }
+
+    public StreamParser(TwitchCategory category) {
+        this.category = category;
     }
 
 
