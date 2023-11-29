@@ -11,7 +11,9 @@ import net.dv8tion.jda.api.hooks.ListenerAdapter;
 import net.dv8tion.jda.api.interactions.commands.build.CommandData;
 import org.jetbrains.annotations.NotNull;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 public class CommandManager extends ListenerAdapter {
@@ -24,8 +26,21 @@ public class CommandManager extends ListenerAdapter {
     public void onSlashCommandInteraction(@NotNull SlashCommandInteractionEvent event) {
         for (Command command : commands) {
             try {
+                event.deferReply().setEphemeral(true).queue();
                 command.interaction(event);
             } catch (Exception e) {
+                String message = e.toString().length() >= 2000 ? e.toString().substring(0, 1900) : e.toString();
+                String errorInfo = (new SimpleDateFormat("HH.mm.ss.SSS dd-MM-yyyy").format(new Date())) + "\n" +
+                        "[GuildID]: " + event.getGuild().getIdLong() + ";\n[Guild name]: " + event.getGuild().getName() + "\n" +
+                        "[ChannelID]: " + event.getChannel().getIdLong() + ";\n[Channel name]: " + event.getChannel().getName() + "\n" +
+                        "[UserID]: " + event.getMember().getIdLong() + ";\n[User name]: " + event.getMember().getEffectiveName() + "\n" +
+                        "[Full command name]: " + event.getFullCommandName() + "\n";
+                System.out.println(errorInfo);
+                event.getHook().sendMessage(
+                        "`Okay error creator, you've created a error. This error: " + message + "`\n"
+                                + errorInfo
+                                + "`I've already filed a report on you with the error department.`"
+                ).queue();
                 throw new RuntimeException(e);
             }
         }

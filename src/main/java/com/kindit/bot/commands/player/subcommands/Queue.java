@@ -1,17 +1,17 @@
 package com.kindit.bot.commands.player.subcommands;
 
+import com.kindit.bot.commands.SubCommand;
 import com.kindit.bot.lavaplayer.PlayerManager;
 import com.kindit.bot.lavaplayer.TrackScheduler;
-import com.kindit.bot.commands.SubCommand;
 import com.sedmelluq.discord.lavaplayer.track.AudioTrack;
 import net.dv8tion.jda.api.EmbedBuilder;
+import net.dv8tion.jda.api.entities.MessageEmbed;
 import net.dv8tion.jda.api.events.interaction.command.SlashCommandInteractionEvent;
 import net.dv8tion.jda.api.interactions.commands.OptionType;
 import net.dv8tion.jda.api.interactions.commands.build.OptionData;
 import net.dv8tion.jda.api.interactions.commands.build.SubcommandData;
 import net.dv8tion.jda.api.utils.FileUpload;
 
-import java.awt.*;
 import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
@@ -36,94 +36,94 @@ public class Queue extends SubCommand {
     }
 
     @Override
-    public void interaction(SlashCommandInteractionEvent event) throws Exception {
+    public void interaction(SlashCommandInteractionEvent event) {
+        setGuild(event.getGuild());
         boolean ephemeralChoice = !Optional.ofNullable(event.getOption("ephemeral")).isPresent();
         boolean fileChoice = Optional.ofNullable(event.getOption("file")).isPresent();
-        TrackScheduler scheduler = PlayerManager.getINSTANCE().getMusicManager(event.getChannel().asTextChannel().getGuild()).scheduler;
-        List<AudioTrack> queue = new ArrayList<>(scheduler.getQueue());
+        String content = "";
+        try { content = createContent(); }
+        catch (NullPointerException ignored) {}
 
         event.deferReply().setEphemeral(ephemeralChoice).queue();
 
-        if (scheduler.getAudioTrack() == null) {
-            EmbedBuilder eb = new EmbedBuilder();
-            eb.setTitle("Кажется сейчас ничего не играет... :/", "https://youtu.be/dQw4w9WgXcQ?t=43");
-            eb.addField("Добавить трек", "/player add", true);
-            eb.setColor(Color.RED);
-
-            event.getHook().setEphemeral(ephemeralChoice).sendMessageEmbeds(eb.build()).queue();
-            return;
-        }
-
-        if (fileChoice || !sendEmbed(event, ephemeralChoice, scheduler, queue)) {
-            sendFile(event, ephemeralChoice, scheduler, queue);
-        }
+        if (!isPlaying())
+            event.getHook().sendMessageEmbeds(createNoPlayEmbed()).queue();
+        else if (content.length() > 4096 || fileChoice)
+            event.getHook().sendFiles(FileUpload.fromData(createResponceFile(content))).setEphemeral(ephemeralChoice).queue();
+        else
+            event.getHook().sendMessageEmbeds(createResponceEmbed(content)).setEphemeral(ephemeralChoice).queue();
     }
 
-    private boolean sendEmbed(SlashCommandInteractionEvent event, boolean ephemeral, TrackScheduler scheduler, List<AudioTrack> queue) {
-        StringBuffer tracksInfo = new StringBuffer();
-        tracksInfo
-                .append(1 + ". ")
-                .append(scheduler.getAudioTrack().getInfo().title)
-                .append("\n")
-                .append(scheduler.getAudioTrack().getInfo().uri)
-                .append("\n");
-        for (int i = 0; i < queue.size(); i++) {
-            tracksInfo
-                    .append(i + 2)
-                    .append(". ")
-                    .append(queue.get(i).getInfo().title)
-                    .append("\n")
-                    .append(queue.get(i).getInfo().uri)
-                    .append("\n");
-        }
-
-        if (tracksInfo.toString().length() > 4096) {
-            return false;
-        } else {
-            EmbedBuilder eb = new EmbedBuilder();
-            eb.setTitle("Список очерди");
-            eb.setDescription(tracksInfo);
-            eb.setColor(BOT_COLOR);
-            event.getHook().setEphemeral(ephemeral).sendMessageEmbeds(eb.build()).queue();
-            return true;
-        }
+    private boolean isPlaying() {
+        return PlayerManager.getINSTANCE().getMusicManager(getGuild()).scheduler.getAudioTrack() != null;
     }
 
-    private void sendFile(SlashCommandInteractionEvent event, boolean ephemeral, TrackScheduler scheduler, List<AudioTrack> queue) {
-        List<String> tracksInfo = new ArrayList<>();
-        tracksInfo.add(1 + ". TITLE: " + scheduler.getAudioTrack().getInfo().title + " URL: " + scheduler.getAudioTrack().getInfo().uri + "\n");
-        for (int i = 0; i < queue.size(); i++) {
-            tracksInfo.add(i + 2 + ". TITLE: " + queue.get(i).getInfo().title + " URL: " + queue.get(i).getInfo().uri + "\n");
+    private MessageEmbed createNoPlayEmbed() {
+        EmbedBuilder eb = new EmbedBuilder();
+        eb.setTitle("Кажется сейчас ничего не играет... :/", "https://youtu.be/dQw4w9WgXcQ?t=43");
+        eb.addField("Добавить трек", "/player add", true);
+        eb.setColor(BAD_COLOR);
+
+        return eb.build();
+    }
+
+    private MessageEmbed createResponceEmbed(String content) {
+        EmbedBuilder eb = new EmbedBuilder();
+        eb.setTitle("Список очерди");
+        eb.setDescription(content);
+        eb.setColor(BOT_COLOR);
+        return eb.build();
+    }
+
+    private File createResponceFile(String content) {
+        File responceFile = new File(createFileName());
+        writeToFile(responceFile, content);
+        deleteTheFileAfter(responceFile);
+
+        return responceFile;
+    }
+
+    private String createContent() {
+        TrackScheduler scheduler = PlayerManager.getINSTANCE().getMusicManager(getGuild()).scheduler;
+        List<AudioTrack> tracks = new ArrayList<>(scheduler.getQueue());
+        StringBuilder content = new StringBuilder();
+        content
+                .append("[Now playing]. ")
+                .append("`").append(scheduler.getAudioTrack().getInfo().title).append("`\n")
+                .append("               ").append(scheduler.getAudioTrack().getInfo().uri).append("\n");
+        for (int i = 0; i < tracks.size(); i++) {
+            content
+                    .append(i + 1).append(". ")
+                    .append("`").append(tracks.get(i).getInfo().title).append("`\n")
+                    .append(((Integer) (i + 1)).toString().replaceAll("\\d", " ")).append("  ")
+                    .append(tracks.get(i).getInfo().uri).append("\n");
         }
 
+        return content.toString();
+    }
+
+    private String createFileName() {
         SimpleDateFormat formatter = new SimpleDateFormat("dd-MM-yyyy HH-mm-ss");
         Date date = new Date();
-        String fileName = event.getGuild().getIdLong() + " " + formatter.format(date) + ".txt";
 
+        return getGuild().getIdLong() + " " + formatter.format(date) + ".txt";
+    }
+
+    private void writeToFile(File file, String content) {
         try {
-            FileWriter writer = new FileWriter(fileName);
-            tracksInfo.forEach(track -> {
-                try {
-                    writer.write(track);
-                } catch (IOException e) {
-                    throw new RuntimeException(e);
-                }
-            });
+            FileWriter writer = new FileWriter(file);
+            writer.write(content);
             writer.close();
         } catch (IOException e) {
             e.printStackTrace();
         }
+    }
 
-        File file = new File(fileName);
+    private void deleteTheFileAfter(File file) {
         new Thread(() -> {
-            try {
-                Thread.sleep(10000);
-            } catch (InterruptedException e) {
-                throw new RuntimeException(e);
-            }
+            try { Thread.sleep(10000); }
+            catch (InterruptedException e) { throw new RuntimeException(e); }
             file.delete();
         }).start();
-
-        event.getHook().setEphemeral(ephemeral).sendFiles(FileUpload.fromData(file)).queue();
     }
 }

@@ -1,6 +1,7 @@
 package com.kindit.bot.commands;
 
 import net.dv8tion.jda.api.EmbedBuilder;
+import net.dv8tion.jda.api.entities.Guild;
 import net.dv8tion.jda.api.entities.MessageEmbed;
 import net.dv8tion.jda.api.events.interaction.command.SlashCommandInteractionEvent;
 import net.dv8tion.jda.api.events.interaction.component.ButtonInteractionEvent;
@@ -14,6 +15,17 @@ public abstract class SubCommand {
     public static final Color BOT_COLOR = new Color(100, 0, 141, 128);
     public final String name;
     public final String description;
+    private Guild guild;
+
+    public Guild getGuild() {
+        if (guild == null) throw new NullPointerException("Guild is null");
+        return guild;
+    }
+
+    public void setGuild(Guild guild) {
+        if (guild == null) throw new NullPointerException("Guild can't be null");
+        else this.guild = guild;
+    }
 
     public SubCommand(String name, String description) {
         this.name = name;
