@@ -31,8 +31,6 @@ public class Volume extends SubCommand {
         TrackScheduler scheduler = PlayerManager.getINSTANCE().getMusicManager(event.getChannel().asTextChannel().getGuild()).scheduler;
         int volume = Objects.requireNonNull(event.getOption("volume")).getAsInt();
 
-        event.deferReply().setEphemeral(true).queue();
-
         scheduler.audioPlayer.setVolume(volume);
 
         event.getHook().sendMessageEmbeds(successfullyReplyEmbed()).setEphemeral(true).queue();

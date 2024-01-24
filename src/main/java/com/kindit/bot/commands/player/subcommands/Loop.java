@@ -20,7 +20,6 @@ public class Loop extends SubCommand {
     @Override
     public void interaction(SlashCommandInteractionEvent event) throws Exception {
         TrackScheduler scheduler = PlayerManager.getINSTANCE().getMusicManager(event.getChannel().asTextChannel().getGuild()).scheduler;
-        event.deferReply().setEphemeral(true).queue();
 
         PlayerManager.getINSTANCE().loop(event.getChannel().asTextChannel());
 

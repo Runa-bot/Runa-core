@@ -34,7 +34,6 @@ public class Add extends SubCommand {
             ephemeral = true;
         }
 
-        event.deferReply().setEphemeral(ephemeral).queue();
         JsonUserPlaylistData playlistData = new JsonUserPlaylistData(event.getMember().getIdLong());
 
         String url = event.getOption("url").getAsString();

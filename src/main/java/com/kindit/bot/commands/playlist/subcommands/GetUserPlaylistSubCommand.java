@@ -28,8 +28,6 @@ public class GetUserPlaylistSubCommand extends SubCommand {
 
     @Override
     public void interaction(SlashCommandInteractionEvent event) throws Exception {
-        event.deferReply().setEphemeral(true).queue();
-        
         MessageEmbed responseEmbed = embedForPlaylist(event);
         File responseFile = fileForPlaylist(event);
         if (responseEmbed.getDescription().length() < 4096) {

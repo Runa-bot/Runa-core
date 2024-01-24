@@ -44,8 +44,6 @@ public class Queue extends SubCommand {
         try { content = createContent(); }
         catch (NullPointerException ignored) {}
 
-        event.deferReply().setEphemeral(ephemeralChoice).queue();
-
         if (!isPlaying())
             event.getHook().sendMessageEmbeds(createNoPlayEmbed()).queue();
         else if (content.length() > 4096 || fileChoice)

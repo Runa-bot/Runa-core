@@ -35,8 +35,6 @@ public class ChatGPT extends Command {
     public void interaction(SlashCommandInteractionEvent event) throws Exception {
         if (!event.getName().equals(name)) { return; }
         new Thread(() -> {
-            event.deferReply().queue();
-
             EmbedBuilder eb = new EmbedBuilder();
             eb.setAuthor(Objects.requireNonNull(event.getMember()).getNickname(), null, event.getMember().getEffectiveAvatarUrl());
             eb.setTitle(Objects.requireNonNull(event.getOption("text")).getAsString());
