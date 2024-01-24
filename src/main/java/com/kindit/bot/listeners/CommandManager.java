@@ -26,7 +26,6 @@ public class CommandManager extends ListenerAdapter {
     public void onSlashCommandInteraction(@NotNull SlashCommandInteractionEvent event) {
         for (Command command : commands) {
             try {
-                event.deferReply().setEphemeral(true).queue();
                 command.interaction(event);
             } catch (Exception e) {
                 String message = e.toString().length() >= 2000 ? e.toString().substring(0, 1900) : e.toString();
