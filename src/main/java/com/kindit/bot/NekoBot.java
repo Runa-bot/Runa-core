@@ -13,9 +13,15 @@ import net.dv8tion.jda.api.sharding.ShardManager;
 import net.dv8tion.jda.api.utils.cache.CacheFlag;
 
 import javax.security.auth.login.LoginException;
+import java.lang.management.ManagementFactory;
+import java.util.concurrent.TimeUnit;
 
 public class NekoBot {
     private final ShardManager shardManager;
+
+    public ShardManager getShardManager() {
+        return shardManager;
+    }
 
     public NekoBot() throws LoginException {
         // Build shard manager
@@ -31,7 +37,36 @@ public class NekoBot {
                 new CommandManager()
         );
 
-        setStream(shardManager);
+        setUptimeStatus(shardManager);
+
+        //setStream(shardManager);
+    }
+
+    private void setUptimeStatus(ShardManager shardManager) {
+        new Thread(() -> {
+            while (true) {
+                long uptime = ManagementFactory.getRuntimeMXBean().getUptime();
+                shardManager.setActivity(Activity.watching(convertMillisecondToTime(uptime)));
+                try {
+                    Thread.sleep(5500);
+                } catch (InterruptedException e) { throw new RuntimeException(e); }
+            }
+        }).start();
+    }
+
+    private static String convertMillisecondToTime(long millisecond) {
+        long days = TimeUnit.MILLISECONDS.toDays(millisecond);
+        millisecond -= TimeUnit.DAYS.toMillis(days);
+
+        long hours = TimeUnit.MILLISECONDS.toHours(millisecond);
+        millisecond -= TimeUnit.HOURS.toMillis(hours);
+
+        long minutes = TimeUnit.MILLISECONDS.toMinutes(millisecond);
+        millisecond -= TimeUnit.MINUTES.toMillis(minutes);
+
+        long seconds = TimeUnit.MILLISECONDS.toSeconds(millisecond);
+
+        return String.format("%02d:%02d:%02d:%02d", days, hours, minutes, seconds);
     }
 
     private void setStream(ShardManager shardManager) {
@@ -47,10 +82,6 @@ public class NekoBot {
                 }
             }
         }).start();
-    }
-
-    public ShardManager getShardManager() {
-        return shardManager;
     }
 
     public static void main(String[] args) {
