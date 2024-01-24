@@ -22,6 +22,8 @@ public class PlayUserPlaylistSubCommand extends SubCommand {
 
     @Override
     public void interaction(SlashCommandInteractionEvent event) throws Exception {
+        event.deferReply().setEphemeral(true).queue();
+
         TextChannel textChannel = event.getChannel().asTextChannel();
         JsonUserPlaylistData playlistData = new JsonUserPlaylistData(event.getMember().getIdLong());
         MessageEmbed responseEmbed;

@@ -18,6 +18,8 @@ public class Pause extends SubCommand {
 
     @Override
     public void interaction(SlashCommandInteractionEvent event) {
+        event.deferReply().setEphemeral(true).queue();
+
         PlayerManager.getINSTANCE().pause(event.getChannel().asTextChannel());
 
         event.getHook().sendMessageEmbeds(successfullyReplyEmbed()).queue();

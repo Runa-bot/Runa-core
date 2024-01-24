@@ -24,6 +24,8 @@ public class AddToUserPlaylistSubCommand extends SubCommand {
 
     @Override
     public void interaction(SlashCommandInteractionEvent event) throws Exception {
+        event.deferReply().setEphemeral(true).queue();
+
         JsonUserPlaylistData playlistData = new JsonUserPlaylistData(event.getMember().getIdLong());
         String url = event.getOption("url").getAsString();
         String name = event.getOption("name").getAsString();

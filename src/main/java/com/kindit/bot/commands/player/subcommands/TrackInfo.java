@@ -34,6 +34,7 @@ public class TrackInfo extends SubCommand {
     public void interaction(SlashCommandInteractionEvent event) {
         TrackScheduler scheduler = PlayerManager.getINSTANCE().getMusicManager(event.getChannel().asTextChannel().getGuild()).scheduler;
         boolean ephemeral = !Optional.ofNullable(event.getOption("ephemeral")).isPresent();
+        event.deferReply().setEphemeral(ephemeral).queue();
 
         if (scheduler.audioPlayer.getPlayingTrack() != null) {
             event.getHook().sendMessageEmbeds(getEmbed(scheduler)).addActionRow(

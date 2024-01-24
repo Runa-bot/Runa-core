@@ -30,6 +30,7 @@ public class Skip extends SubCommand {
     @Override
     public void interaction(SlashCommandInteractionEvent event) {
         TrackScheduler scheduler = PlayerManager.getINSTANCE().getMusicManager(event.getChannel().asTextChannel().getGuild()).scheduler;
+        event.deferReply().setEphemeral(true).queue();
 
         int skipOption = Objects.requireNonNull(event.getOption("quantity")).getAsInt();
 

@@ -22,6 +22,8 @@ public class DeleteFromUserPlaylistSubCommand extends SubCommand {
 
     @Override
     public void interaction(SlashCommandInteractionEvent event) throws Exception {
+        event.deferReply().setEphemeral(true).queue();
+
         JsonUserPlaylistData playlistData = new JsonUserPlaylistData(event.getMember().getIdLong());
         String trackName = event.getOption("name").getAsString();
 

@@ -23,6 +23,8 @@ public class EditTrackInUserPlaylistSubCommand extends SubCommand {
 
     @Override
     public void interaction(SlashCommandInteractionEvent event) throws Exception {
+        event.deferReply().setEphemeral(true).queue();
+
         JsonUserPlaylistData playlistData = new JsonUserPlaylistData(event.getMember().getIdLong());
 
         String newUrl = event.getOption("new-url").getAsString();
