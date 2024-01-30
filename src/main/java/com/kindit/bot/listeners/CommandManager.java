@@ -1,6 +1,7 @@
 package com.kindit.bot.listeners;
 
 import com.kindit.bot.commands.Command;
+import com.kindit.bot.commands.chatgpt.ChatGPT;
 import com.kindit.bot.commands.player.Player;
 import com.kindit.bot.commands.playlist.Playlist;
 import net.dv8tion.jda.api.events.guild.GuildReadyEvent;
@@ -17,9 +18,11 @@ import java.util.Date;
 import java.util.List;
 
 public class CommandManager extends ListenerAdapter {
+
     private final Command[] commands = {
-        new Player(),
-        new Playlist()
+        Player.createCommand(),
+        Playlist.createCommand(),
+        ChatGPT.createCommand()
     };
 
     @Override
@@ -34,12 +37,15 @@ public class CommandManager extends ListenerAdapter {
                         "[ChannelID]: " + event.getChannel().getIdLong() + ";\n[Channel name]: " + event.getChannel().getName() + "\n" +
                         "[UserID]: " + event.getMember().getIdLong() + ";\n[User name]: " + event.getMember().getEffectiveName() + "\n" +
                         "[Full command name]: " + event.getFullCommandName() + "\n";
+
                 System.out.println(errorInfo);
+
                 event.getHook().sendMessage(
                         "`Okay error creator, you've created a error. This error: " + message + "`\n"
                                 + errorInfo
                                 + "`I've already filed a report on you with the error department.`"
                 ).queue();
+
                 throw new RuntimeException(e);
             }
         }
@@ -61,6 +67,7 @@ public class CommandManager extends ListenerAdapter {
         List<CommandData> commandDataList = new ArrayList<>();
 
         for (Command command : commands) {
+            if (!command.active) continue;
             commandDataList.add(command.getCommandData());
         }
 

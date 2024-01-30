@@ -18,13 +18,17 @@ import java.net.URL;
 import java.util.Objects;
 
 public class ChatGPT extends Command {
-    public ChatGPT() {
+    private ChatGPT() {
         super("chat-gpt", "ChatGPT 3.0");
+    }
+
+    public static ChatGPT createCommand() {
+        return new ChatGPT();
     }
 
     @Override
     public CommandData getCommandData() {
-        return Commands.slash(name, description)
+        return Commands.slash(userName, description)
                 .addOptions(
                         new OptionData(OptionType.STRING, "text", "Your text for chat-gpt", true)
                                 .setMaxLength(256)
@@ -33,7 +37,7 @@ public class ChatGPT extends Command {
 
     @Override
     public void interaction(SlashCommandInteractionEvent event) throws Exception {
-        if (!event.getName().equals(name)) { return; }
+        if (!event.getName().equals(userName)) { return; }
         new Thread(() -> {
             event.deferReply().queue();
 
@@ -58,7 +62,7 @@ public class ChatGPT extends Command {
 
         con.setRequestMethod("POST");
         con.setRequestProperty("Content-Type", "application/json");
-        con.setRequestProperty("Authorization", JsonConfig.GPTKeyAPI);
+        con.setRequestProperty("Authorization", JsonConfig.getInstance().GPT_KEY_API);
 
         JSONObject data = new JSONObject();
         data.put("model", "text-davinci-003");

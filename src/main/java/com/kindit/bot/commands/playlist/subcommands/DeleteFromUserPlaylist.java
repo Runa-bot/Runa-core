@@ -1,20 +1,22 @@
 package com.kindit.bot.commands.playlist.subcommands;
 
-import com.kindit.bot.commands.SubCommand;
+import com.kindit.bot.commands.Command;
+import com.kindit.bot.commands.Subcommand;
 import com.kindit.bot.data.JsonUserPlaylistData;
 import net.dv8tion.jda.api.events.interaction.command.SlashCommandInteractionEvent;
 import net.dv8tion.jda.api.interactions.commands.OptionType;
 import net.dv8tion.jda.api.interactions.commands.build.OptionData;
 import net.dv8tion.jda.api.interactions.commands.build.SubcommandData;
 
-public class DeleteFromUserPlaylistSubCommand extends SubCommand {
-    public DeleteFromUserPlaylistSubCommand() {
-        super("delete", "Delete from your playlist");
+public class DeleteFromUserPlaylist extends Subcommand {
+
+    public DeleteFromUserPlaylist(String name, String description, Command parentCommand) {
+        super(name, description, parentCommand);
     }
 
     @Override
     public SubcommandData getSubCommandData() {
-        return new SubcommandData(name, description)
+        return new SubcommandData(userName, description)
                 .addOptions(
                         new OptionData(OptionType.STRING, "name", "Track name", true)
                 );
@@ -30,10 +32,10 @@ public class DeleteFromUserPlaylistSubCommand extends SubCommand {
         playlistData.deleteUrl(trackName);
 
         if (playlistData.isSet()) {
-            event.getHook().sendMessageEmbeds(successfullyReplyEmbed()).setEphemeral(true).queue();
+            event.getHook().sendMessageEmbeds(Command.successfullyReplyEmbed()).setEphemeral(true).queue();
         }
         else {
-            event.getHook().sendMessageEmbeds(notSuccessfullyReplyEmbed()).setEphemeral(true).queue();
+            event.getHook().sendMessageEmbeds(Command.notSuccessfullyReplyEmbed()).setEphemeral(true).queue();
         }
     }
 }

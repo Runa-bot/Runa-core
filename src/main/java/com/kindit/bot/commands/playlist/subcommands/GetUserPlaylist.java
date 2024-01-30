@@ -1,6 +1,7 @@
 package com.kindit.bot.commands.playlist.subcommands;
 
-import com.kindit.bot.commands.SubCommand;
+import com.kindit.bot.commands.Command;
+import com.kindit.bot.commands.Subcommand;
 import com.kindit.bot.data.JsonUserPlaylistData;
 import net.dv8tion.jda.api.EmbedBuilder;
 import net.dv8tion.jda.api.entities.MessageEmbed;
@@ -16,14 +17,15 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.Map;
 
-public class GetUserPlaylistSubCommand extends SubCommand {
-    public GetUserPlaylistSubCommand() {
-        super("get", "get");
+public class GetUserPlaylist extends Subcommand {
+
+    public GetUserPlaylist(String name, String description, Command parentCommand) {
+        super(name, description, parentCommand);
     }
 
     @Override
     public SubcommandData getSubCommandData() {
-        return new SubcommandData(name, description);
+        return new SubcommandData(userName, description);
     }
 
     @Override
@@ -52,7 +54,7 @@ public class GetUserPlaylistSubCommand extends SubCommand {
 
         EmbedBuilder eb = new EmbedBuilder();
         eb.setTitle("Your playlist");
-        eb.setColor(BOT_COLOR);
+        eb.setColor(Command.BOT_COLOR);
         eb.setDescription(description);
         return eb.build();
     }

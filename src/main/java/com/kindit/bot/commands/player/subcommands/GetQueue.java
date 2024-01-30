@@ -1,6 +1,7 @@
 package com.kindit.bot.commands.player.subcommands;
 
-import com.kindit.bot.commands.SubCommand;
+import com.kindit.bot.commands.Command;
+import com.kindit.bot.commands.Subcommand;
 import com.kindit.bot.lavaplayer.PlayerManager;
 import com.kindit.bot.lavaplayer.TrackScheduler;
 import com.sedmelluq.discord.lavaplayer.track.AudioTrack;
@@ -19,14 +20,14 @@ import java.text.SimpleDateFormat;
 import java.util.*;
 import java.util.List;
 
-public class Queue extends SubCommand {
-    public Queue() {
-        super("queue", "Get the whole queue");
+public class GetQueue extends Subcommand {
+    public GetQueue(String name, String description, Command parentCommand) {
+        super(name, description, parentCommand);
     }
 
     @Override
     public SubcommandData getSubCommandData() {
-        return new SubcommandData(name, description)
+        return new SubcommandData(userName, description)
                 .addOptions(
                         new OptionData(OptionType.STRING, "file", "Send txt file", false)
                                 .addChoice("Yes", "Yes"),
@@ -37,7 +38,6 @@ public class Queue extends SubCommand {
 
     @Override
     public void interaction(SlashCommandInteractionEvent event) {
-        setGuild(event.getGuild());
         boolean ephemeralChoice = !Optional.ofNullable(event.getOption("ephemeral")).isPresent();
         boolean fileChoice = Optional.ofNullable(event.getOption("file")).isPresent();
         String content = "";
@@ -62,7 +62,7 @@ public class Queue extends SubCommand {
         EmbedBuilder eb = new EmbedBuilder();
         eb.setTitle("Кажется сейчас ничего не играет... :/", "https://youtu.be/dQw4w9WgXcQ?t=43");
         eb.addField("Добавить трек", "/player add", true);
-        eb.setColor(BAD_COLOR);
+        eb.setColor(Command.BAD_COLOR);
 
         return eb.build();
     }
@@ -71,7 +71,7 @@ public class Queue extends SubCommand {
         EmbedBuilder eb = new EmbedBuilder();
         eb.setTitle("Список очерди");
         eb.setDescription(content);
-        eb.setColor(BOT_COLOR);
+        eb.setColor(Command.BOT_COLOR);
         return eb.build();
     }
 

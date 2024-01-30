@@ -1,8 +1,9 @@
 package com.kindit.bot.commands.player.subcommands;
 
+import com.kindit.bot.commands.Command;
 import com.kindit.bot.lavaplayer.PlayerManager;
 import com.kindit.bot.lavaplayer.TrackScheduler;
-import com.kindit.bot.commands.SubCommand;
+import com.kindit.bot.commands.Subcommand;
 import net.dv8tion.jda.api.EmbedBuilder;
 import net.dv8tion.jda.api.entities.MessageEmbed;
 import net.dv8tion.jda.api.entities.emoji.Emoji;
@@ -16,14 +17,15 @@ import net.dv8tion.jda.api.interactions.commands.build.SubcommandData;
 import java.awt.*;
 import java.util.Optional;
 
-public class TrackInfo extends SubCommand {
-    public TrackInfo() {
-        super("track-info", "Gets track information");
+public class TrackInfo extends Subcommand {
+
+    public TrackInfo(String name, String description, Command parentCommand) {
+        super(name, description, parentCommand);
     }
 
     @Override
     public SubcommandData getSubCommandData() {
-        return new SubcommandData(name, description)
+        return new SubcommandData(userName, description)
                 .addOptions(
                         new OptionData(OptionType.STRING, "ephemeral", "Should this message be ephemeral?", false)
                                 .addChoice("No", "No")

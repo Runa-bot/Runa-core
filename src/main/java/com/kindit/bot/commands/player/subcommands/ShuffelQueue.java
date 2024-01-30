@@ -1,20 +1,22 @@
 package com.kindit.bot.commands.player.subcommands;
 
+import com.kindit.bot.commands.Command;
 import com.kindit.bot.lavaplayer.PlayerManager;
 import com.kindit.bot.lavaplayer.TrackScheduler;
-import com.kindit.bot.commands.SubCommand;
+import com.kindit.bot.commands.Subcommand;
 import net.dv8tion.jda.api.events.interaction.command.SlashCommandInteractionEvent;
 import net.dv8tion.jda.api.interactions.commands.build.SubcommandData;
 
 
-public class Loop extends SubCommand {
-    public Loop() {
-        super("loop", "loop track");
+public class ShuffelQueue extends Subcommand {
+
+    public ShuffelQueue(String name, String description, Command parentCommand) {
+        super(name, description, parentCommand);
     }
 
     @Override
     public SubcommandData getSubCommandData() {
-        return new SubcommandData(name, description);
+        return new SubcommandData(userName, description);
     }
 
     @Override
@@ -22,8 +24,8 @@ public class Loop extends SubCommand {
         TrackScheduler scheduler = PlayerManager.getINSTANCE().getMusicManager(event.getChannel().asTextChannel().getGuild()).scheduler;
         event.deferReply().setEphemeral(true).queue();
 
-        PlayerManager.getINSTANCE().loop(event.getChannel().asTextChannel());
+        scheduler.shuffelQueue();
 
-        event.getHook().sendMessageEmbeds(successfullyReplyEmbed()).setEphemeral(true).queue();
+        event.getHook().sendMessageEmbeds(Command.successfullyReplyEmbed()).queue();
     }
 }

@@ -1,8 +1,9 @@
 package com.kindit.bot.commands.player.subcommands;
 
+import com.kindit.bot.commands.Command;
 import com.kindit.bot.data.JsonUserPlaylistData;
 import com.kindit.bot.lavaplayer.PlayerManager;
-import com.kindit.bot.commands.SubCommand;
+import com.kindit.bot.commands.Subcommand;
 import net.dv8tion.jda.api.entities.channel.concrete.VoiceChannel;
 import net.dv8tion.jda.api.events.interaction.command.SlashCommandInteractionEvent;
 import net.dv8tion.jda.api.interactions.commands.OptionType;
@@ -10,14 +11,17 @@ import net.dv8tion.jda.api.interactions.commands.build.OptionData;
 import net.dv8tion.jda.api.interactions.commands.build.SubcommandData;
 import net.dv8tion.jda.api.managers.AudioManager;
 
-public class Add extends SubCommand {
-    public Add() {
-        super("add", "Add track in queue");
+import java.util.Optional;
+
+public class AddTrack extends Subcommand {
+
+    public AddTrack(String name, String description, Command parentCommand) {
+        super(name, description, parentCommand);
     }
 
     @Override
     public SubcommandData getSubCommandData() {
-        return new SubcommandData(name, description)
+        return new SubcommandData(userName, description)
                 .addOptions(
                         new OptionData(OptionType.STRING, "url", "YouTube video URL", true),
                         new OptionData(OptionType.STRING, "ephemeral", "Should this message be ephemeral?", false)
@@ -27,12 +31,7 @@ public class Add extends SubCommand {
 
     @Override
     public void interaction(SlashCommandInteractionEvent event) {
-        boolean ephemeral;
-        try {
-            ephemeral = event.getOption("ephemeral").equals("No");
-        } catch (NullPointerException e) {
-            ephemeral = true;
-        }
+        boolean ephemeral = !Optional.ofNullable(event.getOption("ephemeral")).isPresent();
 
         event.deferReply().setEphemeral(ephemeral).queue();
         JsonUserPlaylistData playlistData = new JsonUserPlaylistData(event.getMember().getIdLong());
@@ -43,7 +42,7 @@ public class Add extends SubCommand {
         }
 
         if (!event.getMember().getVoiceState().inAudioChannel()) {
-            event.getHook().sendMessageEmbeds(replyEmbed("You need to be in a voice channel for this command work.", BAD_COLOR)).setEphemeral(true).queue();
+            event.getHook().sendMessageEmbeds(Command.replyEmbed("You need to be in a voice channel for this command work.", Command.BAD_COLOR)).setEphemeral(true).queue();
         } else {
             final AudioManager audioManager = event.getGuild().getAudioManager();
             final VoiceChannel memberchannel = (VoiceChannel) event.getMember().getVoiceState().getChannel();
