@@ -1,8 +1,9 @@
 package com.kindit.bot.commands.player.subcommands;
 
+import com.kindit.bot.commands.Command;
 import com.kindit.bot.lavaplayer.PlayerManager;
 import com.kindit.bot.lavaplayer.TrackScheduler;
-import com.kindit.bot.commands.SubCommand;
+import com.kindit.bot.commands.Subcommand;
 import net.dv8tion.jda.api.events.interaction.command.SlashCommandInteractionEvent;
 import net.dv8tion.jda.api.interactions.commands.OptionType;
 import net.dv8tion.jda.api.interactions.commands.build.OptionData;
@@ -10,31 +11,40 @@ import net.dv8tion.jda.api.interactions.commands.build.SubcommandData;
 
 import java.util.Objects;
 
-public class Volume extends SubCommand {
+public class Skip extends SubCommand {
 
-    public Volume() {
-        super("volume", "Sound volume");
+    public Skip() {
+        super("skip", "Skip track");
     }
 
     @Override
     public SubcommandData getSubCommandData() {
         return new SubcommandData(name, description)
                 .addOptions(
-                        new OptionData(OptionType.INTEGER, "volume", "Sound volume", true)
-                                .setMinValue(0)
-                                .setMaxValue(1000)
+                        new OptionData(OptionType.INTEGER, "quantity", "Skip track", true)
+                                .setMinValue(1)
+                                .setMaxValue(Integer.MAX_VALUE)
+
                 );
     }
 
     @Override
     public void interaction(SlashCommandInteractionEvent event) {
         TrackScheduler scheduler = PlayerManager.getINSTANCE().getMusicManager(event.getChannel().asTextChannel().getGuild()).scheduler;
-        int volume = Objects.requireNonNull(event.getOption("volume")).getAsInt();
-
         event.deferReply().setEphemeral(true).queue();
 
-        scheduler.audioPlayer.setVolume(volume);
+        int skipOption = Objects.requireNonNull(event.getOption("quantity")).getAsInt();
 
-        event.getHook().sendMessageEmbeds(successfullyReplyEmbed()).setEphemeral(true).queue();
+        if (scheduler.getQueue().size() <= skipOption - 1) {
+            scheduler.clearQueue();
+        }
+        else {
+            for (int i = 0; i < skipOption - 1; i++) {
+                scheduler.getQueue().poll();
+            }
+            scheduler.nextTrack();
+        }
+
+        event.getHook().sendMessageEmbeds(Command.successfullyReplyEmbed()).queue();
     }
 }

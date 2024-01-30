@@ -1,6 +1,7 @@
 package com.kindit.bot.commands.playlist.subcommands;
 
-import com.kindit.bot.commands.SubCommand;
+import com.kindit.bot.commands.Command;
+import com.kindit.bot.commands.Subcommand;
 import com.kindit.bot.data.JsonUserPlaylistData;
 import com.kindit.bot.lavaplayer.PlayerManager;
 import net.dv8tion.jda.api.entities.MessageEmbed;
@@ -29,12 +30,12 @@ public class PlayUserPlaylistSubCommand extends SubCommand {
         MessageEmbed responseEmbed;
 
         if (!event.getMember().getVoiceState().inAudioChannel()) {
-            responseEmbed = replyEmbed("You need to be in a voice channel for this command work.", BAD_COLOR);
+            responseEmbed = Command.replyEmbed("You need to be in a voice channel for this command work.", Command.BAD_COLOR);
         }
         else {
             connectPlayer(event);
             addPlaylistToPlayer(playlistData, textChannel);
-            responseEmbed = replyEmbed("Playlist has been added to the queue", GOOD_COLOR);
+            responseEmbed = Command.replyEmbed("Playlist has been added to the queue", Command.GOOD_COLOR);
         }
 
         event.getHook().sendMessageEmbeds(responseEmbed).queue();

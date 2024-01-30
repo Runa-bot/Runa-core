@@ -1,7 +1,7 @@
 package com.kindit.bot.commands.playlist;
 
 import com.kindit.bot.commands.Command;
-import com.kindit.bot.commands.SubCommand;
+import com.kindit.bot.commands.Subcommand;
 import com.kindit.bot.commands.playlist.subcommands.*;
 
 public class Playlist extends Command {

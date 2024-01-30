@@ -1,5 +1,7 @@
 package com.kindit.bot.commands.player;
 
+import com.kindit.bot.commands.Command;
+import com.kindit.bot.commands.Subcommand;
 import com.kindit.bot.commands.player.subcommands.*;
 import com.kindit.bot.commands.Command;
 import com.kindit.bot.commands.SubCommand;

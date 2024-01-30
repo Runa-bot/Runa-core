@@ -1,6 +1,7 @@
 package com.kindit.bot.lavaplayer;
 
-import com.kindit.bot.commands.SubCommand;
+import com.kindit.bot.commands.Command;
+import com.kindit.bot.commands.Subcommand;
 import com.sedmelluq.discord.lavaplayer.player.AudioLoadResultHandler;
 import com.sedmelluq.discord.lavaplayer.player.AudioPlayerManager;
 import com.sedmelluq.discord.lavaplayer.player.DefaultAudioPlayerManager;
@@ -117,7 +118,7 @@ public class PlayerManager {
 
         EmbedBuilder eb = new EmbedBuilder();
         eb.setTitle("Добавлено в очередь: " + tracks.size() + " чего-то там...", trackURL);
-        eb.setColor(SubCommand.GOOD_COLOR);
+        eb.setColor(Command.GOOD_COLOR);
         eb.setDescription(tracksInfo);
 
         return eb.build();
@@ -128,7 +129,7 @@ public class PlayerManager {
         EmbedBuilder eb = new EmbedBuilder();
         eb.setAuthor("Добавленно в очередь");
         eb.setTitle(audioTrack.getInfo().title, audioTrack.getInfo().uri);
-        eb.setColor(SubCommand.GOOD_COLOR);
+        eb.setColor(Command.GOOD_COLOR);
         return eb.build();
     }
 

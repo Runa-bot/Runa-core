@@ -1,6 +1,7 @@
 package com.kindit.bot.commands.playlist.subcommands;
 
-import com.kindit.bot.commands.SubCommand;
+import com.kindit.bot.commands.Command;
+import com.kindit.bot.commands.Subcommand;
 import com.kindit.bot.data.JsonUserPlaylistData;
 import net.dv8tion.jda.api.EmbedBuilder;
 import net.dv8tion.jda.api.entities.MessageEmbed;
@@ -52,7 +53,7 @@ public class GetUserPlaylistSubCommand extends SubCommand {
 
         EmbedBuilder eb = new EmbedBuilder();
         eb.setTitle("Your playlist");
-        eb.setColor(BOT_COLOR);
+        eb.setColor(Command.BOT_COLOR);
         eb.setDescription(description);
         return eb.build();
     }

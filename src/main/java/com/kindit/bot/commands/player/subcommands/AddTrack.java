@@ -1,8 +1,9 @@
 package com.kindit.bot.commands.player.subcommands;
 
+import com.kindit.bot.commands.Command;
 import com.kindit.bot.data.JsonUserPlaylistData;
 import com.kindit.bot.lavaplayer.PlayerManager;
-import com.kindit.bot.commands.SubCommand;
+import com.kindit.bot.commands.Subcommand;
 import net.dv8tion.jda.api.entities.channel.concrete.VoiceChannel;
 import net.dv8tion.jda.api.events.interaction.command.SlashCommandInteractionEvent;
 import net.dv8tion.jda.api.interactions.commands.OptionType;
@@ -43,7 +44,7 @@ public class Add extends SubCommand {
         }
 
         if (!event.getMember().getVoiceState().inAudioChannel()) {
-            event.getHook().sendMessageEmbeds(replyEmbed("You need to be in a voice channel for this command work.", BAD_COLOR)).setEphemeral(true).queue();
+            event.getHook().sendMessageEmbeds(Command.replyEmbed("You need to be in a voice channel for this command work.", Command.BAD_COLOR)).setEphemeral(true).queue();
         } else {
             final AudioManager audioManager = event.getGuild().getAudioManager();
             final VoiceChannel memberchannel = (VoiceChannel) event.getMember().getVoiceState().getChannel();

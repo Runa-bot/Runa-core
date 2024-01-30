@@ -1,8 +1,9 @@
 package com.kindit.bot.commands.player.subcommands;
 
+import com.kindit.bot.commands.Command;
 import com.kindit.bot.lavaplayer.PlayerManager;
 import com.kindit.bot.lavaplayer.TrackScheduler;
-import com.kindit.bot.commands.SubCommand;
+import com.kindit.bot.commands.Subcommand;
 import net.dv8tion.jda.api.EmbedBuilder;
 import net.dv8tion.jda.api.entities.MessageEmbed;
 import net.dv8tion.jda.api.entities.emoji.Emoji;
