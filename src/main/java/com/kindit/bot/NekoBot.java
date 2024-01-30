@@ -25,7 +25,7 @@ public class NekoBot {
 
     public NekoBot() throws LoginException {
         // Build shard manager
-        DefaultShardManagerBuilder builder = DefaultShardManagerBuilder.createDefault(JsonConfig.TOKEN);
+        DefaultShardManagerBuilder builder = DefaultShardManagerBuilder.createDefault(JsonConfig.getInstance().TOKEN);
         builder.setStatus(OnlineStatus.ONLINE);
         builder.enableIntents(GatewayIntent.MESSAGE_CONTENT, GatewayIntent.GUILD_PRESENCES, GatewayIntent.GUILD_MEMBERS);
         builder.enableCache(CacheFlag.VOICE_STATE);
