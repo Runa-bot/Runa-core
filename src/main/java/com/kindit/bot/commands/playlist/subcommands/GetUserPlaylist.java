@@ -17,9 +17,10 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.Map;
 
-public class GetUserPlaylistSubCommand extends SubCommand {
-    public GetUserPlaylistSubCommand() {
-        super("get", "get");
+public class GetUserPlaylist extends Subcommand {
+
+    public GetUserPlaylist(String name, String description, Command parentCommand) {
+        super(name, description, parentCommand);
     }
 
     @Override

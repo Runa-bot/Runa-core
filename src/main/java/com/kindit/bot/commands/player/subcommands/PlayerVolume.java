@@ -11,10 +11,10 @@ import net.dv8tion.jda.api.interactions.commands.build.SubcommandData;
 
 import java.util.Objects;
 
-public class Volume extends SubCommand {
+public class PlayerVolume extends Subcommand {
 
-    public Volume() {
-        super("volume", "Sound volume");
+    public PlayerVolume(String name, String description, Command parentCommand) {
+        super(name, description, parentCommand);
     }
 
     @Override

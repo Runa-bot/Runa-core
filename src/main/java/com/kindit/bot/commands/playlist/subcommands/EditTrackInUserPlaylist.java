@@ -8,9 +8,10 @@ import net.dv8tion.jda.api.interactions.commands.OptionType;
 import net.dv8tion.jda.api.interactions.commands.build.OptionData;
 import net.dv8tion.jda.api.interactions.commands.build.SubcommandData;
 
-public class EditTrackInUserPlaylistSubCommand extends SubCommand {
-    public EditTrackInUserPlaylistSubCommand() {
-        super("edit", "Edit track in your playlist");
+public class EditTrackInUserPlaylist extends Subcommand {
+
+    public EditTrackInUserPlaylist(String name, String description, Command parentCommand) {
+        super(name, description, parentCommand);
     }
 
     @Override

@@ -20,9 +20,9 @@ import java.text.SimpleDateFormat;
 import java.util.*;
 import java.util.List;
 
-public class Queue extends SubCommand {
-    public Queue() {
-        super("queue", "Get the whole queue");
+public class GetQueue extends Subcommand {
+    public GetQueue(String name, String description, Command parentCommand) {
+        super(name, description, parentCommand);
     }
 
     @Override
@@ -38,7 +38,6 @@ public class Queue extends SubCommand {
 
     @Override
     public void interaction(SlashCommandInteractionEvent event) {
-        setGuild(event.getGuild());
         boolean ephemeralChoice = !Optional.ofNullable(event.getOption("ephemeral")).isPresent();
         boolean fileChoice = Optional.ofNullable(event.getOption("file")).isPresent();
         String content = "";

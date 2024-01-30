@@ -8,9 +8,10 @@ import net.dv8tion.jda.api.events.interaction.command.SlashCommandInteractionEve
 import net.dv8tion.jda.api.interactions.commands.build.SubcommandData;
 
 
-public class Shuffel extends SubCommand {
-    public Shuffel() {
-        super("shuffel", "Shuffles the queue");
+public class ShuffelQueue extends Subcommand {
+
+    public ShuffelQueue(String name, String description, Command parentCommand) {
+        super(name, description, parentCommand);
     }
 
     @Override

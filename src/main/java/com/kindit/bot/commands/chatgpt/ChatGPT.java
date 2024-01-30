@@ -18,8 +18,12 @@ import java.net.URL;
 import java.util.Objects;
 
 public class ChatGPT extends Command {
-    public ChatGPT() {
+    private ChatGPT() {
         super("chat-gpt", "ChatGPT 3.0");
+    }
+
+    public static ChatGPT createCommand() {
+        return new ChatGPT();
     }
 
     @Override
@@ -58,7 +62,7 @@ public class ChatGPT extends Command {
 
         con.setRequestMethod("POST");
         con.setRequestProperty("Content-Type", "application/json");
-        con.setRequestProperty("Authorization", JsonConfig.GPTKeyAPI);
+        con.setRequestProperty("Authorization", JsonConfig.getInstance().GPT_KEY_API);
 
         JSONObject data = new JSONObject();
         data.put("model", "text-davinci-003");

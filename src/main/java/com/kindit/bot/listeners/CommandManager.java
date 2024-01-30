@@ -29,7 +29,6 @@ public class CommandManager extends ListenerAdapter {
     public void onSlashCommandInteraction(@NotNull SlashCommandInteractionEvent event) {
         for (Command command : commands) {
             try {
-                event.deferReply().setEphemeral(true).queue();
                 command.interaction(event);
             } catch (Exception e) {
                 String message = e.toString().length() >= 2000 ? e.toString().substring(0, 1900) : e.toString();
@@ -38,12 +37,15 @@ public class CommandManager extends ListenerAdapter {
                         "[ChannelID]: " + event.getChannel().getIdLong() + ";\n[Channel name]: " + event.getChannel().getName() + "\n" +
                         "[UserID]: " + event.getMember().getIdLong() + ";\n[User name]: " + event.getMember().getEffectiveName() + "\n" +
                         "[Full command name]: " + event.getFullCommandName() + "\n";
+
                 System.out.println(errorInfo);
+
                 event.getHook().sendMessage(
                         "`Okay error creator, you've created a error. This error: " + message + "`\n"
                                 + errorInfo
                                 + "`I've already filed a report on you with the error department.`"
                 ).queue();
+
                 throw new RuntimeException(e);
             }
         }

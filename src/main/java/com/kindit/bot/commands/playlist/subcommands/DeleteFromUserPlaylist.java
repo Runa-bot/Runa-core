@@ -8,9 +8,10 @@ import net.dv8tion.jda.api.interactions.commands.OptionType;
 import net.dv8tion.jda.api.interactions.commands.build.OptionData;
 import net.dv8tion.jda.api.interactions.commands.build.SubcommandData;
 
-public class DeleteFromUserPlaylistSubCommand extends SubCommand {
-    public DeleteFromUserPlaylistSubCommand() {
-        super("delete", "Delete from your playlist");
+public class DeleteFromUserPlaylist extends Subcommand {
+
+    public DeleteFromUserPlaylist(String name, String description, Command parentCommand) {
+        super(name, description, parentCommand);
     }
 
     @Override

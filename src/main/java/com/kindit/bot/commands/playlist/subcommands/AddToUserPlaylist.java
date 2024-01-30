@@ -9,9 +9,10 @@ import net.dv8tion.jda.api.interactions.commands.OptionType;
 import net.dv8tion.jda.api.interactions.commands.build.OptionData;
 import net.dv8tion.jda.api.interactions.commands.build.SubcommandData;
 
-public class AddToUserPlaylistSubCommand extends SubCommand {
-    public AddToUserPlaylistSubCommand() {
-        super("add", "Add to yours playlist");
+public class AddToUserPlaylist extends Subcommand {
+
+    public AddToUserPlaylist(String name, String description, Command parentCommand) {
+        super(name, description, parentCommand);
     }
 
     @Override

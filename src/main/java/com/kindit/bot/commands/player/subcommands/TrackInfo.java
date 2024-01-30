@@ -17,9 +17,10 @@ import net.dv8tion.jda.api.interactions.commands.build.SubcommandData;
 import java.awt.*;
 import java.util.Optional;
 
-public class TrackInfo extends SubCommand {
-    public TrackInfo() {
-        super("track-info", "Gets track information");
+public class TrackInfo extends Subcommand {
+
+    public TrackInfo(String name, String description, Command parentCommand) {
+        super(name, description, parentCommand);
     }
 
     @Override

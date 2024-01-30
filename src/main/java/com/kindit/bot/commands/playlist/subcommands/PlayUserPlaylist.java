@@ -11,9 +11,10 @@ import net.dv8tion.jda.api.events.interaction.command.SlashCommandInteractionEve
 import net.dv8tion.jda.api.interactions.commands.build.SubcommandData;
 import net.dv8tion.jda.api.managers.AudioManager;
 
-public class PlayUserPlaylistSubCommand extends SubCommand {
-    public PlayUserPlaylistSubCommand() {
-        super("play", "Add entire playlist to queue");
+public class PlayUserPlaylist extends Subcommand {
+
+    public PlayUserPlaylist(String name, String description, Command parentCommand) {
+        super(name, description, parentCommand);
     }
 
     @Override

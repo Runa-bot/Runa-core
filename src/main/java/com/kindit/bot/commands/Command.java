@@ -8,7 +8,10 @@ import net.dv8tion.jda.api.events.interaction.component.ButtonInteractionEvent;
 import net.dv8tion.jda.api.interactions.commands.build.CommandData;
 import net.dv8tion.jda.api.interactions.commands.build.Commands;
 
+import java.awt.*;
+import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.List;
 import java.util.stream.Collectors;
 
 public abstract class Command {
@@ -18,15 +21,14 @@ public abstract class Command {
     public final String userName;
     public final boolean active;
     public final String description;
-    private SubCommand[] subCommands;
+    protected final String name;
+    private Subcommand[] subcommands;
 
-    public Command(String name, String description, SubCommand[] subCommands) {
-        this.name = name;
-        this.description = description;
-        this.subCommands = subCommands;
+    protected void setSubcommands(Subcommand[] subcommands) {
+        this.subcommands = subcommands;
     }
 
-    public Command(String name, String description) {
+    protected Command(String name, String description) {
         this.name = name;
         this.description = description;
 
@@ -47,11 +49,11 @@ public abstract class Command {
     }
 
     public CommandData getCommandData() {
-        if (subCommands != null) {
-            return Commands.slash(name, description)
+        if (subcommands != null) {
+            return Commands.slash(userName, description)
                     .addSubcommands(
-                            Arrays.stream(subCommands)
-                                    .map(SubCommand::getSubCommandData)
+                            Arrays.stream(subcommands)
+                                    .map(Subcommand::getSubCommandData)
                                     .collect(Collectors.toList())
                     );
         }

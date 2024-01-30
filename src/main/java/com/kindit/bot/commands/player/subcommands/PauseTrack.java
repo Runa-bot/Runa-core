@@ -7,9 +7,10 @@ import net.dv8tion.jda.api.events.interaction.command.SlashCommandInteractionEve
 import net.dv8tion.jda.api.interactions.commands.build.SubcommandData;
 
 
-public class Pause extends SubCommand {
-    public Pause() {
-        super("pause", "Pauses it");
+public class PauseTrack extends Subcommand {
+
+    public PauseTrack(String name, String description, Command parentCommand) {
+        super(name, description, parentCommand);
     }
 
     @Override

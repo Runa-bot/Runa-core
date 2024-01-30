@@ -11,10 +11,10 @@ import net.dv8tion.jda.api.interactions.commands.build.SubcommandData;
 
 import java.util.Objects;
 
-public class Skip extends SubCommand {
+public class SkipTrack extends Subcommand {
 
-    public Skip() {
-        super("skip", "Skip track");
+    public SkipTrack(String name, String description, Command parentCommand) {
+        super(name, description, parentCommand);
     }
 
     @Override

@@ -6,12 +6,10 @@ import com.kindit.bot.commands.Subcommand;
 import net.dv8tion.jda.api.events.interaction.command.SlashCommandInteractionEvent;
 import net.dv8tion.jda.api.interactions.commands.build.SubcommandData;
 
-import java.awt.*;
+public class ResumeTrack extends Subcommand {
 
-public class Resume extends SubCommand {
-
-    public Resume() {
-        super("resume", "Resuming");
+    public ResumeTrack(String name, String description, Command parentCommand) {
+        super(name, description, parentCommand);
     }
 
     @Override

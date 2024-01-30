@@ -8,9 +8,10 @@ import net.dv8tion.jda.api.events.interaction.command.SlashCommandInteractionEve
 import net.dv8tion.jda.api.interactions.commands.build.SubcommandData;
 
 
-public class Loop extends SubCommand {
-    public Loop() {
-        super("loop", "loop track");
+public class LoopTrack extends Subcommand {
+
+    public LoopTrack(String name, String description, Command parentCommand) {
+        super(name, description, parentCommand);
     }
 
     @Override

@@ -11,9 +11,12 @@ import net.dv8tion.jda.api.interactions.commands.build.OptionData;
 import net.dv8tion.jda.api.interactions.commands.build.SubcommandData;
 import net.dv8tion.jda.api.managers.AudioManager;
 
-public class Add extends SubCommand {
-    public Add() {
-        super("add", "Add track in queue");
+import java.util.Optional;
+
+public class AddTrack extends Subcommand {
+
+    public AddTrack(String name, String description, Command parentCommand) {
+        super(name, description, parentCommand);
     }
 
     @Override
@@ -28,12 +31,7 @@ public class Add extends SubCommand {
 
     @Override
     public void interaction(SlashCommandInteractionEvent event) {
-        boolean ephemeral;
-        try {
-            ephemeral = event.getOption("ephemeral").equals("No");
-        } catch (NullPointerException e) {
-            ephemeral = true;
-        }
+        boolean ephemeral = !Optional.ofNullable(event.getOption("ephemeral")).isPresent();
 
         event.deferReply().setEphemeral(ephemeral).queue();
         JsonUserPlaylistData playlistData = new JsonUserPlaylistData(event.getMember().getIdLong());
