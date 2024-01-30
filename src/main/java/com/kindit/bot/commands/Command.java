@@ -1,5 +1,8 @@
 package com.kindit.bot.commands;
 
+import com.kindit.bot.data.JsonConfig;
+import net.dv8tion.jda.api.EmbedBuilder;
+import net.dv8tion.jda.api.entities.MessageEmbed;
 import net.dv8tion.jda.api.events.interaction.command.SlashCommandInteractionEvent;
 import net.dv8tion.jda.api.events.interaction.component.ButtonInteractionEvent;
 import net.dv8tion.jda.api.interactions.commands.build.CommandData;
@@ -49,5 +52,34 @@ public abstract class Command {
         for (SubCommand command : subCommands) {
             command.buttonInteraction(event);
         }
+    }
+
+    public static MessageEmbed replyEmbed(String title, Color color) {
+        EmbedBuilder eb = new EmbedBuilder();
+        eb.setTitle(title);
+        eb.setColor(color);
+        return eb.build();
+    }
+
+    protected static MessageEmbed replyEmbed(String title, String description, Color color) {
+        EmbedBuilder eb = new EmbedBuilder();
+        eb.setTitle(title);
+        eb.setColor(color);
+        eb.setDescription(description);
+        return eb.build();
+    }
+
+    public static MessageEmbed successfullyReplyEmbed() {
+        EmbedBuilder eb = new EmbedBuilder();
+        eb.setTitle("Successfully");
+        eb.setColor(GOOD_COLOR);
+        return eb.build();
+    }
+
+    public static MessageEmbed notSuccessfullyReplyEmbed() {
+        EmbedBuilder eb = new EmbedBuilder();
+        eb.setTitle("Not successfully :/");
+        eb.setColor(BAD_COLOR);
+        return eb.build();
     }
 }
