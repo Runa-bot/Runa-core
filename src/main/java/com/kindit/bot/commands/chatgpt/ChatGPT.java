@@ -37,7 +37,7 @@ public class ChatGPT extends Command {
 
     @Override
     public void interaction(SlashCommandInteractionEvent event) throws Exception {
-        if (!event.getName().equals(name)) { return; }
+        if (!event.getName().equals(userName)) { return; }
         new Thread(() -> {
             event.deferReply().queue();
 
