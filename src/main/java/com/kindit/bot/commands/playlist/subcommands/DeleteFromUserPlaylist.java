@@ -15,7 +15,7 @@ public class DeleteFromUserPlaylistSubCommand extends SubCommand {
 
     @Override
     public SubcommandData getSubCommandData() {
-        return new SubcommandData(name, description)
+        return new SubcommandData(userName, description)
                 .addOptions(
                         new OptionData(OptionType.STRING, "name", "Track name", true)
                 );

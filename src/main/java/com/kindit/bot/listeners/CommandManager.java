@@ -1,6 +1,7 @@
 package com.kindit.bot.listeners;
 
 import com.kindit.bot.commands.Command;
+import com.kindit.bot.commands.chatgpt.ChatGPT;
 import com.kindit.bot.commands.player.Player;
 import com.kindit.bot.commands.playlist.Playlist;
 import net.dv8tion.jda.api.events.guild.GuildReadyEvent;
@@ -17,9 +18,11 @@ import java.util.Date;
 import java.util.List;
 
 public class CommandManager extends ListenerAdapter {
+
     private final Command[] commands = {
-        new Player(),
-        new Playlist()
+        Player.createCommand(),
+        Playlist.createCommand(),
+        ChatGPT.createCommand()
     };
 
     @Override
@@ -62,6 +65,7 @@ public class CommandManager extends ListenerAdapter {
         List<CommandData> commandDataList = new ArrayList<>();
 
         for (Command command : commands) {
+            if (!command.active) continue;
             commandDataList.add(command.getCommandData());
         }
 

@@ -24,7 +24,7 @@ public class ChatGPT extends Command {
 
     @Override
     public CommandData getCommandData() {
-        return Commands.slash(name, description)
+        return Commands.slash(userName, description)
                 .addOptions(
                         new OptionData(OptionType.STRING, "text", "Your text for chat-gpt", true)
                                 .setMaxLength(256)

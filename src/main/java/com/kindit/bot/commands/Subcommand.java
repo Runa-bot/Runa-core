@@ -1,20 +1,16 @@
 package com.kindit.bot.commands;
 
-import net.dv8tion.jda.api.EmbedBuilder;
+import com.kindit.bot.data.JsonConfig;
 import net.dv8tion.jda.api.entities.Guild;
-import net.dv8tion.jda.api.entities.MessageEmbed;
 import net.dv8tion.jda.api.events.interaction.command.SlashCommandInteractionEvent;
 import net.dv8tion.jda.api.events.interaction.component.ButtonInteractionEvent;
 import net.dv8tion.jda.api.interactions.commands.build.SubcommandData;
 
-import java.awt.*;
-
-public abstract class SubCommand {
-    public static final Color GOOD_COLOR = new Color(0, 102, 0);
-    public static final Color BAD_COLOR = new Color(102, 0, 0);
-    public static final Color BOT_COLOR = new Color(100, 0, 141, 128);
-    public final String name;
+public abstract class Subcommand {
+    public final String userName;
     public final String description;
+    final String name;
+    final boolean active;
     private Guild guild;
 
     public Guild getGuild() {
@@ -27,9 +23,17 @@ public abstract class SubCommand {
         else this.guild = guild;
     }
 
-    public SubCommand(String name, String description) {
+    public Subcommand(String name, String description, Command parentCommand) {
         this.name = name;
         this.description = description;
+
+        this.userName = JsonConfig.getInstance().getSubCommand(parentCommand.name, name).get("name").toString();
+        this.active = Boolean.parseBoolean(JsonConfig.getInstance().getSubCommand(parentCommand.name, name).get("active").toString());
+    }
+
+    public Subcommand(String name, String description, Command parentCommand, Guild guild) {
+        this(name, description, parentCommand);
+        this.guild = guild;
     }
 
     public abstract SubcommandData getSubCommandData();

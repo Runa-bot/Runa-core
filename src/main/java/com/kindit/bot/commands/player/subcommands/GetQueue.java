@@ -27,7 +27,7 @@ public class Queue extends SubCommand {
 
     @Override
     public SubcommandData getSubCommandData() {
-        return new SubcommandData(name, description)
+        return new SubcommandData(userName, description)
                 .addOptions(
                         new OptionData(OptionType.STRING, "file", "Send txt file", false)
                                 .addChoice("Yes", "Yes"),

@@ -16,7 +16,7 @@ public class AddToUserPlaylistSubCommand extends SubCommand {
 
     @Override
     public SubcommandData getSubCommandData() {
-        return new SubcommandData(name, description)
+        return new SubcommandData(userName, description)
                 .addOptions(
                         new OptionData(OptionType.STRING, "url", "YouTube video URL", true),
                         new OptionData(OptionType.STRING, "name", "Set name for url", true)

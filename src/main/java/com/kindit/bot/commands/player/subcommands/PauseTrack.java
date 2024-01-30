@@ -14,7 +14,7 @@ public class Pause extends SubCommand {
 
     @Override
     public SubcommandData getSubCommandData() {
-        return new SubcommandData(name, description);
+        return new SubcommandData(userName, description);
     }
 
     @Override

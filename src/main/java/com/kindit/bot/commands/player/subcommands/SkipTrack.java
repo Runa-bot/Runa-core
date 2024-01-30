@@ -19,7 +19,7 @@ public class Skip extends SubCommand {
 
     @Override
     public SubcommandData getSubCommandData() {
-        return new SubcommandData(name, description)
+        return new SubcommandData(userName, description)
                 .addOptions(
                         new OptionData(OptionType.INTEGER, "quantity", "Skip track", true)
                                 .setMinValue(1)

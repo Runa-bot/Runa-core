@@ -24,7 +24,7 @@ public class TrackInfo extends SubCommand {
 
     @Override
     public SubcommandData getSubCommandData() {
-        return new SubcommandData(name, description)
+        return new SubcommandData(userName, description)
                 .addOptions(
                         new OptionData(OptionType.STRING, "ephemeral", "Should this message be ephemeral?", false)
                                 .addChoice("No", "No")

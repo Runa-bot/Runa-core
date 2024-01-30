@@ -15,7 +15,7 @@ public class EditTrackInUserPlaylistSubCommand extends SubCommand {
 
     @Override
     public SubcommandData getSubCommandData() {
-        return new SubcommandData(name, description)
+        return new SubcommandData(userName, description)
                 .addOptions(
                         new OptionData(OptionType.STRING, "name", "Your name for url", true),
                         new OptionData(OptionType.STRING, "new-url", "YouTube video URL", true)
