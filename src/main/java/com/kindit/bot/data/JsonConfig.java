@@ -1,5 +1,7 @@
 package com.kindit.bot.data;
 
+import com.kindit.bot.data.dto.UserKeywordDTO;
+import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
 import org.json.simple.parser.ParseException;
@@ -7,10 +9,14 @@ import org.json.simple.parser.ParseException;
 import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
 
 public class JsonConfig {
     public final String TOKEN;
     public final String GPT_KEY_API;
+    public final UserKeywordDTO[] USER_KEYWORDS;
     private final String configName = "NekoBot";
     private final JSONObject config;
     private static JsonConfig instance;
@@ -19,6 +25,7 @@ public class JsonConfig {
         this.config = getConfig();
         this.TOKEN = config.get("token").toString();
         this.GPT_KEY_API = "Bearer " + getCommand("chat-gpt").get("GPTKeyAPI");
+        this.USER_KEYWORDS = getUserKeywordsMap();
     }
 
     public static JsonConfig getInstance() {
@@ -127,6 +134,27 @@ public class JsonConfig {
             }
         }
         return object;
+    }
+
+    private UserKeywordDTO[] getUserKeywordsMap() {
+        List<UserKeywordDTO> userKeywordDTOList = new ArrayList<>();
+        JSONObject userSettings = (JSONObject) config.get("user-settings");
+        JSONArray keywords = (JSONArray) userSettings.get("keywords");
+
+        for (Object obj : keywords) {
+            JSONObject jsonObject = (JSONObject) obj;
+            if (!Boolean.parseBoolean(jsonObject.get("active").toString()))
+                continue;
+
+            userKeywordDTOList.add(
+                    new UserKeywordDTO(
+                            jsonObject.get("keyword").toString(),
+                            jsonObject.get("response").toString()
+                    )
+            );
+        }
+
+        return userKeywordDTOList.toArray(new UserKeywordDTO[0]);
     }
 
     public JSONObject getCommand(String name) {
