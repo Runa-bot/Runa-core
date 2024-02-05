@@ -4,7 +4,7 @@ import com.kindit.bot.data.JsonConfig;
 import com.kindit.bot.data.StreamParser;
 import com.kindit.bot.data.TwitchCategory;
 import com.kindit.bot.listeners.CommandManager;
-import com.kindit.bot.listeners.UserMessageEL;
+import com.kindit.bot.listeners.MessageManager;
 import net.dv8tion.jda.api.OnlineStatus;
 import net.dv8tion.jda.api.entities.Activity;
 import net.dv8tion.jda.api.requests.GatewayIntent;
@@ -33,7 +33,7 @@ public class NekoBot {
 
         // Register listeners
         shardManager.addEventListener(
-                new UserMessageEL(),
+                new MessageManager(),
                 new CommandManager()
         );
 
