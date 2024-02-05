@@ -115,7 +115,7 @@ public class JsonConfig {
                 "  \"user-settings\": {\n" +
                 "    \"keywords-response\": [\n" +
                 "      {\n" +
-                "        \"guilds\": [\"guild id\"],\n" +
+                "        \"guilds\": [\"000000000000000000\"],\n" +
                 "        \"active\": \"true\",\n" +
                 "        \"keywords\": [\"ping\", \"p1ng\"],\n" +
                 "        \"response\": \"pong\"\n" +
