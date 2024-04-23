@@ -20,7 +20,7 @@ public class LoopTrack extends Subcommand {
     public SubcommandData getSubCommandData() {
         return new SubcommandData(userName, description)
                 .addOptions(
-                        new OptionData(OptionType.STRING, "type", "Looping types")
+                        new OptionData(OptionType.STRING, "type", "Looping types", true)
                                 .addChoice("track", "track")
                                 .addChoice("queue", "queue")
                 );
