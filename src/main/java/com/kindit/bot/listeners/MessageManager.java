@@ -1,7 +1,7 @@
 package com.kindit.bot.listeners;
 
 import com.kindit.bot.data.JsonConfig;
-import com.kindit.bot.data.dto.UserKeywordsDTO;
+import com.kindit.bot.data.UserKeywords;
 import net.dv8tion.jda.api.events.message.MessageReceivedEvent;
 import net.dv8tion.jda.api.hooks.ListenerAdapter;
 
@@ -14,9 +14,9 @@ public class MessageManager extends ListenerAdapter {
         if (event.getAuthor().equals(event.getJDA().getSelfUser())) return;
 
         String message = event.getMessage().getContentRaw().toLowerCase(Locale.ROOT);
-        UserKeywordsDTO[] keywords = JsonConfig.getInstance().USER_KEYWORDS;
+        UserKeywords[] keywords = JsonConfig.getInstance().USER_KEYWORDS;
 
-        for (UserKeywordsDTO keywordDTO : keywords) {
+        for (UserKeywords keywordDTO : keywords) {
             if (Arrays.stream(keywordDTO.getGuilds()).noneMatch(obj -> obj == event.getGuild().getIdLong())) continue;
 
             for (String keyword : keywordDTO.getKeywords()) {
