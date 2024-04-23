@@ -1,6 +1,5 @@
 package com.kindit.bot.data;
 
-import com.kindit.bot.data.dto.UserKeywordsDTO;
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
@@ -14,7 +13,7 @@ import java.util.*;
 public class JsonConfig {
     public final String TOKEN;
     public final String GPT_KEY_API;
-    public final UserKeywordsDTO[] USER_KEYWORDS;
+    public final UserKeywords[] USER_KEYWORDS;
     private final String configName = "NekoBot";
     private final JSONObject config;
     private static JsonConfig instance;
@@ -144,8 +143,8 @@ public class JsonConfig {
         return object;
     }
 
-    private UserKeywordsDTO[] getUserKeywords() {
-        List<UserKeywordsDTO> userKeywordsDTOList = new ArrayList<>();
+    private UserKeywords[] getUserKeywords() {
+        List<UserKeywords> userKeywordsDTOList = new ArrayList<>();
         JSONObject userSettings = (JSONObject) config.get("user-settings");
         JSONArray keywordsJSONObjects = (JSONArray) userSettings.get("keywords-response");
 
@@ -162,7 +161,7 @@ public class JsonConfig {
 
 
             userKeywordsDTOList.add(
-                    new UserKeywordsDTO(
+                    new UserKeywords(
                             guildId.toArray(new Long[0]),
                             keywords.toArray(new String[0]),
                             jsonObject.get("response").toString()
@@ -170,7 +169,7 @@ public class JsonConfig {
             );
         }
 
-        return userKeywordsDTOList.toArray(new UserKeywordsDTO[0]);
+        return userKeywordsDTOList.toArray(new UserKeywords[0]);
     }
 
     public JSONObject getCommand(String name) {
