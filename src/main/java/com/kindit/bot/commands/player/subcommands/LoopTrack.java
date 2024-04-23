@@ -5,6 +5,8 @@ import com.kindit.bot.lavaplayer.PlayerManager;
 import com.kindit.bot.lavaplayer.TrackScheduler;
 import com.kindit.bot.commands.Subcommand;
 import net.dv8tion.jda.api.events.interaction.command.SlashCommandInteractionEvent;
+import net.dv8tion.jda.api.interactions.commands.OptionType;
+import net.dv8tion.jda.api.interactions.commands.build.OptionData;
 import net.dv8tion.jda.api.interactions.commands.build.SubcommandData;
 
 
@@ -16,7 +18,12 @@ public class LoopTrack extends Subcommand {
 
     @Override
     public SubcommandData getSubCommandData() {
-        return new SubcommandData(userName, description);
+        return new SubcommandData(userName, description)
+                .addOptions(
+                        new OptionData(OptionType.STRING, "type", "Looping types")
+                                .addChoice("track", "track")
+                                .addChoice("queue", "queue")
+                );
     }
 
     @Override
@@ -24,8 +31,18 @@ public class LoopTrack extends Subcommand {
         TrackScheduler scheduler = PlayerManager.getINSTANCE().getMusicManager(event.getChannel().asTextChannel().getGuild()).scheduler;
         event.deferReply().setEphemeral(true).queue();
 
-        PlayerManager.getINSTANCE().loop(event.getChannel().asTextChannel());
+        if (event.getOption("type").getAsString().equals("queue")) {
+            PlayerManager.getINSTANCE().queueLoop(event.getChannel().asTextChannel());
 
-        event.getHook().sendMessageEmbeds(Command.successfullyReplyEmbed()).setEphemeral(true).queue();
+            event.getHook().sendMessageEmbeds(
+                    Command.replyEmbed( "Queue loop: " + scheduler.isQueueLoop, Command.GOOD_COLOR)
+            ).setEphemeral(true).queue();
+        } else {
+            PlayerManager.getINSTANCE().loop(event.getChannel().asTextChannel());
+
+            event.getHook().sendMessageEmbeds(
+                    Command.replyEmbed( "Track loop: " + scheduler.isLoop, Command.GOOD_COLOR)
+            ).setEphemeral(true).queue();
+        }
     }
 }

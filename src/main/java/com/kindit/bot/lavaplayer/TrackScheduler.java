@@ -19,6 +19,7 @@ public class TrackScheduler extends AudioEventAdapter {
     }
 
     public boolean isLoop = false;
+    public boolean isQueueLoop = false;
     public final AudioPlayer audioPlayer;
 
     public TrackScheduler(AudioPlayer audioPlayer) {
@@ -30,6 +31,9 @@ public class TrackScheduler extends AudioEventAdapter {
     public void onTrackEnd(AudioPlayer player, AudioTrack track, AudioTrackEndReason endReason) {
         if (endReason.mayStartNext && this.isLoop) {
             this.audioPlayer.startTrack(this.audioTrack, false);
+        } else if (endReason.mayStartNext && this.isQueueLoop) {
+            queue.add(audioTrack);
+            nextTrack();
         } else if (endReason.mayStartNext) {
             this.audioTrack = null;
             nextTrack();

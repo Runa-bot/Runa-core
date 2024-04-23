@@ -155,6 +155,12 @@ public class PlayerManager {
         musicManager.scheduler.isLoop = !musicManager.scheduler.isLoop;
     }
 
+    public void queueLoop(TextChannel textChannel) {
+        final GuildMusicManager musicManager = this.getMusicManager(textChannel.getGuild());
+
+        musicManager.scheduler.isQueueLoop = !musicManager.scheduler.isQueueLoop;
+    }
+
     public static PlayerManager getINSTANCE() {
         if (INSTANCE == null) {
             INSTANCE = new PlayerManager();
