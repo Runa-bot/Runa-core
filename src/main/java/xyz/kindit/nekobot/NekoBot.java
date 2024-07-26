@@ -15,7 +15,7 @@ public class NekoBot {
 
     private static void run() {
         shardManager = DefaultShardManagerBuilder
-                .createDefault("Nzk0NzA4MDI0Mzg3MTc0NDYw.G3xafS.JZFopmQSBeOVLLZwwfPn-NM9d9ZyQdIkenjg_U")
+                .createDefault("SECRET")
                 .setStatus(OnlineStatus.ONLINE)
                 .build();
 
