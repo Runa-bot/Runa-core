@@ -55,58 +55,27 @@
     </build>
 
     <dependencies>
-        <dependency>
-            <groupId>com.github.DV8FromTheWorld</groupId>
-            <artifactId>JDA</artifactId>
-            <version>v5.0.0-beta.8</version>
-            <exclusions>
-                <exclusion>
-                    <groupId>club.minnced</groupId>
-                    <artifactId>opus-java</artifactId>
-                </exclusion>
-            </exclusions>
-        </dependency>
-        <dependency>
-            <groupId>dev.arbjerg</groupId>
-            <artifactId>lavaplayer</artifactId>
-            <version>0eaeee195f0315b2617587aa3537fa202df07ddc-SNAPSHOT</version>
-        </dependency>
-        <dependency>
-            <groupId>org.json</groupId>
-            <artifactId>json</artifactId>
-            <version>20220924</version>
-        </dependency>
-        <dependency>
-            <groupId>com.googlecode.json-simple</groupId>
-            <artifactId>json-simple</artifactId>
-            <version>1.1.1</version>
-        </dependency>
+        <!-- https://mvnrepository.com/artifact/ch.qos.logback/logback-classic -->
         <dependency>
             <groupId>ch.qos.logback</groupId>
             <artifactId>logback-classic</artifactId>
-            <version>1.2.8</version>
+            <version>1.5.6</version>
+            <scope>test</scope>
         </dependency>
+
+        <!-- https://mvnrepository.com/artifact/net.dv8tion/JDA -->
         <dependency>
-            <groupId>org.seleniumhq.selenium</groupId>
-            <artifactId>selenium-java</artifactId>
-            <version>4.13.0</version>
+            <groupId>net.dv8tion</groupId>
+            <artifactId>JDA</artifactId>
+            <version>5.0.1</version>
+        </dependency>
+
+        <!-- https://mvnrepository.com/artifact/org.projectlombok/lombok -->
+        <dependency>
+            <groupId>org.projectlombok</groupId>
+            <artifactId>lombok</artifactId>
+            <version>1.18.34</version>
+            <scope>provided</scope>
         </dependency>
     </dependencies>
-
-    <repositories>
-        <repository>
-            <id>jitpack.io</id>
-            <url>https://jitpack.io</url>
-        </repository>
-        <repository>
-            <id>dv8tion</id>
-            <name>m2-dv8tion</name>
-            <url>https://m2.dv8tion.net/releases</url>
-        </repository>
-        <repository>
-            <id>arbjergDev-snapshots</id>
-            <name>Lavalink Repository</name>
-            <url>https://maven.lavalink.dev/snapshots</url>
-        </repository>
-    </repositories>
 </project>
