@@ -1,0 +1,73 @@
+<Alphabet>
+    <Char uppercase="A" lowercase="a">
+        <Analog>А</Analog>
+        <Analog>а</Analog>
+        <Analog>@</Analog>
+    </Char>
+    <Char uppercase="B" lowercase="b">
+        <Analog>Б</Analog>
+        <Analog>В</Analog>
+        <Analog>в</Analog>
+    </Char>
+    <Char uppercase="C" lowercase="c">
+        <Analog>(</Analog>
+        <Analog>С</Analog>
+        <Analog>с</Analog>
+        <Analog>©</Analog>
+    </Char>
+    <Char uppercase="D" lowercase="d">
+        <Analog>Д</Analog>
+        <Analog>д</Analog>
+    </Char>
+    <Char uppercase="E" lowercase="e">
+        <Analog>Е</Analog>
+        <Analog>е</Analog>
+    </Char>
+    <Char uppercase="F" lowercase="f">
+        <Analog>Ф</Analog>
+        <Analog>ф</Analog>
+    </Char>
+    <Char uppercase="G" lowercase="g" />
+    <Char uppercase="H" lowercase="h">
+        <Analog>Х</Analog>
+        <Analog>х</Analog>
+    </Char>
+    <Char uppercase="I" lowercase="i">
+        <Analog>И</Analog>
+        <Analog>и</Analog>
+    </Char>
+    <Char uppercase="J" lowercase="j">
+        <Analog>Ж</Analog>
+        <Analog>ж</Analog>
+    </Char>
+    <Char uppercase="K" lowercase="k">
+        <Analog>K</Analog>
+        <Analog>k</Analog>
+    </Char>
+    <Char uppercase="L" lowercase="l">
+        <Analog>Л</Analog>
+        <Analog>л</Analog>
+    </Char>
+    <Char uppercase="M" lowercase="m">
+        <Analog>М</Analog>
+        <Analog>м</Analog>
+    </Char>
+    <Char uppercase="N" lowercase="n">
+        <Analog>Н</Analog>
+        <Analog>н</Analog>
+    </Char>
+    <Char uppercase="O" lowercase="o">
+        <Analog>0</Analog>
+        <Analog>О</Analog>
+        <Analog>о</Analog>
+    </Char>
+    <Char uppercase="P" lowercase="p">
+        <Analog>П</Analog>
+        <Analog>п</Analog>
+    </Char>
+    <Char uppercase="Q" lowercase="q" />
+    <Char uppercase="R" lowercase="r">
+        <Analog>Р</Analog>
+        <Analog>р</Analog>
+    </Char>
+</Alphabet>
