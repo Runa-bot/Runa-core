@@ -19,7 +19,7 @@ public class Player extends Command {
                 new PlayerVolume("volume", "Sound volume", command),
                 new TrackInfo("track-info", "Gets track information", command),
                 new LoopTrack("loop", "loop track", command),
-                new ShuffelQueue("shuffel", "Shuffles the queue", command),
+                new ShuffleQueue("shuffel", "Shuffles the queue", command),
                 new GetQueue("queue", "Get the whole queue", command)
         });
         return command;

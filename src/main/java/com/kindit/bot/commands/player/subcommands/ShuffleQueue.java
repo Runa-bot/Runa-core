@@ -8,9 +8,9 @@ import net.dv8tion.jda.api.events.interaction.command.SlashCommandInteractionEve
 import net.dv8tion.jda.api.interactions.commands.build.SubcommandData;
 
 
-public class ShuffelQueue extends Subcommand {
+public class ShuffleQueue extends Subcommand {
 
-    public ShuffelQueue(String name, String description, Command parentCommand) {
+    public ShuffleQueue(String name, String description, Command parentCommand) {
         super(name, description, parentCommand);
     }
 
@@ -24,7 +24,7 @@ public class ShuffelQueue extends Subcommand {
         TrackScheduler scheduler = PlayerManager.getINSTANCE().getMusicManager(event.getChannel().asTextChannel().getGuild()).scheduler;
         event.deferReply().setEphemeral(true).queue();
 
-        scheduler.shuffelQueue();
+        scheduler.shuffleQueue();
 
         event.getHook().sendMessageEmbeds(Command.successfullyReplyEmbed()).queue();
     }

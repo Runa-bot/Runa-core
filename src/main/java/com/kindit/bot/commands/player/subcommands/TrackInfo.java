@@ -73,7 +73,7 @@ public class TrackInfo extends Subcommand {
 
             event.editMessageEmbeds(getEmbed(scheduler)).queue();
         } else if ("shuffel".equals(event.getComponentId())) {
-            scheduler.shuffelQueue();
+            scheduler.shuffleQueue();
 
             event.editMessageEmbeds(getEmbed(scheduler)).queue();
         }
