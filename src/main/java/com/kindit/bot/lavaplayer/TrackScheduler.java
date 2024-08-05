@@ -2,7 +2,6 @@ package com.kindit.bot.lavaplayer;
 
 import com.sedmelluq.discord.lavaplayer.player.AudioPlayer;
 import com.sedmelluq.discord.lavaplayer.player.event.AudioEventAdapter;
-import com.sedmelluq.discord.lavaplayer.tools.FriendlyException;
 import com.sedmelluq.discord.lavaplayer.track.AudioTrack;
 import com.sedmelluq.discord.lavaplayer.track.AudioTrackEndReason;
 
@@ -46,11 +45,6 @@ public class TrackScheduler extends AudioEventAdapter {
         this.audioTrack = track.makeClone();
     }
 
-    @Override
-    public void onTrackException(AudioPlayer player, AudioTrack track, FriendlyException exception) {
-        System.out.println("onTrackException fix pls");
-    }
-
     public void nextTrack() {
         this.audioPlayer.startTrack(this.queue.poll(), false);
     }
@@ -79,7 +73,7 @@ public class TrackScheduler extends AudioEventAdapter {
         return queue;
     }
 
-    public void shuffelQueue() {
+    public void shuffleQueue() {
         List<AudioTrack> tracks = new ArrayList<>(this.queue);
         Collections.shuffle(tracks);
         this.queue.clear();

@@ -1,7 +1,6 @@
 package com.kindit.bot.lavaplayer;
 
 import com.kindit.bot.commands.Command;
-import com.kindit.bot.commands.Subcommand;
 import com.sedmelluq.discord.lavaplayer.player.AudioLoadResultHandler;
 import com.sedmelluq.discord.lavaplayer.player.AudioPlayerManager;
 import com.sedmelluq.discord.lavaplayer.player.DefaultAudioPlayerManager;
@@ -9,6 +8,10 @@ import com.sedmelluq.discord.lavaplayer.source.AudioSourceManagers;
 import com.sedmelluq.discord.lavaplayer.tools.FriendlyException;
 import com.sedmelluq.discord.lavaplayer.track.AudioPlaylist;
 import com.sedmelluq.discord.lavaplayer.track.AudioTrack;
+import dev.lavalink.youtube.YoutubeAudioSourceManager;
+import dev.lavalink.youtube.clients.AndroidTestsuiteWithThumbnail;
+import dev.lavalink.youtube.clients.MusicWithThumbnail;
+import dev.lavalink.youtube.clients.WebWithThumbnail;
 import net.dv8tion.jda.api.EmbedBuilder;
 import net.dv8tion.jda.api.entities.Guild;
 import net.dv8tion.jda.api.entities.MessageEmbed;
@@ -29,7 +32,15 @@ public class PlayerManager {
         this.musicManagers = new HashMap<>();
         this.audioPlayerManager = new DefaultAudioPlayerManager();
 
-        AudioSourceManagers.registerRemoteSources(this.audioPlayerManager);
+        YoutubeAudioSourceManager ytSourceManager = new YoutubeAudioSourceManager(
+                true,
+                new MusicWithThumbnail(),
+                new WebWithThumbnail(),
+                new AndroidTestsuiteWithThumbnail()
+        );
+        audioPlayerManager.registerSourceManager(ytSourceManager);
+
+        AudioSourceManagers.registerRemoteSources(this.audioPlayerManager, YoutubeAudioSourceManager.class);
         AudioSourceManagers.registerLocalSource(this.audioPlayerManager);
     }
 

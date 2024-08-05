@@ -27,9 +27,14 @@
             </exclusions>
         </dependency>
         <dependency>
+            <groupId>dev.lavalink.youtube</groupId>
+            <artifactId>v2</artifactId>
+            <version>1.5.1</version>
+        </dependency>
+        <dependency>
             <groupId>dev.arbjerg</groupId>
             <artifactId>lavaplayer</artifactId>
-            <version>0eaeee195f0315b2617587aa3537fa202df07ddc-SNAPSHOT</version>
+            <version>2.2.1</version>
         </dependency>
         <dependency>
             <groupId>org.json</groupId>
