@@ -1,0 +1,52 @@
+<NekoBot>
+    <Token>SECRET</Token>
+
+    <Commands>
+        <Command name="Player" displayName="player" active="true">
+            <SubCommand name="Add" displayName="add" active="true" />
+            <SubCommand name="Loop" displayName="loop" active="true" />
+            <SubCommand name="Pause" displayName="pause" active="true" />
+            <SubCommand name="Queue" displayName="queue" active="true" />
+            <SubCommand name="Resume" displayName="resume" active="true" />
+            <SubCommand name="Shuffle" displayName="shuffle" active="true" />
+            <SubCommand name="Skip" displayName="skip" active="true" />
+            <SubCommand name="TrackInfo" displayName="track-info" active="true" />
+            <SubCommand name="Volume" displayName="volume" active="true" />
+        </Command>
+    </Commands>
+
+    <KeywordResponseList>
+        <KeywordResponse lowercaseSearch="true">
+            <!-- Лист с ключевыми словами для поиска -->
+            <KeyWordList>
+                <Keyword>timur</Keyword>
+                <Keyword>тимур</Keyword>
+            </KeyWordList>
+
+            <!--
+                Лист с ответами
+                Лист с ответами выбирается рандомно из всех листов
+                Ответ выбраются рандомно из ответов в листе
+            -->
+            <ResponseList>
+                <!-- Китайский лист с ответами -->
+                <Response>
+                    <Option>"Картинка флага китая"</Option>
+                    <Option>"Картинка довольного китайца"</Option>
+                </Response>
+
+                <!-- Животный лист с ответами -->
+                <Response>
+                    <Option>"Картинка собаки"</Option>
+                </Response>
+            </ResponseList>
+
+            <!-- Лист говна -->
+            <ServerWihteList>
+                <Server>738134731560058922</Server>
+            </ServerWihteList>
+        </KeywordResponse>
+
+    </KeywordResponseList>
+
+</NekoBot>
