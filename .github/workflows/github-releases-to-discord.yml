@@ -12,4 +12,5 @@ jobs:
         uses: SethCohen/github-releases-to-discord@v1.13.1
         with:
           webhook_url: ${{ secrets.WEBHOOK_URL }}
+          color: "6553741"
           footer_timestamp: true
