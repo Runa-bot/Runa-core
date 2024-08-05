@@ -1,6 +1,8 @@
 package xyz.kindit.nekobot;
 
+import lombok.AccessLevel;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import net.dv8tion.jda.api.OnlineStatus;
 import net.dv8tion.jda.api.sharding.DefaultShardManagerBuilder;
@@ -10,6 +12,7 @@ import xyz.kindit.nekobot.listener.LaunchListener;
 import xyz.kindit.nekobot.listener.MessageListener;
 
 @Slf4j
+@NoArgsConstructor(access = AccessLevel.PRIVATE)
 public class NekoBot {
 
     @Getter
