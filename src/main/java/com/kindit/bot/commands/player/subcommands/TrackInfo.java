@@ -45,7 +45,7 @@ public class TrackInfo extends Subcommand {
                             : Button.primary("pause", Emoji.fromFormatted("U+23F8")),
                     Button.primary("skip", Emoji.fromFormatted("U+23ED")),
                     Button.primary("loop", Emoji.fromFormatted("U+1F501")),
-                    Button.primary("shuffel", Emoji.fromFormatted("U+1F500"))
+                    Button.primary("shuffle", Emoji.fromFormatted("U+1F500"))
 
             ).queue();
         } else {
@@ -72,7 +72,7 @@ public class TrackInfo extends Subcommand {
             PlayerManager.getINSTANCE().loop(event.getChannel().asTextChannel());
 
             event.editMessageEmbeds(getEmbed(scheduler)).queue();
-        } else if ("shuffel".equals(event.getComponentId())) {
+        } else if ("shuffle".equals(event.getComponentId())) {
             scheduler.shuffleQueue();
 
             event.editMessageEmbeds(getEmbed(scheduler)).queue();
