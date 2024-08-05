@@ -71,7 +71,7 @@
         <repository>
             <id>arbjergDev-snapshots</id>
             <name>Lavalink Repository</name>
-            <url>https://maven.lavalink.dev/snapshots</url>
+            <url>https://maven.lavalink.dev/releases</url>
         </repository>
     </repositories>
 </project>
