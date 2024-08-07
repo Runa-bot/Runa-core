@@ -42,7 +42,6 @@ import java.io.File;
 @NoArgsConstructor(access = AccessLevel.PRIVATE)
 public class NekoBot {
 
-    @Getter
     private static ShardManager shardManager;
     public static final Config config = ConfigFactory.createConfig(new File("NekoBot.xml"));
 
