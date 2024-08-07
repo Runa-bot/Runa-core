@@ -1,41 +1,30 @@
+/*
+ * MIT License
+ * Copyright (c) 2024 Kindit
+ * Permission is hereby granted, free of charge, to any person obtaining a copy
+ * of this software and associated documentation files (the "Software"), to deal
+ * in the Software without restriction, including without limitation the rights
+ * to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+ * copies of the Software, and to permit persons to whom the Software is
+ * furnished to do so, subject to the following conditions:
+ *
+ * The above copyright notice and this permission notice shall be included in all
+ * copies or substantial portions of the Software.
+ *
+ * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+ * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+ * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+ * AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+ * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+ * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+ * SOFTWARE.
+ */
+
 package xyz.kindit.nekobot.config;
 
-import com.fasterxml.jackson.dataformat.xml.XmlMapper;
-import com.fasterxml.jackson.dataformat.xml.annotation.JacksonXmlProperty;
-import com.fasterxml.jackson.dataformat.xml.annotation.JacksonXmlRootElement;
-import lombok.*;
-import xyz.kindit.nekobot.config.command.MainCommand;
-
 import java.io.File;
-import java.util.List;
 
-@Getter
-@ToString
-@JacksonXmlRootElement(localName = "NekoBot")
-@NoArgsConstructor(access = AccessLevel.PRIVATE)
-public class Config {
-
-    @JacksonXmlProperty(localName = "Token")
-    private String token;
-
-    @JacksonXmlProperty(localName = "Commands")
-    private List<MainCommand> mainCommands;
-
-    @JacksonXmlProperty(localName = "KeywordResponseList")
-    private List<KeywordResponse> keywordResponseList;
-
-    @SneakyThrows
-    public static Config deserialize(File xmlFile) {
-        XmlMapper xmlMapper = new XmlMapper();
-
-        return xmlMapper.readValue(xmlFile, Config.class);
-    }
-
-    @SneakyThrows
-    public static Config deserialize(String xml) {
-        XmlMapper xmlMapper = new XmlMapper();
-
-        return xmlMapper.readValue(xml, Config.class);
-    }
-
+public abstract class Config {
+    public abstract <T extends Config> T deserialize(File configFile);
+    public abstract <T extends Config> T deserialize(String config);
 }
