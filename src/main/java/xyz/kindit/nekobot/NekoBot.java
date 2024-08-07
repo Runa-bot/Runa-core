@@ -29,16 +29,22 @@ import lombok.extern.slf4j.Slf4j;
 import net.dv8tion.jda.api.OnlineStatus;
 import net.dv8tion.jda.api.sharding.DefaultShardManagerBuilder;
 import net.dv8tion.jda.api.sharding.ShardManager;
+import xyz.kindit.nekobot.config.Config;
+import xyz.kindit.nekobot.config.ConfigFactory;
 import xyz.kindit.nekobot.listener.CommandsListener;
 import xyz.kindit.nekobot.listener.LaunchListener;
 import xyz.kindit.nekobot.listener.MessageListener;
 
+import java.io.File;
+
 @Slf4j
+@Getter
 @NoArgsConstructor(access = AccessLevel.PRIVATE)
 public class NekoBot {
 
     @Getter
     private static ShardManager shardManager;
+    public static final Config config = ConfigFactory.createConfig(new File("NekoBot.xml"));
 
     private static void run() {
         log.atInfo().log("Starting");
