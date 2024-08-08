@@ -1,4 +1,4 @@
-<NekoBot token="Nzk0NzA4MDI0Mzg3MTc0NDYw.GCHf3_.zMFN-r5v4IRjKmcwiwPzTvKm7TicDSvQG2s_kg">
+<NekoBot token="SECRET">
     <Commands>
         <Command className="Player" name="player" enabled="true">
             <SubCommand className="Add" name="add" enabled="true" />
