@@ -22,6 +22,7 @@
 
 package xyz.kindit.nekobot.config;
 
+@SuppressWarnings("unused")
 public abstract class Command {
     public abstract String getClassName();
     public abstract String getName();
