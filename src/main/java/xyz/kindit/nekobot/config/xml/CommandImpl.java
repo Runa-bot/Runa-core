@@ -20,15 +20,19 @@
  * SOFTWARE.
  */
 
-package xyz.kindit.nekobot.config.records;
+package xyz.kindit.nekobot.config.xml;
 
 import com.fasterxml.jackson.dataformat.xml.annotation.JacksonXmlProperty;
+import com.fasterxml.jackson.dataformat.xml.annotation.JacksonXmlRootElement;
+import lombok.Data;
+import lombok.EqualsAndHashCode;
+import xyz.kindit.nekobot.config.Command;
 
-import java.util.List;
-
-public record MainCommand(
-        @JacksonXmlProperty(localName = "name", isAttribute = true)         String name,
-        @JacksonXmlProperty(localName = "displayName", isAttribute = true)  String displayName,
-        @JacksonXmlProperty(localName = "active", isAttribute = true)       Boolean active,
-        @JacksonXmlProperty(localName = "SubCommand")                       List<SubCommand> subCommands
-) {}
+@Data
+@EqualsAndHashCode(callSuper = true)
+@JacksonXmlRootElement(localName = "SubCommand")
+public class CommandImpl extends Command {
+    @JacksonXmlProperty(isAttribute = true) private String className;
+    @JacksonXmlProperty(isAttribute = true) private String name;
+    @JacksonXmlProperty(isAttribute = true) private Boolean enabled;
+}

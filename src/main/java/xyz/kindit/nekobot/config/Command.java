@@ -20,13 +20,10 @@
  * SOFTWARE.
  */
 
-package xyz.kindit.nekobot.config.records;
+package xyz.kindit.nekobot.config;
 
-import com.fasterxml.jackson.dataformat.xml.annotation.JacksonXmlProperty;
-
-import java.util.List;
-
-public record Response(
-        @JacksonXmlProperty(localName = "Response")     List<String> responses,
-        @JacksonXmlProperty(localName = "Responses")    List<Response> responseList
-) {}
+public abstract class Command {
+    public abstract String getClassName();
+    public abstract String getName();
+    public abstract Boolean getEnabled();
+}

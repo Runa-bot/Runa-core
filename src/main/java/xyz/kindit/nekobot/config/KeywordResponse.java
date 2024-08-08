@@ -20,12 +20,14 @@
  * SOFTWARE.
  */
 
-package xyz.kindit.nekobot.config.records;
+package xyz.kindit.nekobot.config;
 
-import com.fasterxml.jackson.dataformat.xml.annotation.JacksonXmlProperty;
+import java.util.List;
 
-public record SubCommand(
-        @JacksonXmlProperty(localName = "name", isAttribute = true)         String name,
-        @JacksonXmlProperty(localName = "displayName", isAttribute = true)  String displayName,
-        @JacksonXmlProperty(localName = "active", isAttribute = true)       Boolean active
-) {}
+@SuppressWarnings("unused")
+public interface KeywordResponse {
+    List<String> getKeywordList();
+    List<String> getResponseList();
+    List<String> getServerWhiteList();
+    List<String> getServerBlackList();
+}

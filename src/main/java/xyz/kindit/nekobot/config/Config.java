@@ -23,8 +23,14 @@
 package xyz.kindit.nekobot.config;
 
 import java.io.File;
+import java.util.List;
 
+@SuppressWarnings("unused")
 public abstract class Config {
-    public abstract <T extends Config> T deserialize(File configFile);
-    public abstract <T extends Config> T deserialize(String config);
+    public abstract String getToken();
+    public abstract List<? extends MainCommand> getCommandList();
+    public abstract List<? extends KeywordResponse> getKeywordResponseList();
+    public abstract List<? extends SlashCommand> getSlashCommandList();
+    public abstract Config deserialize(File configFile);
+    public abstract Config deserialize(String config);
 }

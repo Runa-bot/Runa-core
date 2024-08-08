@@ -20,39 +20,22 @@
  * SOFTWARE.
  */
 
-package xyz.kindit.nekobot.config;
+package xyz.kindit.nekobot.config.xml;
 
-import com.fasterxml.jackson.dataformat.xml.XmlMapper;
 import com.fasterxml.jackson.dataformat.xml.annotation.JacksonXmlProperty;
 import com.fasterxml.jackson.dataformat.xml.annotation.JacksonXmlRootElement;
-import lombok.*;
-import xyz.kindit.nekobot.config.records.KeywordResponse;
-import xyz.kindit.nekobot.config.records.MainCommand;
-import xyz.kindit.nekobot.config.records.SlashCommand;
+import lombok.Data;
+import lombok.EqualsAndHashCode;
+import xyz.kindit.nekobot.config.MainCommand;
 
-import java.io.File;
-import java.io.IOException;
 import java.util.List;
 
-@Getter
-@NoArgsConstructor
-@JacksonXmlRootElement(localName = "NekoBot")
-public class XmlConfig extends Config {
-
-    @JacksonXmlProperty(isAttribute = true)                 private String token;
-    @JacksonXmlProperty(localName = "MainCommands")         private List<MainCommand> mainCommandList;
-    @JacksonXmlProperty(localName = "KeywordResponses")     private List<KeywordResponse> keywordResponseList;
-    @JacksonXmlProperty(localName = "SlashCommands")        private List<SlashCommand> slashCommandList;
-
-    @SneakyThrows(IOException.class)
-    @SuppressWarnings("unchecked")
-    public XmlConfig deserialize(File configFile) {
-        return new XmlMapper().readValue(configFile, XmlConfig.class);
-    }
-
-    @SneakyThrows(IOException.class)
-    @SuppressWarnings("unchecked")
-    public XmlConfig deserialize(String config) {
-        return new XmlMapper().readValue(config, XmlConfig.class);
-    }
+@Data
+@EqualsAndHashCode(callSuper = true)
+@JacksonXmlRootElement(localName = "Command")
+public class MainCommandImpl extends MainCommand {
+    @JacksonXmlProperty(isAttribute = true)         private String className;
+    @JacksonXmlProperty(isAttribute = true)         private String name;
+    @JacksonXmlProperty(isAttribute = true)         private Boolean enabled;
+    @JacksonXmlProperty(localName = "SubCommand")   private List<CommandImpl> subCommandList;
 }

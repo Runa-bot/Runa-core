@@ -20,13 +20,38 @@
  * SOFTWARE.
  */
 
-package xyz.kindit.nekobot.config.records;
+package xyz.kindit.nekobot.config.xml;
 
+import com.fasterxml.jackson.dataformat.xml.XmlMapper;
 import com.fasterxml.jackson.dataformat.xml.annotation.JacksonXmlProperty;
+import com.fasterxml.jackson.dataformat.xml.annotation.JacksonXmlRootElement;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.SneakyThrows;
+import xyz.kindit.nekobot.config.Config;
 
+import java.io.File;
+import java.io.IOException;
 import java.util.List;
 
-public record SlashCommand(
-        @JacksonXmlProperty(isAttribute = true)         String name,
-        @JacksonXmlProperty(localName = "Responses")    List<Response> responses
-) {}
+@Getter
+@NoArgsConstructor
+@JacksonXmlRootElement(localName = "NekoBot")
+@SuppressWarnings("unused")
+public class XmlConfig extends Config {
+
+    @JacksonXmlProperty(isAttribute = true)                 private String token;
+    @JacksonXmlProperty(localName = "Commands")             private List<MainCommandImpl> commandList;
+    @JacksonXmlProperty(localName = "KeywordResponses")     private List<KeywordResponseImpl> keywordResponseList;
+    @JacksonXmlProperty(localName = "SlashCommands")        private List<SlashCommandImpl> slashCommandList;
+
+    @SneakyThrows(IOException.class)
+    public Config deserialize(File configFile) {
+        return new XmlMapper().readValue(configFile, XmlConfig.class);
+    }
+
+    @SneakyThrows(IOException.class)
+    public Config deserialize(String config) {
+        return new XmlMapper().readValue(config, XmlConfig.class);
+    }
+}
