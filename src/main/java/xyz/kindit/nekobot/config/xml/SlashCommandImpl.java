@@ -20,20 +20,16 @@
  * SOFTWARE.
  */
 
-package xyz.kindit.nekobot.config.records;
+package xyz.kindit.nekobot.config.xml;
 
 import com.fasterxml.jackson.dataformat.xml.annotation.JacksonXmlProperty;
+import lombok.Data;
+import xyz.kindit.nekobot.config.SlashCommand;
 
 import java.util.List;
 
-public record KeywordResponse(
-    @JacksonXmlProperty(localName = "Keywords")         List<String> keywords,
-    @JacksonXmlProperty(localName = "Response")         List<Response> responseList,
-    @JacksonXmlProperty(localName = "ServerWhiteList")  List<String> serverWhiteList,
-    @JacksonXmlProperty(localName = "ServerBlackList")  List<String> serverBlackList
-) {
-    public KeywordResponse {
-        if (!serverWhiteList.isEmpty())
-            serverBlackList = null;
-    }
+@Data
+public class SlashCommandImpl implements SlashCommand {
+    @JacksonXmlProperty(isAttribute = true)         private String name;
+    @JacksonXmlProperty(localName = "Responses")    private List<String> responseList;
 }
