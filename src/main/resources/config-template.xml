@@ -1,60 +1,54 @@
-<NekoBot token="SECRET">
-    <MainCommands>
-        <Command name="Player" displayName="player" active="true">
-            <SubCommand name="Add" displayName="add" active="true" />
-            <SubCommand name="Loop" displayName="loop" active="true" />
-            <SubCommand name="Pause" displayName="pause" active="true" />
-            <SubCommand name="Queue" displayName="queue" active="true" />
-            <SubCommand name="Resume" displayName="resume" active="true" />
-            <SubCommand name="Shuffle" displayName="shuffle" active="true" />
-            <SubCommand name="Skip" displayName="skip" active="true" />
-            <SubCommand name="TrackInfo" displayName="track-info" active="true" />
-            <SubCommand name="Volume" displayName="volume" active="true" />
+<NekoBot token="Nzk0NzA4MDI0Mzg3MTc0NDYw.GCHf3_.zMFN-r5v4IRjKmcwiwPzTvKm7TicDSvQG2s_kg">
+    <Commands>
+        <Command className="Player" name="player" enabled="true">
+            <SubCommand className="Add" name="add" enabled="true" />
+            <SubCommand className="Loop" name="loop" enabled="true" />
+            <SubCommand className="Pause" name="pause" enabled="true" />
+            <SubCommand className="Queue" name="queue" enabled="true" />
+            <SubCommand className="Resume" name="resume" enabled="true" />
+            <SubCommand className="Shuffle" name="shuffle" enabled="true" />
+            <SubCommand className="Skip" name="skip" enabled="true" />
+            <SubCommand className="TrackInfo" name="track-info" enabled="true" />
+            <SubCommand className="Volume" name="volume" enabled="true" />
         </Command>
-    </MainCommands>
+    </Commands>
 
-    <KeywordResponces>
-        <KeywordResponse lowercaseSearch="true">
-            <KeyWords>
+    <KeywordResponses>
+        <KeywordResponse>
+            <Keywords>
                 <Keyword>timur</Keyword>
                 <Keyword>тимур</Keyword>
-            </KeyWords>
+            </Keywords>
 
             <Responses>
-                <Response>
-                    <Responses>
-                        <Response>Word 1.1</Response>
-                        <Response>Word 1.2</Response>
-                    </Responses>
-                </Response>
-                <Responses>
-                    <Response>Word 1.3</Response>
-                    <Response dropChance="50">Word 1.4</Response>
-                    <Response>Word 1.5</Response>
-                </Responses>
+                <Response>Word 1.1</Response>
+                <Response>Word 1.2</Response>
+                <Response>Word 1.3</Response>
+                <Response>Word 1.4</Response>
+                <Response>Word 1.5</Response>
                 <Response>Word 1.6</Response>
             </Responses>
 
-            <ServerWihteList>
+            <ServerWhiteList>
                 <Server>738134731560058922</Server>
-            </ServerWihteList>
+            </ServerWhiteList>
         </KeywordResponse>
 
         <KeywordResponse>
-            <KeyWordList>
+            <Keywords>
                 <Keyword>ping</Keyword>
-            </KeyWordList>
+            </Keywords>
             <Responses>
                 <Response>pong</Response>
             </Responses>
         </KeywordResponse>
-    </KeywordResponces>
+    </KeywordResponses>
 
     <SlashCommands>
         <SlashCommand name="ping">
-            <Responces>
-                <Responce>Word 7</Responce>
-            </Responces>
+            <Responses>
+                <Response>Word 7</Response>
+            </Responses>
         </SlashCommand>
     </SlashCommands>
 
