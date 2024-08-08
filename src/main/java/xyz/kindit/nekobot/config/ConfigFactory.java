@@ -22,8 +22,11 @@
 
 package xyz.kindit.nekobot.config;
 
+import xyz.kindit.nekobot.config.xml.XmlConfig;
+
 import java.io.File;
 
+@SuppressWarnings("unused")
 public class ConfigFactory {
     public static Config createConfig(File config) {
         return createConfig(config, getConfigType(config));
