@@ -1,5 +1,6 @@
 package com.kindit.bot.listeners;
 
+import com.kindit.bot.commands.ChangeNickname;
 import com.kindit.bot.commands.Command;
 import com.kindit.bot.commands.chatgpt.ChatGPT;
 import com.kindit.bot.commands.player.Player;
@@ -22,7 +23,8 @@ public class CommandManager extends ListenerAdapter {
     private final Command[] commands = {
         Player.createCommand(),
         Playlist.createCommand(),
-        ChatGPT.createCommand()
+        ChatGPT.createCommand(),
+        ChangeNickname.createCommand()
     };
 
     @Override
