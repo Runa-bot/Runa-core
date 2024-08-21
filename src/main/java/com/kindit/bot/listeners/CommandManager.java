@@ -46,7 +46,7 @@ public class CommandManager extends ListenerAdapter {
                         "`Okay error creator, you've created a error. This error: " + message + "`\n"
                                 + errorInfo
                                 + "`I've already filed a report on you with the error department.`"
-                ).queue();
+                ).setEphemeral(true).queue();
 
                 throw new RuntimeException(e);
             }
