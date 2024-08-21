@@ -29,6 +29,8 @@ public class ChangeNickname extends Command {
 
     @Override
     public void interaction(SlashCommandInteractionEvent event) throws Exception {
+        if (!event.getName().equals(userName)) { return; }
+
         event.deferReply(true).queue();
         boolean callerCanChangeNickname = Objects.requireNonNull(event.getMember()).hasPermission(Permission.NICKNAME_CHANGE);
         Member member = Objects.requireNonNull(event.getOption("user")).getAsMember();
