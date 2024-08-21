@@ -60,8 +60,8 @@ public class JsonConfig {
                 "          \"name\": \"resume\",\n" +
                 "          \"active\": \"true\"\n" +
                 "        },\n" +
-                "        \"shuffel\": {\n" +
-                "          \"name\": \"shuffel\",\n" +
+                "        \"shuffle\": {\n" +
+                "          \"name\": \"shuffle\",\n" +
                 "          \"active\": \"true\"\n" +
                 "        },\n" +
                 "        \"skip\": {\n" +
