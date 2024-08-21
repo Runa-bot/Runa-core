@@ -98,9 +98,23 @@ public abstract class Command {
         return eb.build();
     }
 
+    public static MessageEmbed successfullyReplyEmbed(String response) {
+        EmbedBuilder eb = new EmbedBuilder();
+        eb.setTitle(response);
+        eb.setColor(GOOD_COLOR);
+        return eb.build();
+    }
+
     public static MessageEmbed notSuccessfullyReplyEmbed() {
         EmbedBuilder eb = new EmbedBuilder();
         eb.setTitle("Not successfully :/");
+        eb.setColor(BAD_COLOR);
+        return eb.build();
+    }
+
+    public static MessageEmbed notSuccessfullyReplyEmbed(String response) {
+        EmbedBuilder eb = new EmbedBuilder();
+        eb.setTitle(response);
         eb.setColor(BAD_COLOR);
         return eb.build();
     }
