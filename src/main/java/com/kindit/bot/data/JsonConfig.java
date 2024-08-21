@@ -109,7 +109,12 @@ public class JsonConfig {
                 "      \"name\": \"chat-gpt\",\n" +
                 "      \"active\": \"false\",\n" +
                 "      \"subcommands\": {}\n" +
-                "    }\n" +
+                "    },\n" +
+                "    \"change-nickname\": {\n" +
+                "      \"name\": \"change-nickname\",\n" +
+                "      \"active\": \"true\",\n" +
+                "      \"subcommands\": {}\n" +
+                "   }\n" +
                 "  },\n" +
                 "  \"user-settings\": {\n" +
                 "    \"keywords-response\": [\n" +
