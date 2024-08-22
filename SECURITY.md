@@ -8,7 +8,7 @@ If I support security updates, then only for these versions:
 
 | Version | Supported          |
 | ------- | ------------------ |
-| 1.5.x   | :white_check_mark: |
+| 1.6.x   | :white_check_mark: |
 | < 1.4.0 | :x:                |
 
 ## Reporting a Vulnerability
