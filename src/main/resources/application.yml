@@ -5,3 +5,6 @@ spring:
 application:
   title: Runa
   version: 0.0.1-SNAPSHOT
+
+runa:
+  token: "SECRET"
