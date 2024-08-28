@@ -1,0 +1,7 @@
+spring:
+  application:
+    name: runa
+
+application:
+  title: Runa
+  version: 0.0.1-SNAPSHOT
