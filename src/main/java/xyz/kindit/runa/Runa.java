@@ -1,5 +1,6 @@
 package xyz.kindit.runa;
 
+import lombok.Getter;
 import net.dv8tion.jda.api.JDA;
 import net.dv8tion.jda.api.JDABuilder;
 import org.springframework.beans.factory.annotation.Value;
@@ -9,10 +10,11 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 @SpringBootApplication
 public class Runa {
 
-	public final JDA jda;
+	@Getter
+	private static JDA jda;
 
     public Runa(@Value("${runa.token}") String token) {
-        jda = JDABuilder
+		jda = JDABuilder
 				.createDefault(token)
 				.build();
 	}
