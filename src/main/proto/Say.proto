@@ -1,0 +1,16 @@
+syntax = "proto3";
+
+option java_multiple_files = true;
+option java_package = "xyz.kindit.runa";
+
+message Message {
+  string message = 1;
+}
+
+message Response {
+  string response = 1;
+}
+
+service Say {
+  rpc say(Message) returns (Response);
+}
