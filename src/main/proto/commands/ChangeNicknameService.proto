@@ -1,0 +1,19 @@
+syntax = "proto3";
+
+option java_multiple_files = true;
+option java_package = "xyz.kindit.runa";
+
+service ChangeNicknameService {
+  rpc ChangeNickname(ChangeNicknameRequest) returns (ChangeNicknameResponse);
+}
+
+message ChangeNicknameRequest {
+  string guildId = 1;
+  string memberId = 2;
+  string newNickname = 3;
+}
+
+message ChangeNicknameResponse {
+  bool isSuccessfully = 1;
+  string responseMessage = 2;
+}
