@@ -8,3 +8,6 @@ application:
 
 runa:
   token: "SECRET"
+
+gRPC:
+  port: 8080
