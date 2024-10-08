@@ -14,6 +14,5 @@ message ChangeNicknameRequest {
 }
 
 message ChangeNicknameResponse {
-  bool isSuccessfully = 1;
-  string responseMessage = 2;
+  string response = 1;
 }
