@@ -15,8 +15,9 @@ public class ChangeNicknameRequestBean {
     public final Member member;
     public final String newNickname;
 
-    public <T> ChangeNicknameRequestBean(ChangeNicknameRequest request) {
+    public ChangeNicknameRequestBean(ChangeNicknameRequest request) {
         guild = Runa.getJda().getGuildById(request.getGuildId());
+        assert guild != null;
         member = guild.getMemberById(request.getMemberId());
         newNickname = request.getNewNickname();
     }
