@@ -11,6 +11,6 @@ public abstract class RequestHandler<B> {
         this.bean = bean;
     }
 
-    protected Status checkRequest() { return null; };;
+    protected Status checkRequest() { return null; }
 
 }
