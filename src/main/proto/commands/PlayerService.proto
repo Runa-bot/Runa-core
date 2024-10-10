@@ -1,0 +1,88 @@
+syntax = "proto3";
+
+option java_multiple_files = true;
+option java_package = "xyz.kindit.runa";
+
+service PlayerService {
+  rpc Add(AddRequest) returns (AddResponse);
+  rpc SetLoop(SetLoopRequest) returns (SetLoopResponse);
+  rpc SetPause(SetPauseRequest) returns (SetPauseResponse);
+  rpc GetQueue(GetQueueRequest) returns (GetQueueResponse);
+  rpc Shuffle(ShuffleRequest) returns (ShuffleResponse);
+  rpc Skip(ShuffleRequest) returns (ShuffleResponse);
+  rpc GetTrackInfo(GetTrackInfoRequest) returns (GetTrackInfoResponse);
+  rpc SetVolume(VolumeRequest) returns (VolumeResponse);
+}
+
+// Add
+message AddRequest {
+  string guildId = 1;
+  string url = 2;
+}
+
+message AddResponse {}
+
+// SetLoop
+message SetLoopRequest {
+  string guildId = 1;
+  bool active = 3;
+  LoopType loopType = 4;
+
+  enum LoopType {
+    TRACK = 0;
+    QUEUE = 1;
+  }
+}
+
+message SetLoopResponse {}
+
+// SetPause
+message SetPauseRequest {
+  string guildId = 1;
+  bool isPause = 2;
+}
+
+message SetPauseResponse {}
+
+// GetQueue
+message GetQueueRequest {
+  string guildId = 1;
+}
+
+message GetQueueResponse {
+  map<string, string> queue = 1;
+}
+
+// Shuffle
+message ShuffleRequest {
+  string guildId = 1;
+}
+
+message ShuffleResponse {}
+
+// Skip
+message SkipRequest {
+  string guildId = 1;
+  int64 quantity = 2;
+}
+
+message SkipResponse {}
+
+// TrackInfo
+message GetTrackInfoRequest {
+  string guildId = 1;
+}
+
+message GetTrackInfoResponse {
+  string response = 1;
+}
+
+// Volume
+message VolumeRequest {
+  string guildId = 1;
+  uint32 volume = 2;
+}
+
+message VolumeResponse {
+  string response = 1;
+}
